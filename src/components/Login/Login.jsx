@@ -1,9 +1,15 @@
-import { useState, useRef } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import './Login.css'
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
 export default function Login() {
     const fieldsRef = useRef({})
+    
+    useEffect(()=>{
+        fetch('../db.json')
+        .then((response)=> response.json())
+        .then((data)=>console.log(data.users))
+    }, [])
     
     const handleSubmit = (e) => {
         e.preventdefault();
