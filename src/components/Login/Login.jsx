@@ -4,11 +4,11 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
 export default function Login() {
     const fieldsRef = useRef({})
-
+    
     const handleSubmit = (e) => {
         e.preventdefault();
         if(fieldsRef.current.name.value){
-            
+
         }
     }
     return (
