@@ -4,9 +4,9 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
 function Info() {
 
-  return (
+  return (    //dont forget useContext
     <>
-      <h1>info</h1>
+      <h1>info</h1> 
     </>
   )
 }
