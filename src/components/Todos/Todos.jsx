@@ -21,7 +21,7 @@ function Todos() {
 
   return (
     <>
-      <h1>todos</h1>
+      <h1>Todos</h1>
       <div className='todos'>
         {todos ? (todos.map((todo) => {
           return (<div key={todo.id} className='todo'>

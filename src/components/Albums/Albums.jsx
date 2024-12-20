@@ -15,7 +15,7 @@ function Albums() {
 
   return (
     <>
-      <h1>albums</h1>
+      <h1>Albums</h1>
       <div className='albums'>
         {albums ? (albums.map((album) => {
           return (<div key={album.id} className='album'>

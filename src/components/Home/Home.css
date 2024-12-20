@@ -1,5 +1,3 @@
-
-
 nav {
     position: fixed;
     top: 0;
@@ -85,4 +83,14 @@ nav {
     background: #77ffc0; /* צבע רקע על ריחוף */
     color: #201b2c; /* צבע טקסט חדש על ריחוף */
   }
+
+  .homePage {
+    display: flex;
+    flex-direction: column;
+    margin-left: 450px; /* מניח שהרוחב של הניווט הוא 200px */
+    width: calc(100% - 200px); /* מניעת גלילה ימינה */
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
   

@@ -15,7 +15,7 @@ function Posts() {
 
   return (
     <>
-      <h1>posts</h1>
+      <h1>Posts</h1>
       <div className='posts'>
         {posts ? (posts.map((post) => {
           return (<div key={post.id} className='post'>

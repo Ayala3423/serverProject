@@ -6,7 +6,7 @@ function Info() {
 
   return (    //dont forget useContext
     <>
-      <h1>info</h1> 
+      <h1>Info</h1> 
     </>
   )
 }
