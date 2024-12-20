@@ -1,0 +1,88 @@
+
+
+nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 200px; /* רוחב הסרגל */
+    height: 100%; /* גובה מלא */
+    background: #2f2841; /* רקע כהה */
+    padding: 20px;
+    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.5); /* הצללה */
+    display: flex;
+    flex-direction: column; /* תוכן בטור */
+    align-items: flex-start; /* יישור לטור */
+  }
+  
+  nav a {
+    text-decoration: none; /* ללא קו תחתון */
+    color: #f0ffffde; /* צבע טקסט */
+    font-size: 14px;
+    font-weight: 600;
+    margin: 10px 0; /* רווח בין הלינקים */
+    padding: 10px 15px;
+    background: #514869; /* צבע רקע */
+    border-radius: 8px; /* פינות מעוגלות */
+    transition: all 0.3s ease; /* אפקט מעבר */
+    width: 100%; /* טופס פריסה מלאה */
+    box-sizing: border-box;
+    text-align: left; /* יישור הטקסט לשמאל */
+  }
+  
+  nav a:hover {
+    background: #00ff88; /* צבע רקע על ריחוף */
+    color: #2b134b; /* צבע טקסט חדש על ריחוף */
+  }
+
+  .header {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: calc(100% - 200px); /* לוקח בחשבון את הסרגל הניווט */
+    height: 60px; /* גובה הכותרת */
+    background-color: #2f2841; /* רקע כהה */
+    display: flex;
+    justify-content: flex-end; /* יישור לימין */
+    align-items: center; /* יישור אנכי */
+    padding: 0 20px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5); /* הצללה */
+    z-index: 1000; /* מעל הניווט */
+  }
+  
+  .profile {
+    display: flex;
+    align-items: center;
+    color: #f0ffff; /* צבע טקסט */
+    font-size: 16px;
+    font-weight: 600;
+  }
+  
+  .username {
+    margin-left: 10px;
+    font-size: 130%;
+    font-weight: 500;
+    color: #00ff88; /* צבע דגש לשם */
+  }
+  
+
+  #logOutBtn {
+    margin-top: auto; /* להזיז את הכפתור לסוף הניווט */
+    padding: 16px 0;
+    border: none;
+    border-radius: 8px;
+    background: #00ff88;
+    color: #2b134b;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    cursor: pointer;
+    width: 100%;
+    box-shadow: 0px 10px 40px -12px #00ff8052;
+    transition: all 0.3s ease;
+  }
+  
+  #logOutBtn:hover {
+    background: #77ffc0; /* צבע רקע על ריחוף */
+    color: #201b2c; /* צבע טקסט חדש על ריחוף */
+  }
+  

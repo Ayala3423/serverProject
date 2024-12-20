@@ -14,7 +14,7 @@ function App() {
   return (
     <>
       <Router>
-        <Link to="/login">Login</Link>
+        <Link to="/login" className='loginLink'>Login</Link>
         <Routes>
           <Route path="/login" element={<Login />} />
           <Route path="/home/users/:userId" element={<Home />}>

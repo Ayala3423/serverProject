@@ -1,15 +1,12 @@
 import { useEffect, useState } from 'react'
 import './Home.css'
 import { BrowserRouter as Router, Route, Routes, Link, useParams, useLocation, Outlet, useNavigate } from "react-router-dom";
-import Albums from "../Albums/Albums";
-import Posts from "../Posts/Posts";
-import Todos from "../Todos/Todos";
-import Info from "../Info/Info";
+
 function Home() {
-  const location = useLocation();
   const navigate = useNavigate();
   const { userId } = useParams();
   const [currentUser, setCurrentUser] = useState(null)
+
   useEffect(() => {
     setCurrentUser(JSON.parse(localStorage.getItem('currentUser')));
   }, []);
@@ -20,10 +17,16 @@ function Home() {
   }
 
   return (
-    <>
-      {currentUser ? (
-        <h1>name: {currentUser.username}</h1>)
-        : (<h1>loading user data</h1>)}
+    <div className='homePage'>
+      <header className="header">
+        {currentUser ? (
+          <div className="profile">
+            <span className="username">Welcome, {currentUser.username}</span>
+          </div>
+        ) : (
+          <span className="loading">Loading user data...</span>
+        )}
+      </header>
       <nav>
         <Link to={`/home/users/${userId}/albums`}>albums</Link><br />
         <Link to={`/home/users/${userId}/posts`}>posts</Link><br />
@@ -32,8 +35,9 @@ function Home() {
         <button id="logOutBtn" onClick={handleLogOut}>Log Out</button>
       </nav>
       <Outlet />
-    </>
-  )
+    </div>
+  );
+  
 }
 
 export default Home
