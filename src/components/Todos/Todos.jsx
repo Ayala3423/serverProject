@@ -22,6 +22,10 @@ function Todos() {
         setTodos(data);
         setFilteredTodos(data); // כברירת מחדל כל המשימות מוצגות
       });
+      .then((data) => {
+        setTodos(data);
+        setFilteredTodos(data); // כברירת מחדל כל המשימות מוצגות
+      });
   }, [userId]);
 
   const handleCheckbox = (id, currentValue) => {
@@ -98,7 +102,7 @@ function Todos() {
 
 
   return (
-    <>
+    <div>
       <h1>Todos</h1>
       <div>
         <button onClick={handleAddTodo}>Add</button>
@@ -156,17 +160,44 @@ function Todos() {
       )}
       </div>
 
-      {showModal && (
+      {/* חלונית מסננים */}
+      {showFilterModal && (
         <div className="modal">
           <div className="modal-content">
-            <h2>Add New Todo</h2>
+            <h2>Advanced Filters</h2>
             <input
               type="text"
-              ref={newTodoRef}
-              placeholder="Enter task title"
+              ref={idFilterRef}
+              placeholder="Filter by ID"
+              onChange={handleSearch} // עדכון חיפוש
             />
-            <button onClick={handleSaveTodo}>Save</button>
-            <button onClick={() => setShowModal(false)}>Cancel</button>
+            <input
+              type="text"
+              ref={titleFilterRef}
+              placeholder="Filter by Title"
+              onChange={handleSearch} // עדכון חיפוש
+            />
+            <label>
+              <input
+                type="checkbox"
+                onChange={(e) => {
+                  completedFilterRef.current = e.target.checked;
+                  handleSearch(); // עדכון חיפוש
+                }}
+              />
+              Show only completed tasks
+            </label>
+            <label>
+              <input
+                type="checkbox"
+                onChange={(e) => {
+                  notCompletedFilterRef.current = e.target.checked;
+                  handleSearch(); // עדכון חיפוש
+                }}
+              />
+              Show only not completed tasks
+            </label>
+            <button onClick={() => setShowFilterModal(false)}>Close</button>
           </div>
         </div>
       )}
@@ -177,20 +208,16 @@ function Todos() {
               <h2>Id: {todo.id}</h2>
               <h2>Title: {todo.title}</h2>
               <label>
-                <input
-                  type='checkbox'
-                  checked={todo.completed}
-                  onChange={() => handleCheckbox(todo.id, todo.completed)}
-                />
+                <input type="checkbox" checked={todo.completed} readOnly />
                 Completed
               </label>
-              <button onClick={()=>handleDelete(todo.id)}>Delete</button>
-              <button onClick={handleDelete}>Edit</button>
             </div>
-          );
-        })) : <h2>loading...</h2>}
+          ))
+        ) : (
+          <h2>No tasks found.</h2> // הודעה במקרה שאין תוצאות
+        )}
       </div>
-    </>
+    </div>
   );
 }
 
