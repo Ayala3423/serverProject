@@ -127,8 +127,6 @@ function Todos() {
           />
           <button onClick={() => setShowFilterModal(true)}>Filters</button>
         </div>
-
-
       </div>
 
       {/* חלונית מסננים */}
@@ -172,8 +170,9 @@ function Todos() {
           </div>
         </div>
       )}
+
       <div className='todos'>
-        {todos ? (todos.map((todo) => {
+        {filteredTodos && filteredTodos.length > 0 ? (filteredTodos.map((todo) => {
           return (
             <div key={todo.id} className='todo'>
               <h2>Id: {todo.id}</h2>
