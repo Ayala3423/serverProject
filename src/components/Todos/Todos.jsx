@@ -22,10 +22,6 @@ function Todos() {
         setTodos(data);
         setFilteredTodos(data); // כברירת מחדל כל המשימות מוצגות
       });
-      .then((data) => {
-        setTodos(data);
-        setFilteredTodos(data); // כברירת מחדל כל המשימות מוצגות
-      });
   }, [userId]);
 
   const handleCheckbox = (id, currentValue) => {
@@ -212,8 +208,8 @@ function Todos() {
                 Completed
               </label>
             </div>
-          ))
-        ) : (
+          )
+        })) : (
           <h2>No tasks found.</h2> // הודעה במקרה שאין תוצאות
         )}
       </div>
