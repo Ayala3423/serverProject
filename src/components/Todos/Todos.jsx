@@ -29,11 +29,12 @@ function Todos() {
     fetch(`http://localhost:3000/todos/${id}`, {
       method: 'PATCH',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({completed: updatedValue })
+      body: JSON.stringify({ completed: updatedValue })
     }).then(() => {
       setTodos(todos.map((todo) =>
-        todo.id === id ? { ...todo, completed: updatedValue  } : todo
-      ));});
+        todo.id === id ? { ...todo, completed: updatedValue } : todo
+      ));
+    });
   };
 
   const handleAddTodo = () => {
@@ -66,7 +67,7 @@ function Todos() {
     fetch(`http://localhost:3000/todos/?id=${idToDelete}`, {
       method: 'DELETE'
     }).then(() => {
-      setTodos(prev=>prev.filter(item => item.id !== idToDelete)); // עדכון הרשימה בלקוח
+      setTodos(prev => prev.filter(item => item.id !== idToDelete)); // עדכון הרשימה בלקוח
     });
   }
 
@@ -103,31 +104,31 @@ function Todos() {
       <div>
         <button onClick={handleAddTodo}>Add</button>
         {showModal && (
-        <div className="modal">
-          <div className="modal-content">
-            <h2>Add New Todo</h2>
-            <input
-              type="text"
-              ref={newTodoRef}
-              placeholder="Enter task title"
-            />
-            <button onClick={handleSaveTodo}>Save</button>
-            <button onClick={() => setShowModal(false)}>Cancel</button>
+          <div className="modal">
+            <div className="modal-content">
+              <h2>Add New Todo</h2>
+              <input
+                type="text"
+                ref={newTodoRef}
+                placeholder="Enter task title"
+              />
+              <button onClick={handleSaveTodo}>Save</button>
+              <button onClick={() => setShowModal(false)}>Cancel</button>
+            </div>
           </div>
-        </div>
-      )}
+        )}
         {/* שורת חיפוש חופשי */}
-      <div className="search-bar">
-        <input
-          type="text"
-          ref={searchRef}
-          placeholder="Search..."
-          onChange={handleSearch} // חיפוש מיידי בעת הקלדה
-        />
-        <button onClick={() => setShowFilterModal(true)}>Filters</button>
-      </div>
+        <div className="search-bar">
+          <input
+            type="text"
+            ref={searchRef}
+            placeholder="Search..."
+            onChange={handleSearch} // חיפוש מיידי בעת הקלדה
+          />
+          <button onClick={() => setShowFilterModal(true)}>Filters</button>
+        </div>
 
-      
+
       </div>
 
       {/* חלונית מסננים */}
@@ -178,10 +179,12 @@ function Todos() {
               <h2>Id: {todo.id}</h2>
               <h2>Title: {todo.title}</h2>
               <label>
-                <input type="checkbox" checked={todo.completed} readOnly />
+                <input type="checkbox" checked={todo.completed}
+                  onChange={() => handleCheckbox(todo.id, todo.completed)}
+                  readOnly />
                 Completed
               </label>
-              <button onClick={()=>handleDelete(todo.id)}>Delete</button>
+              <button onClick={() => handleDelete(todo.id)}>Delete</button>
               <button onClick={handleDelete}>Edit</button>
             </div>
           )
