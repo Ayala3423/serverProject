@@ -34,6 +34,9 @@ function Todos() {
       setTodos(todos.map((todo) =>
         todo.id === id ? { ...todo, completed: updatedValue } : todo
       ));
+      setFilteredTodos(todos.map((todo) =>
+        todo.id === id ? { ...todo, completed: updatedValue } : todo
+      ));
     });
   };
 
@@ -68,6 +71,8 @@ function Todos() {
       method: 'DELETE'
     }).then(() => {
       setTodos(prev => prev.filter(item => item.id !== idToDelete)); // עדכון הרשימה בלקוח
+      setFilteredTodos(prev => prev.filter(item => item.id !== idToDelete)); // עדכון הרשימה בלקוח
+
     });
   }
 
@@ -178,7 +183,9 @@ function Todos() {
               <h2>Id: {todo.id}</h2>
               <h2>Title: {todo.title}</h2>
               <label>
-                <input type="checkbox" checked={todo.completed}
+                <input 
+                  type="checkbox" 
+                  checked={todo.completed}
                   onChange={() => handleCheckbox(todo.id, todo.completed)}
                   readOnly />
                 Completed
