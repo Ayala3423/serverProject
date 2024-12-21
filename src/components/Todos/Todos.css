@@ -66,3 +66,100 @@
     color: #716c85; /* צבע כותרות */
   }
   
+  /* עיצוב תיבת החיפוש */
+.search-container {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 300px;
+  margin: 20px auto; /* רווחים מהצדדים */
+}
+
+.search-box {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #514869; /* צבע רקע */
+  padding: 10px 15px;
+  border-radius: 8px;
+  cursor: text;
+  transition: all 0.3s ease;
+}
+
+.search-input {
+  width: 100%;
+  background: transparent;
+  border: none;
+  color: #f0ffff;
+  font-size: 16px;
+  outline: none;
+}
+
+.search-box:hover {
+  background: #00ff88; /* שינוי צבע בריחוף */
+}
+
+.search-options {
+  margin-top: 20px;
+  background: #2f2841; /* רקע כהה */
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0px 10px 40px rgba(0, 0, 0, 0.3);
+  z-index: 1000; /* מעל שאר התוכן */
+  color: #f0ffff;
+}
+
+.option {
+  margin-bottom: 15px;
+}
+
+.option input {
+  width: 100%;
+  padding: 8px;
+  border-radius: 8px;
+  border: 1px solid #514869;
+  background: #2f2841;
+  color: #f0ffff;
+  font-size: 14px;
+  margin-top: 5px;
+}
+
+.option label {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.search-btn {
+  width: 100%;
+  padding: 12px;
+  background: #00ff88;
+  border-radius: 8px;
+  color: #2b134b;
+  font-weight: 800;
+  cursor: pointer;
+  border: none;
+  transition: all 0.3s ease;
+}
+
+.search-btn:hover {
+  background: #77ffc0; /* שינוי צבע בריחוף */
+  color: #201b2c;
+}
+.input-container {
+  margin: 20px 0;
+}
+
+label {
+  font-size: 16px;
+  font-weight: bold;
+  color: #333;
+  margin-right: 10px;
+}
+
+.add-input {
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
+  width: 200px;
+}
