@@ -13,7 +13,6 @@ function Posts() {
     fetch(`http://localhost:3000/posts/?userId=${userId}`)
       .then((response) => response.json())
       .then((data) => setPosts(data))
-
   }, [])
 
   return (
