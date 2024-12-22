@@ -5,13 +5,14 @@ import { useParams } from 'react-router-dom';
 function Todos() {
   const { userId } = useParams();
   const [todos, setTodos] = useState(null);
+  const [idEditing, setIdEditing] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const newTodoRef = useRef();
-  const [filteredTodos, setFilteredTodos] = useState(null); // משימות מסוננות
   const [showFilterModal, setShowFilterModal] = useState(false); // חלונית מסננים
   const searchRef = useRef(); // שדה החיפוש החופשי
   const idFilterRef = useRef(); // מסנן מזהה
   const titleFilterRef = useRef(); // מסנן כותרת
+  const titleRef = useRef();
   const completedFilterRef = useRef(false); // מסנן משימות שהושלמו
   const notCompletedFilterRef = useRef(false); // מסנן משימות שלא הושלמו
 
@@ -19,8 +20,11 @@ function Todos() {
     fetch(`http://localhost:3000/todos/?userId=${userId}`)
       .then((response) => response.json())
       .then((data) => {
-        setTodos(data);
-        setFilteredTodos(data); // כברירת מחדל כל המשימות מוצגות
+        const updatedData = data.map((todo) => ({
+          ...todo, // העתקת כל השדות הקיימים
+          isVisible: true, // שדה נוסף חדש
+        }));
+        setTodos(updatedData);
       });
   }, [userId]);
 
@@ -34,9 +38,6 @@ function Todos() {
       setTodos(todos.map((todo) =>
         todo.id === id ? { ...todo, completed: updatedValue } : todo
       ));
-      setFilteredTodos(todos.map((todo) =>
-        todo.id === id ? { ...todo, completed: updatedValue } : todo
-      ));
     });
   };
 
@@ -48,10 +49,11 @@ function Todos() {
     const newTodoTitle = newTodoRef.current.value.trim();
     if (newTodoTitle) {
       const newTodo = {
-        id: todos.length + 1, // לדוגמה, יצירת ID חדש
+        id: JSON.stringify(JSON.parse(todos[todos.length - 1].id) + 1), // לדוגמה, יצירת ID חדש
         title: newTodoTitle,
         completed: false,
         userId: parseInt(userId, 10),
+        isVisible: true
       };
 
       // שמירה לשרת
@@ -67,14 +69,32 @@ function Todos() {
   };
 
   const handleDelete = (idToDelete) => {
-    fetch(`http://localhost:3000/todos/?id=${idToDelete}`, {
+    fetch(`http://localhost:3000/todos/${idToDelete}`, {
       method: 'DELETE'
     }).then(() => {
-      setTodos(prev => prev.filter(item => item.id !== idToDelete)); // עדכון הרשימה בלקוח
-      setFilteredTodos(prev => prev.filter(item => item.id !== idToDelete)); // עדכון הרשימה בלקוח
-
+      setTodos(prev => prev.filter(item => item.id != idToDelete)); // עדכון הרשימה בלקוח
     });
   }
+
+  const handleEdit = (idToEdit) => {
+    const updatedTitle = titleRef.current?.value.trim(); // קבלת הערך המעודכן
+    if (!updatedTitle) {
+      alert("Title cannot be empty");
+      return;
+    }
+
+    fetch(`http://localhost:3000/todos/${idToEdit}`, {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ title: updatedTitle }),
+    }).then(() => {
+      setTodos(todos.map((todo) =>
+        todo.id === idToEdit ? { ...todo, title: updatedTitle } : todo
+      ));
+      setIdEditing(null); // סיום מצב העריכה
+    });
+  };
+
 
   const handleSearch = () => {
     const searchValue = searchRef.current?.value.trim().toLowerCase() || ''; // ערך חיפוש חופשי
@@ -83,25 +103,26 @@ function Todos() {
     const completedFilterValue = completedFilterRef.current; // ערך סינון משימות שהושלמו
     const notCompletedFilterValue = notCompletedFilterRef.current; // ערך סינון משימות שלא הושלמו
 
-    const filtered = todos.filter((todo) => {
-      // בדיקות סינון
-      const matchesSearch =
-        searchValue === '' || todo.title.toLowerCase().includes(searchValue);
-      const matchesId =
-        idFilterValue === '' || todo.id.toString() === idFilterValue;
-      const matchesTitle =
-        titleFilterValue === '' ||
-        todo.title.toLowerCase().includes(titleFilterValue);
-      const matchesCompleted =
-        (!completedFilterValue || todo.completed) &&
-        (!notCompletedFilterValue || !todo.completed); // התנאי לשני המסננים
+    setTodos((prev) =>
+      prev.map((todo) => {
+        const matchesSearch =
+          searchValue === '' || todo.title.toLowerCase().includes(searchValue);
+        const matchesId =
+          idFilterValue === '' || todo.id.toString() === idFilterValue;
+        const matchesTitle =
+          titleFilterValue === '' ||
+          todo.title.toLowerCase().includes(titleFilterValue);
+        const matchesCompleted =
+          (!completedFilterValue || todo.completed) &&
+          (!notCompletedFilterValue || !todo.completed); // התנאי לשני המסננים
 
-      return matchesSearch && matchesId && matchesTitle && matchesCompleted; // חפיפה בין התנאים
-    });
-
-    setFilteredTodos(filtered); // עדכון הרשימה המסוננת
+        return {
+          ...todo, // שמירה על המאפיינים הקיימים של המשימה
+          isVisible: matchesSearch && matchesId && matchesTitle && matchesCompleted,
+        };
+      })
+    );
   };
-
 
   return (
     <div>
@@ -177,27 +198,40 @@ function Todos() {
       )}
 
       <div className='todos'>
-        {filteredTodos && filteredTodos.length > 0 ? (filteredTodos.map((todo) => {
-          return (
-            <div key={todo.id} className='todo'>
-              <h2>Id: {todo.id}</h2>
-              <h2>Title: {todo.title}</h2>
-              <label>
-                <input 
-                  type="checkbox" 
-                  checked={todo.completed}
-                  onChange={() => handleCheckbox(todo.id, todo.completed)}
-                  readOnly />
-                Completed
-              </label>
-              <button onClick={() => handleDelete(todo.id)}>Delete</button>
-              <button onClick={handleDelete}>Edit</button>
-            </div>
+        {todos && todos.length > 0 ? (
+          todos.filter(todo => todo.isVisible).length > 0 ? (
+            todos.filter(todo => todo.isVisible).map((todo) => (
+              <div key={todo.id} className='todo'>
+                <h2>Id: {todo.id}</h2>
+                {idEditing === todo.id ? (
+                  <input
+                    ref={titleRef}
+                    type="text"
+                    defaultValue={todo.title}
+                  />
+                ) : (
+                  <h2>Title: {todo.title}</h2>
+                )}
+                <label>
+                  <input
+                    type="checkbox"
+                    checked={todo.completed}
+                    onChange={() => handleCheckbox(todo.id, todo.completed)}
+                    readOnly />
+                  Completed
+                </label>
+                {idEditing === todo.id ? <button onClick={() => handleEdit(todo.id)}>Save</button> : <button onClick={() => setIdEditing(todo.id)}>Edit</button>}
+                <button onClick={() => handleDelete(todo.id)}>Delete</button>
+              </div>
+            ))
+          ) : (
+            <h2>No tasks found.</h2> // הודעה אם אין תוצאות מסוננות
           )
-        })) : (
-          <h2>No tasks found.</h2> // הודעה במקרה שאין תוצאות
+        ) : (
+          <h2>Loading tasks...</h2> // הודעה במקרה של טעינת משימות
         )}
       </div>
+
     </div>
   );
 }

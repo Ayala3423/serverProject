@@ -1,8 +1,8 @@
 import { useState, useEffect, useRef } from 'react'
-import './Todo.css'
+import './Component.css'
 import { BrowserRouter as Router, Route, Routes, useParams } from "react-router-dom";
 
-function Todo({ }) {
+function Component({ }) {
     return (
         <>
 
@@ -10,4 +10,4 @@ function Todo({ }) {
     )
 }
 
-export default Todo;
+export default Component;
