@@ -1,9 +1,8 @@
-import { useState, useEffect, createContext } from 'react';
+import { useState, useEffect, createContext, useRef } from 'react';
 import './Todos.css';
 import Todo from './Todo/Todo.jsx';
 import { useParams } from 'react-router-dom';
 import Search from '../Search/Search.jsx';
-import Add from '../Add/Add.jsx';
 
 // יצירת TodosContext
 export const TodosContext = createContext(null);
@@ -11,6 +10,8 @@ export const TodosContext = createContext(null);
 function Todos() {
   const { userId } = useParams();
   const [todos, setTodos] = useState(null);
+  const [showModal, setShowModal] = useState(false);
+  const newTodoRef = useRef();
 
   useEffect(() => {
     fetch(`http://localhost:3000/todos/?userId=${userId}`)
@@ -24,11 +25,54 @@ function Todos() {
       });
   }, [userId]);
 
+  const handleAddTodo = () => {
+    setShowModal(prev => !prev);
+  };
+
+  const handleSaveTodo = () => {
+    const newTodoTitle = newTodoRef.current.value.trim();
+    if (newTodoTitle) {
+      const newTodo = {
+        id: JSON.stringify(JSON.parse(todos[todos.length - 1].id) + 1), // לדוגמה, יצירת ID חדש
+        title: newTodoTitle,
+        completed: false,
+        userId: parseInt(userId, 10),
+        isVisible: true
+      };
+
+      // שמירה לשרת
+      fetch('http://localhost:3000/todos', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(newTodo),
+      }).then(() => {
+        setTodos([...todos, { ...newTodo, isVisible: true }]); // הוספת שדה חדש לפוסט
+        setShowModal(false); // סגירת ה-Modal
+      });
+    }
+  };
+
+
+
   return (
     <TodosContext.Provider value={{ todos, setTodos }}>
       <div>
         <h1>Todos</h1>
-        <Add />
+        <button onClick={handleAddTodo}>Add</button>
+        {showModal && (
+          <div className="modal">
+            <div className="modal-content">
+              <h2>Add New Todo</h2>
+              <input
+                type="text"
+                ref={newTodoRef}
+                placeholder="Enter task title"
+              />
+              <button onClick={handleSaveTodo}>Save</button>
+              <button onClick={() => setShowModal(false)}>Cancel</button>
+            </div>
+          </div>
+        )}
         <Search />
         <div className="todos">
           {todos && todos.length > 0 ? (

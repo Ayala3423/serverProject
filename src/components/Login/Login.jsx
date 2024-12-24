@@ -2,6 +2,7 @@ import { useState, useRef, useEffect } from 'react'
 import './Login.css'
 import { BrowserRouter as Router, Route, Routes, Link, useNavigate, useLocation } from "react-router-dom";
 
+
 export default function Login() {
     const fieldsRef = useRef({});
     const navigate = useNavigate();
@@ -52,6 +53,7 @@ export default function Login() {
                             />
                         </div>
                         <button className="btn-login" type="submit" onClick={handleSubmit}>Login</button>
+                        <Link to="/signUp" className='signUp'>Dont Have An Account Yet?</Link>
                     </div>
                 </div>
             </main>
