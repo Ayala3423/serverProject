@@ -30,7 +30,7 @@ function Home() {
           {currentUser ? (
             <div className="profile">
               <span className="username">Welcome, {currentUser.username}</span>
-              <Link to={`/home/users/${userId}`} onClick={() => setShowAllPosts(true)}>Home</Link><br />
+              <Link to={`/home/users/${userId}`} onClick={() => setShowAllPosts(true)} className='homeLink'>Home</Link><br />
             </div>
           ) : (
             <span className="loading">Loading user data...</span>

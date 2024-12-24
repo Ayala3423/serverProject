@@ -52,28 +52,28 @@ function Todos() {
     }
   };
 
-
-
   return (
     <TodosContext.Provider value={{ todos, setTodos }}>
       <div>
         <h1>Todos</h1>
-        <button onClick={handleAddTodo}>Add</button>
-        {showModal && (
-          <div className="modal">
-            <div className="modal-content">
-              <h2>Add New Todo</h2>
-              <input
-                type="text"
-                ref={newTodoRef}
-                placeholder="Enter task title"
-              />
-              <button onClick={handleSaveTodo}>Save</button>
-              <button onClick={() => setShowModal(false)}>Cancel</button>
+        <div class="button-group">
+          <button onClick={handleAddTodo}>Add</button>
+          {showModal && (
+            <div className="modal">
+              <div className="modal-content">
+                <h2>Add New Todo</h2>
+                <input
+                  type="text"
+                  ref={newTodoRef}
+                  placeholder="Enter task title"
+                />
+                <button onClick={handleSaveTodo}>Save</button>
+                <button onClick={() => setShowModal(false)}>Cancel</button>
+              </div>
             </div>
-          </div>
-        )}
-        <Search />
+          )}
+          <Search />
+        </div>
         <div className="todos">
           {todos && todos.length > 0 ? (
             todos.filter((todo) => todo.isVisible).length > 0 ? (

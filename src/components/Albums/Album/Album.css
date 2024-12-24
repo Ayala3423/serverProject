@@ -1,0 +1,111 @@
+.album-item {
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 16px;
+    margin: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    background-color: #f9f9f9;
+    position: relative;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.album-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+}
+
+.album-id {
+    font-size: 14px;
+    font-weight: bold;
+    color: #555;
+    position: absolute;
+    top: 10px;
+    left: 10px;
+}
+
+.album-buttons {
+    display: flex;
+    gap: 10px;
+    position: absolute;
+    top: 10px;
+    right: 20px;
+}
+
+.album-buttons button {
+    padding: 8px 12px;
+    background-color: #514869;
+    color: #f0ffff;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: bold;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.3);
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.album-buttons button:hover {
+    background-color: #00ff88;
+    color: #2b134b;
+    transform: scale(1.05);
+}
+
+.album-title {
+    text-align: center;
+    margin-top: 40px;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.details-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 3000;
+}
+
+.modal-content {
+    background: #2f2841;
+    color: #f0ffff;
+    padding: 30px;
+    border-radius: 15px;
+    width: 350px;
+    max-width: 90%;
+    text-align: center;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+}
+
+.modal-content h2 {
+    color: #9b93bd;
+    margin-bottom: 20px;
+}
+
+.modal-content p {
+    margin: 10px 0;
+    font-size: 16px;
+}
+
+.modal-content button {
+    margin-top: 20px;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 8px;
+    background: #00ff88;
+    color: #2b134b;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.modal-content button:hover {
+    background: #77ffc0;
+}

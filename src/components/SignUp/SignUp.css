@@ -1,31 +1,36 @@
+/* תואם לעיצוב של ה-login */
 .main-login {
     display: flex;
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    background-color: #f4f4f4;
+    background-color: #201b2c; /* צבע רקע דומה ל-login */
     margin: 0;
 }
 
 .right-login {
     width: 100%;
-    max-width: 600px;
+    max-width: 1200px; /* הוספתי רוחב מקסימלי */
     padding: 20px;
-    background: #ffffff;
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-    border-radius: 8px;
-    overflow: hidden;
+    background: #2f2841; /* רקע דומה ל-login */
+    box-shadow: 0px 10px 40px #00000056; /* אותו shadow כמו ב-login */
+    border-radius: 20px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* 3 טורים */
+    gap: 20px;
 }
 
 .card-login {
     display: flex;
     flex-direction: column;
     gap: 20px;
+    grid-column: span 3; /* אם רוצים שהכותרת תתפוס את כל העמוד */
 }
 
 .card-login h1 {
     text-align: center;
     margin-bottom: 20px;
+    color: #f0ffffde; /* צבע כותרת זהה ל-login */
 }
 
 .textfield {
@@ -35,54 +40,57 @@
 }
 
 .textfield input {
-    padding: 10px;
+    padding: 15px;
     font-size: 16px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    transition: border-color 0.3s;
-}
-
-.textfield input:focus {
-    border-color: #007BFF;
+    border: none;
+    border-radius: 10px;
+    background: #514869;
+    color: #f0ffffde;
+    box-shadow: 0px 10px 40px #00000056;
     outline: none;
 }
 
+.textfield input::placeholder {
+    color: #f0ffff94; /* צבע פלייסהולדר זהה ל-login */
+}
+
+.textfield input:focus {
+    border-color: #00ff88; /* צבע focus דומה ל-login */
+    outline: none;
+}
+
+.textfield label {
+    color: #f0ffffde;
+    margin-bottom: 10px;
+}
+
 .btn-login {
-    padding: 10px;
-    font-size: 16px;
-    background-color: #007BFF;
-    color: white;
+    width: 100%;
+    padding: 16px 0;
+    margin: 25px 0;
     border: none;
-    border-radius: 4px;
+    text-transform: uppercase;
+    border-radius: 8px;
+    outline: none;
+    font-weight: 800;
+    letter-spacing: 3px;
+    color: #2b134b;
+    background: #00ff88; /* צבע כפתור דומה ל-login */
     cursor: pointer;
-    transition: background-color 0.3s;
+    box-shadow: 0px 10px 40px -12px #00ff8052;
 }
 
-.btn-login:hover {
-    background-color: #0056b3;
+@media only screen and (max-width: 950px) {
+    .right-login {
+        grid-template-columns: 1fr 1fr; /* בגרסאות קטנות יותר, 2 טורים */
+    }
 }
 
-form {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-}
-
-.right-login form {
-    max-height: 80vh; /* גובה מרבי של טופס */
-    overflow-y: auto; /* גלילה רק אם צריך */
-    padding-right: 10px; /* מרווח קטן לגלילה */
-}
-
-.right-login::-webkit-scrollbar {
-    width: 8px;
-}
-
-.right-login::-webkit-scrollbar-thumb {
-    background: #ccc;
-    border-radius: 4px;
-}
-
-.right-login::-webkit-scrollbar-thumb:hover {
-    background: #007BFF;
+@media only screen and (max-width: 600px) {
+    .main-login { 
+        flex-direction: column; 
+    }
+    .right-login {
+        grid-template-columns: repeat(3, 1fr); /* שמירה על 3 טורים גם במסכים קטנים */
+    }
 }

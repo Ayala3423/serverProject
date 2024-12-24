@@ -1,0 +1,86 @@
+.todo-item {
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 16px;
+    margin: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    background-color: #f9f9f9;
+    position: relative;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.todo-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+}
+
+.todo-id {
+    font-size: 14px;
+    font-weight: bold;
+    color: #555;
+    position: absolute;
+    top: 10px;
+    left: 10px;
+}
+
+.todo-buttons {
+    display: flex;
+    gap: 10px;
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    /* שמירה על המיקום בצד ימין למעלה */
+  }
+  
+  .todo-buttons button {
+    padding: 8px 12px;
+    background-color: #514869;
+    /* צבע רקע שמותאם לעיצוב */
+    color: #f0ffff;
+    /* צבע טקסט */
+    border: none;
+    border-radius: 8px;
+    /* פינות מעוגלות */
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: bold;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.3);
+    transition: background-color 0.3s ease, transform 0.2s ease;
+  }
+  
+  .todo-buttons button:hover {
+    background-color: #00ff88;
+    /* שינוי צבע רקע בריחוף */
+    color: #2b134b;
+    /* שינוי צבע טקסט בריחוף */
+    transform: scale(1.05);
+    /* הגדלת הכפתור */
+  }
+  
+
+.todo-title {
+    text-align: center;
+    margin-top: 40px; /* רווח מתחת לכפתורים */
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.todo-completed {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.todo-completed label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+input[type="checkbox"] {
+    transform: scale(1.2);
+    cursor: pointer;
+}

@@ -19,7 +19,9 @@
   }
     
   .album:hover {
-    transform: translateY(-5px); /* אפקט הרמה */
+    background-color: #f8f7fb;
+    box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.5);
+    transition: all 0.3s ease;
   }
   
   .album h2 {
