@@ -3,7 +3,6 @@ import './Add.css'
 import { BrowserRouter as Router, Route, Routes, useParams } from "react-router-dom";
 
 function Add() {
-
     const [showModal, setShowModal] = useState(false);
     const newTodoRef = useRef();
 

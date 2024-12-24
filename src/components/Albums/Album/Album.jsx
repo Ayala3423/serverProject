@@ -1,12 +1,12 @@
 import { useState, useRef, useContext } from 'react';
 import './Album.css';
-import { AlbumsContext } from '../Albums.jsx'; // ייבוא הקשר
+import { AlbumsContext } from '../Albums.jsx';
 
 function Album({ id, title }) {
     const [idEditing, setIdEditing] = useState(null);
-    const [showDetails, setShowDetails] = useState(false); // סטייט לפתיחת חלון
+    const [showDetails, setShowDetails] = useState(false);
     const titleRef = useRef();
-    const { albums, setAlbums } = useContext(AlbumsContext); // שימוש ב-context
+    const { albums, setAlbums } = useContext(AlbumsContext);
 
     const handleDelete = (idToDelete) => {
         fetch(`http://localhost:3000/albums/${idToDelete}`, {
@@ -46,21 +46,26 @@ function Album({ id, title }) {
     };
 
     return (
-        <>
-            <h2>Id: {id}</h2>
-            {idEditing === id ? (
-                <input ref={titleRef} type="text" defaultValue={title} />
-            ) : (
-                <h2>Title: {title}</h2>
-            )}
-            {idEditing === id ? (
-                <button onClick={() => handleEdit(id)}>Save</button>
-            ) : (
-                <button onClick={() => setIdEditing(id)}>Edit</button>
-            )}
-            <button onClick={() => handleDelete(id)}>Delete</button>
-            <button onClick={handleShowDetails}>More Details</button>
-
+        <div className="album-item">
+            <div className="album-header">
+                <span className="album-id">Id: {id}</span>
+                <div className="album-buttons">
+                    {idEditing === id ? (
+                        <button onClick={() => handleEdit(id)}>Save</button>
+                    ) : (
+                        <button onClick={() => setIdEditing(id)}>Edit</button>
+                    )}
+                    <button onClick={() => handleDelete(id)}>Delete</button>
+                    <button onClick={handleShowDetails}>More Details</button>
+                </div>
+            </div>
+            <div className="album-title">
+                {idEditing === id ? (
+                    <input ref={titleRef} type="text" defaultValue={title} />
+                ) : (
+                    <h2>{title}</h2>
+                )}
+            </div>
             {showDetails && (
                 <div className="details-modal">
                     <div className="modal-content">
@@ -71,7 +76,7 @@ function Album({ id, title }) {
                     </div>
                 </div>
             )}
-        </>
+        </div>
     );
 }
 

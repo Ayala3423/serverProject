@@ -52,30 +52,37 @@ function Todo({ id, title, completed }) {
     };
 
     return (
-        <>
-            <h2>Id: {id}</h2>
-            {idEditing === id ? (
-                <input ref={titleRef} type="text" defaultValue={title} />
-            ) : (
-                <h2>Title: {title}</h2>
-            )}
-            <label>
-                <input
-                    type="checkbox"
-                    checked={completed}
-                    onChange={() => handleCheckbox(id, completed)}
-                    readOnly
-                />
-                Completed
-            </label>
-
-            {idEditing === id ? (
-                <button onClick={() => handleEdit(id)}>Save</button>
-            ) : (
-                <button onClick={() => setIdEditing(id)}>Edit</button>
-            )}
-            <button onClick={() => handleDelete(id)}>Delete</button>
-        </>
+        <div className="todo-item">
+            <div className="todo-header">
+                <span className="todo-id">Id: {id}</span>
+                <div className="todo-buttons">
+                    {idEditing === id ? (
+                        <button onClick={() => handleEdit(id)}>Save</button>
+                    ) : (
+                        <button onClick={() => setIdEditing(id)}>Edit</button>
+                    )}
+                    <button onClick={() => handleDelete(id)}>Delete</button>
+                </div>
+            </div>
+            <div className="todo-title">
+                {idEditing === id ? (
+                    <input ref={titleRef} type="text" defaultValue={title} />
+                ) : (
+                    <h2>{title}</h2>
+                )}
+            </div>
+            <div className="todo-completed">
+                <label>
+                    <input
+                        type="checkbox"
+                        checked={completed}
+                        onChange={() => handleCheckbox(id, completed)}
+                        readOnly
+                    />
+                    Completed
+                </label>
+            </div>
+        </div>
     );
 }
 

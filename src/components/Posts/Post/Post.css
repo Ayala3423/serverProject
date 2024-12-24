@@ -1,43 +1,29 @@
 .details-modal {
   position: fixed;
-  /* מיקום קבוע */
   top: 0;
   left: 0;
   width: 100vw;
-  /* תופס את כל רוחב המסך */
   height: 100vh;
-  /* תופס את כל גובה המסך */
   background: rgba(0, 0, 0, 0.5);
-  /* רקע כהה חצי שקוף */
   display: flex;
   justify-content: center;
-  /* מרכז אופקית */
   align-items: center;
-  /* מרכז אנכית */
   z-index: 3000;
-  /* מעל כל האלמנטים */
 }
 
 .modal-content {
   background: #2f2841;
-  /* רקע המודאל */
   color: #f0ffff;
-  /* צבע טקסט */
   padding: 30px;
   border-radius: 15px;
-  /* פינות מעוגלות */
   width: 350px;
-  /* רוחב קבוע */
   max-width: 90%;
-  /* להתאים למסכים קטנים */
   text-align: center;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
-  /* הצללה */
 }
 
 .modal-content h2 {
   color: #9b93bd;
-  /* צבע כותרת */
   margin-bottom: 20px;
 }
 
@@ -60,5 +46,4 @@
 
 .modal-content button:hover {
   background: #77ffc0;
-  /* צבע רקע כשלוחצים */
 }

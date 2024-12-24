@@ -1,85 +1,128 @@
 /* סידור המשימות בטור */
 .todos {
-    display: flex;
-    flex-direction: column; /* סידור המשימות בטור */
-    align-items: center; /* יישור תוכן לאמצע */
-    margin-top: 80px; /* מרווח כדי להתרחק מהתפריט */
-  }
-  
-  /* עיצוב של כל משימה */
-  .todo {
-    width: 100%; /* גודל מסגרת המשימה */
-    max-width: 100%; /* גודל מקסימלי */
-    margin: 20px 0; /* רווח בין משימות */
-    padding: 15px 20px; /* רווח פנימי */
-    border-radius: 12px; /* פינות מעוגלות */
-    color: #716c85; /* צבע טקסט */
-    font-size: 1.2em; /* גודל טקסט */
-    text-align: center; /* יישור טקסט במרכז */
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2); /* הצללה */
-    transition: background-color 0.3s ease, transform 0.2s ease; /* אפקט מעבר */
-  }
-  
-  /* סידור ה-checkbox והכיתוב באותה שורה */
-  .todo-content {
-    display: flex; /* ה-checkbox והכיתוב יהיו בשורה אחת */
-    justify-content: flex-start; /* למקם את האלמנטים בשורה אחד */
-    align-items: center; /* ליישר את ה-checkbox והכיתוב אנכית */
-    margin-bottom: 10px; /* מרווח בין ה-checkbox לכיתוב */
-  }
-  
-  /* שינוי צבע ה-checkbox */
-  .todo input[type="checkbox"] {
-    appearance: none; /* מבטל את העיצוב המובנה של ה-checkbox */
-    -webkit-appearance: none; /* מבטל את העיצוב ב-Webkit (כמו ב-Chrome/Safari) */
-    -moz-appearance: none; /* מבטל את העיצוב ב-Firefox */
-    width: 20px; /* גודל ה-checkbox */
-    height: 20px; /* גובה ה-checkbox */
-    border-radius: 4px; /* פינות מעוגלות */
-    border: 2px solid #716c85; /* גבול בצבע אפור */
-    background-color: #fff; /* רקע לבן */
-    cursor: pointer; /* מצביע */
-    margin-right: 10px; /* רווח קטן בין ה-checkbox לכיתוב */
-    transition: background-color 0.3s, border-color 0.3s; /* אנימציה להחלפות צבע */
-  }
-  
-  /* שינוי צבע ה-checkbox כאשר הוא מסומן */
-  .todo input[type="checkbox"]:checked {
-    background-color: #716c85; /* צבע רקע אפור */
-    border-color: #716c85; /* צבע הגבול */
-  }
-  
-  /* שינוי צבע ה-checkbox כאשר הוא מסומן וריחוף */
-  .todo input[type="checkbox"]:checked:hover {
-    background-color: #5a5a5a; /* צבע כהה יותר כשריחפים */
-  }
-  
-  /* שינוי צבע ה-checkbox בהשתמשות עם hover */
-  .todo input[type="checkbox"]:hover {
-    background-color: #e0e0e0; /* צבע בהיר יותר כשריחפים */
-  }
-  
-  /* סידור כותרת המשימה */
-  .todo h2 {
-    margin: 10px 0; /* רווח בין כותרות */
-    font-weight: 600; /* עיצוב כותרות */
-    color: #716c85; /* צבע כותרות */
-  }
-  
-  /* עיצוב תיבת החיפוש */
+  display: flex;
+  flex-direction: column;
+  /* סידור המשימות בטור */
+  align-items: center;
+  /* יישור תוכן לאמצע */
+  margin-top: 80px;
+  /* מרווח כדי להתרחק מהתפריט */
+}
+
+/* עיצוב של כל משימה */
+.todo {
+  width: 100%;
+  /* גודל מסגרת המשימה */
+  max-width: 100%;
+  /* גודל מקסימלי */
+  margin: 20px 0;
+  /* רווח בין משימות */
+  padding: 15px 20px;
+  /* רווח פנימי */
+  border-radius: 12px;
+  /* פינות מעוגלות */
+  color: #716c85;
+  /* צבע טקסט */
+  font-size: 1.2em;
+  /* גודל טקסט */
+  text-align: center;
+  /* יישור טקסט במרכז */
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+  /* הצללה */
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  /* אפקט מעבר */
+}
+
+/* סידור ה-checkbox והכיתוב באותה שורה */
+.todo-content {
+  display: flex;
+  /* ה-checkbox והכיתוב יהיו בשורה אחת */
+  justify-content: flex-start;
+  /* למקם את האלמנטים בשורה אחד */
+  align-items: center;
+  /* ליישר את ה-checkbox והכיתוב אנכית */
+  margin-bottom: 10px;
+  /* מרווח בין ה-checkbox לכיתוב */
+}
+
+/* שינוי צבע ה-checkbox */
+.todo input[type="checkbox"] {
+  appearance: none;
+  /* מבטל את העיצוב המובנה של ה-checkbox */
+  -webkit-appearance: none;
+  /* מבטל את העיצוב ב-Webkit (כמו ב-Chrome/Safari) */
+  -moz-appearance: none;
+  /* מבטל את העיצוב ב-Firefox */
+  width: 20px;
+  /* גודל ה-checkbox */
+  height: 20px;
+  /* גובה ה-checkbox */
+  border-radius: 4px;
+  /* פינות מעוגלות */
+  border: 2px solid #716c85;
+  /* גבול בצבע אפור */
+  background-color: #fff;
+  /* רקע לבן */
+  cursor: pointer;
+  /* מצביע */
+  margin-right: 10px;
+  /* רווח קטן בין ה-checkbox לכיתוב */
+  transition: background-color 0.3s, border-color 0.3s;
+  /* אנימציה להחלפות צבע */
+}
+
+/* שינוי צבע ה-checkbox כאשר הוא מסומן */
+.todo input[type="checkbox"]:checked {
+  background-color: #716c85;
+  /* צבע רקע אפור */
+  border-color: #716c85;
+  /* צבע הגבול */
+}
+
+/* שינוי צבע ה-checkbox כאשר הוא מסומן וריחוף */
+.todo input[type="checkbox"]:checked:hover {
+  background-color: #5a5a5a;
+  /* צבע כהה יותר כשריחפים */
+}
+
+/* שינוי צבע ה-checkbox בהשתמשות עם hover */
+.todo input[type="checkbox"]:hover {
+  background-color: #e0e0e0;
+  /* צבע בהיר יותר כשריחפים */
+}
+
+/* סידור כותרת המשימה */
+.todo h2 {
+  margin: 10px 0;
+  /* רווח בין כותרות */
+  font-weight: 600;
+  /* עיצוב כותרות */
+  color: #716c85;
+  /* צבע כותרות */
+}
+
+.todo:hover {
+  background-color: #f8f7fb;
+  box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.5);
+  transition: all 0.3s ease;
+}
+
+/* עיצוב תיבת החיפוש */
 .search-container {
   position: relative;
   display: flex;
   flex-direction: column;
   width: 300px;
-  margin: 20px auto; /* רווחים מהצדדים */
+  margin: 20px auto;
+  /* רווחים מהצדדים */
 }
 
 .search-box {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: #514869; /* צבע רקע */
+  background: #514869;
+  /* צבע רקע */
   padding: 10px 15px;
   border-radius: 8px;
   cursor: text;
@@ -96,16 +139,19 @@
 }
 
 .search-box:hover {
-  background: #00ff88; /* שינוי צבע בריחוף */
+  background: #00ff88;
+  /* שינוי צבע בריחוף */
 }
 
 .search-options {
   margin-top: 20px;
-  background: #2f2841; /* רקע כהה */
+  background: #2f2841;
+  /* רקע כהה */
   border-radius: 8px;
   padding: 20px;
   box-shadow: 0px 10px 40px rgba(0, 0, 0, 0.3);
-  z-index: 1000; /* מעל שאר התוכן */
+  z-index: 1000;
+  /* מעל שאר התוכן */
   color: #f0ffff;
 }
 
@@ -142,9 +188,11 @@
 }
 
 .search-btn:hover {
-  background: #77ffc0; /* שינוי צבע בריחוף */
+  background: #77ffc0;
+  /* שינוי צבע בריחוף */
   color: #201b2c;
 }
+
 .input-container {
   margin: 20px 0;
 }

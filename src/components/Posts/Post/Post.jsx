@@ -46,13 +46,10 @@ function Post({ id, title, body }) {
     };
 
     return (
-        <>
-            <h2>Id: {id}</h2>
-            {idEditing === id ? (
-                <input ref={titleRef} type="text" defaultValue={title} />
-            ) : (
-                <h2>Title: {title}</h2>
-            )}
+        <div className="post-item">
+    <div className="post-header">
+        <span className="post-id">Id: {id}</span>
+        <div className="post-buttons">
             {idEditing === id ? (
                 <button onClick={() => handleEdit(id)}>Save</button>
             ) : (
@@ -60,20 +57,28 @@ function Post({ id, title, body }) {
             )}
             <button onClick={() => handleDelete(id)}>Delete</button>
             <button onClick={handleShowDetails}>More Details</button>
+        </div>
+    </div>
+    <div className="post-title">
+        {idEditing === id ? (
+            <input ref={titleRef} type="text" defaultValue={title} />
+        ) : (
+            <h2>{title}</h2>
+        )}
+    </div>
+    {showDetails && (
+        <div className="details-modal">
+            <div className="modal-content">
+                <h2>Post Details</h2>
+                <p><strong>Id:</strong> {id}</p>
+                <p><strong>Title:</strong> {title}</p>
+                <p><strong>Body:</strong> {body}</p>
+                <button onClick={handleCloseDetails}>Close</button>
+            </div>
+        </div>
+    )}
+</div>
 
-            {showDetails && (
-                <div className="details-modal">
-                    <div className="modal-content">
-                        <h2>Post Details</h2>
-                        <p><strong>Id:</strong> {id}</p>
-                        <p><strong>Title:</strong> {title}</p>
-                        <p><strong>body:</strong> {body}</p>
-                        <button onClick={() => handleShowComments(id)}>Comments</button>
-                        <button onClick={handleCloseDetails}>Close</button>
-                    </div>
-                </div>
-            )}
-        </>
     );
 }
 

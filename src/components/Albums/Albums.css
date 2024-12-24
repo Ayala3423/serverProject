@@ -17,7 +17,7 @@
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2); /* הצללה */
     transition: background-color 0.3s ease, transform 0.2s ease; /* אפקט מעבר */
   }
-  
+    
   .album:hover {
     transform: translateY(-5px); /* אפקט הרמה */
   }
