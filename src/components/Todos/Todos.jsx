@@ -4,7 +4,6 @@ import Todo from './Todo/Todo.jsx';
 import { useParams } from 'react-router-dom';
 import Search from '../Search/Search.jsx';
 
-// יצירת TodosContext
 export const TodosContext = createContext(null);
 
 function Todos() {
@@ -33,21 +32,20 @@ function Todos() {
     const newTodoTitle = newTodoRef.current.value.trim();
     if (newTodoTitle) {
       const newTodo = {
-        id: JSON.stringify(JSON.parse(todos[todos.length - 1].id) + 1), // לדוגמה, יצירת ID חדש
+        id: JSON.stringify(JSON.parse(todos[todos.length - 1].id) + 1), 
         title: newTodoTitle,
         completed: false,
         userId: parseInt(userId, 10),
         isVisible: true
       };
-
       // שמירה לשרת
       fetch('http://localhost:3000/todos', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(newTodo),
       }).then(() => {
-        setTodos([...todos, { ...newTodo, isVisible: true }]); // הוספת שדה חדש לפוסט
-        setShowModal(false); // סגירת ה-Modal
+        setTodos([...todos, { ...newTodo, isVisible: true }]);
+        setShowModal(false); 
       });
     }
   };
