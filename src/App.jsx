@@ -3,6 +3,7 @@ import './App.css'
 import { BrowserRouter as Router, Route, Routes, Link } from "react-router-dom";
 import Home from "./components/Home/Home";
 import Login from "./components/Login/Login";
+import SignUp from "./components/SignUp/SignUp";
 import Albums from './components/Albums/Albums';
 import Posts from './components/Posts/Posts';
 import Todos from './components/Todos/Todos';
@@ -14,9 +15,10 @@ function App() {
   return (
     <>
       <Router>
-        <Link to="/login" className='loginLink'>Login</Link>
         <Routes>
+          <Route path="/*" element={<h1>404 Page Not Found</h1>} />
           <Route path="/login" element={<Login />} />
+          <Route path="/signUp" element={<SignUp />} />
           <Route path="/home/users/:userId" element={<Home />}>
             <Route path="albums" element={<Albums />}>
               <Route path="photos" element={<Photos />} />
