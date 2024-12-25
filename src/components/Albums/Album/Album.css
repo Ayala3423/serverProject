@@ -109,3 +109,24 @@
 .modal-content button:hover {
     background: #77ffc0;
 }
+.photosLink{
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    text-decoration: none;
+    color: #f0ffff;
+    font-size: 16px;
+    font-weight: 600;
+    padding: 10px 15px;
+    border-radius: 8px;
+    background: #514869;
+    transition: all 0.3s ease;
+    margin-left: auto;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+}
+.photosLink:hover {
+    background: #00ff88; /* צבע רקע על ריחוף */
+    color: #2b134b; /* צבע טקסט חדש על ריחוף */
+  }

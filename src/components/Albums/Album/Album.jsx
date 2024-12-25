@@ -48,7 +48,7 @@ function Album({ albumId, title }) {
                         <button onClick={() => setIdEditing(id)}>Edit</button>
                     )}
                     <button onClick={() => handleDelete(id)}>Delete</button>
-                    <Link to={`/home/users/${userId}/albums/${albumId}/photos`}>More Details</Link>
+                    <Link to={`/home/users/${userId}/albums/${albumId}/photos`} className='photosLink'>More Details</Link>
                 </div>
             </div>
             <div className="album-title">
