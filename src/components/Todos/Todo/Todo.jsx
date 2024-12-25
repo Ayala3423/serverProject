@@ -1,10 +1,10 @@
 import { useState, useRef } from 'react';
 import './Todo.css';
 
-function Todo({ id, title, completed }) {
+function Todo({ id, title, completed, setTodos, todos }) {
     const [idEditing, setIdEditing] = useState(null);
     const titleRef = useRef();
-    const { todos, setTodos } = useState(null); 
+
 
     const handleDelete = (idToDelete) => {
         fetch(`http://localhost:3000/todos/${idToDelete}`, {
@@ -20,7 +20,6 @@ function Todo({ id, title, completed }) {
             alert('Title cannot be empty');
             return;
         }
-
         fetch(`http://localhost:3000/todos/${idToEdit}`, {
             method: 'PATCH',
             headers: { 'Content-Type': 'application/json' },

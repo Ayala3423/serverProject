@@ -2,10 +2,11 @@ import { useState, useEffect, useRef } from 'react';
 import './Posts.css';
 import Post from './Post/Post.jsx'
 import { useParams } from 'react-router-dom';
+import Search from '../Search/Search.jsx'
 
 function Posts() {
     const { userId } = useParams();  // קבלת ה-userId מה-URL
-    const [ posts, setPosts ] = useState(null); // שימוש בקונטקסט לפוסטים
+    const [posts, setPosts] = useState(null); // שימוש בקונטקסט לפוסטים
     const [showModal, setShowModal] = useState(false);
     const newPostRef = useRef({});
 
@@ -15,7 +16,7 @@ function Posts() {
             .then((data) => setPosts(data.map(item => ({
                 ...item,          // שומר את כל השדות הקיימים באובייקט
                 isVisible: true    // הוספת השדה החדש
-              }))));  // עדכון הקונטקסט עם פוסטים של המשתמש הספציפי
+            }))));  // עדכון הקונטקסט עם פוסטים של המשתמש הספציפי
     }, [userId]);
 
     const handleAddPost = () => {
@@ -25,12 +26,13 @@ function Posts() {
     const handleSavePost = () => {
         const newPostTitle = newPostRef.current.title.value.trim();
         const newPostBody = newPostRef.current.body.value.trim();
+        const newId = posts.length ? JSON.stringify(JSON.parse(posts[posts.length - 1].id) + 1) : "1";
         if (newPostTitle && newPostBody) {
             const newPost = {
-                id: JSON.stringify(JSON.parse(posts[posts.length - 1].id) + 1), // לדוגמה, יצירת ID חדש
+                userId: parseInt(userId, 10),
+                id: newId, // לדוגמה, יצירת ID חדש
                 title: newPostTitle,
                 body: newPostBody,
-                userId: parseInt(userId, 10),
             };
 
             fetch('http://localhost:3000/posts', {
@@ -47,35 +49,39 @@ function Posts() {
     return (
         <>
             <h1>Posts</h1>
-            <button onClick={handleAddPost}>Add</button>
-            {showModal && (
-                <div className="modal">
-                    <div className="modal-content">
-                        <h2>Add New Post</h2>
-                        <label htmlFor="post-title">Post Title</label>
-                        <input
-                            type="text"
-                            id="post-title"
-                            ref={(el) => (newPostRef.current["title"] = el)}
-                            placeholder="Enter post title"
-                        />
-                        <label htmlFor="post-content">Post Content</label>
-                        <textarea
-                            id="post-content"
-                            ref={(el) => (newPostRef.current["body"] = el)}
-                            placeholder="Enter post content"
-                            rows="5"
-                        ></textarea>
-                        <button onClick={handleSavePost}>Save</button>
-                        <button onClick={() => setShowModal(false)}>Cancel</button>
+            <div className="button-group">
+                <button onClick={handleAddPost}>Add</button>
+                {showModal && (
+                    <div className="modal">
+                        <div className="modal-content">
+                            <h2>Add New Post</h2>
+                            <label htmlFor="post-title">Post Title</label>
+                            <input
+                                type="text"
+                                id="post-title"
+                                ref={(el) => (newPostRef.current["title"] = el)}
+                                placeholder="Enter post title"
+                            />
+                            <label htmlFor="post-content">Post Content</label>
+                            <textarea
+                                id="post-content"
+                                ref={(el) => (newPostRef.current["body"] = el)}
+                                placeholder="Enter post content"
+                                rows="5"
+                            ></textarea>
+                            <button onClick={handleSavePost}>Save</button>
+                            <button onClick={() => setShowModal(false)}>Cancel</button>
+                        </div>
                     </div>
-                </div>
-            )}
+                )}
+                <Search setComponent={setPosts} />
+            </div>
+
             <div className='posts'>
                 {posts ? (
                     posts.map((post) => (
                         <div key={post.id} className='post'>
-                            <Post id={post.id} title={post.title} body={post.body} setPosts={setPosts} />
+                            <Post id={post.id} title={post.title} body={post.body} setPosts={setPosts} posts={posts} />
                         </div>
                     ))
                 ) : <h2>loading...</h2>}

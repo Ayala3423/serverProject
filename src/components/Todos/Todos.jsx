@@ -28,9 +28,10 @@ function Todos() {
 
   const handleSaveTodo = () => {
     const newTodoTitle = newTodoRef.current.value.trim();
+    const newId=todos.length?JSON.stringify(JSON.parse(todos[todos.length - 1].id) + 1):"1";
     if (newTodoTitle) {
       const newTodo = {
-        id: JSON.stringify(JSON.parse(todos[todos.length - 1].id) + 1), 
+        id: newId, 
         title: newTodoTitle,
         completed: false,
         userId: parseInt(userId, 10),
@@ -51,7 +52,7 @@ function Todos() {
   return (
       <div>
         <h1>Todos</h1>
-        <div class="button-group">
+        <div className="button-group">
           <button onClick={handleAddTodo}>Add</button>
           {showModal && (
             <div className="modal">
@@ -67,14 +68,14 @@ function Todos() {
               </div>
             </div>
           )}
-          <Search />
+          <Search setComponent={setTodos} />
         </div>
         <div className="todos">
           {todos && todos.length > 0 ? (
             todos.filter((todo) => todo.isVisible).length > 0 ? (
               todos.filter((todo) => todo.isVisible).map((todo) => (
                 <div key={todo.id} className="todo">
-                  <Todo id={todo.id} title={todo.title} completed={todo.completed} />
+                  <Todo id={todo.id} title={todo.title} completed={todo.completed} setTodos={setTodos} todos={todos} />
                 </div>
               ))
             ) : (

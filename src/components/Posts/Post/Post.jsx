@@ -3,7 +3,7 @@ import './Post.css';
 import Comment from '../../Comment/Comment.jsx'
 
 
-function Post({ id, title, body, setPosts }) {
+function Post({ id, title, body, setPosts, posts }) {
     const [idEditing, setIdEditing] = useState(null);
     const [showDetails, setShowDetails] = useState(false); // סטייט לפתיחת חלון
     const [showComments, setShowComments] = useState(false); // סטייט לפתיחת חלון

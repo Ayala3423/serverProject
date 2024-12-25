@@ -6,7 +6,7 @@ import Search from '../Search/Search.jsx'
 
 function Home() {
   const { userId } = useParams();
-  const [allPosts, setAllPosts ] = useState();  // שימוש בקונטקסט לפוסטים
+  const [allPosts, setAllPosts] = useState();  // שימוש בקונטקסט לפוסטים
   const [currentUser, setCurrentUser] = useState(null);
   const [showAllPosts, setShowAllPosts] = useState(true);
   const navigate = useNavigate();
@@ -27,37 +27,38 @@ function Home() {
   };
 
   return (
-      <div className='homePage'>
-        <header className="header">
-          {currentUser ? (
-            <div className="profile">
-              <span className="username">Welcome, {currentUser.username}</span>
-              <Link to={`/home/users/${userId}`} onClick={() => setShowAllPosts(true)} className='homeLink'>Home</Link><br />
+    <div className='homePage'>
+      <header className="header">
+        {currentUser ? (
+          <div className="profile">
+            <span className="username">Welcome, {currentUser.username}</span>
+          </div>
+        ) : (
+          <span className="loading">Loading user data...</span>
+        )}
+        <Link to={`/home/users/${userId}`} onClick={() => setShowAllPosts(true)} className='homeLink'>Home</Link><br />
+      </header>
+      {showAllPosts && <div className='posts'>
+        <h1>All Posts</h1>
+        <Search setComponent={setAllPosts} />
+        {allPosts ? (
+          allPosts.map((post) => (
+            <div key={post.id} className='post'>
+              <h3>posted by user:{post.userId}</h3>
+              <Post id={post.id} title={post.title} body={post.body} setPosts={setAllPosts} posts={allPosts} />
             </div>
-          ) : (
-            <span className="loading">Loading user data...</span>
-          )}
-        </header>
-        {showAllPosts && <div className='posts'>
-          <h1>All Posts</h1>
-          <Search setComponent={setAllPosts}/>
-          {allPosts ? (
-            allPosts.map((post) => (
-              <div key={post.id} className='post'>
-                <Post id={post.id} title={post.title} body={post.body} setPosts={setAllPosts} />
-              </div>
-            ))
-          ) : <h2>loading...</h2>}
-        </div>}
-        <nav>
-          <Link to={`/home/users/${userId}/albums`} onClick={() => setShowAllPosts(false)}>albums</Link><br />
-          <Link to={`/home/users/${userId}/posts`} onClick={() => setShowAllPosts(false)}>posts</Link><br />
-          <Link to={`/home/users/${userId}/todos`} onClick={() => setShowAllPosts(false)}>todos</Link><br />
-          <Link to={`/home/users/${userId}/info`} onClick={() => setShowAllPosts(false)}>info</Link><br />
-          <button id="logOutBtn" onClick={handleLogOut}>Log Out</button>
-        </nav>
-        <Outlet />
-      </div>
+          ))
+        ) : <h2>loading...</h2>}
+      </div>}
+      <nav>
+        <Link to={`/home/users/${userId}/albums`} onClick={() => setShowAllPosts(false)}>albums</Link><br />
+        <Link to={`/home/users/${userId}/posts`} onClick={() => setShowAllPosts(false)}>posts</Link><br />
+        <Link to={`/home/users/${userId}/todos`} onClick={() => setShowAllPosts(false)}>todos</Link><br />
+        <Link to={`/home/users/${userId}/info`} onClick={() => setShowAllPosts(false)}>info</Link><br />
+        <button id="logOutBtn" onClick={handleLogOut}>Log Out</button>
+      </nav>
+      <Outlet />
+    </div>
   );
 }
 
