@@ -30,8 +30,10 @@ function Photos() {
 
   return (
     <div className="photos-container">
-      <h1>Photos</h1>
-      <h2>Album {albumId}</h2>
+      <div className="photos-header">
+        <h1 className="AlbumTitle">Album {albumId}</h1>
+        <h2>Photos</h2>
+      </div>
       <div className="photos-grid">
         {photos.map((photo) => (
           <div key={photo.id} className="photo-item">
@@ -41,11 +43,11 @@ function Photos() {
         ))}
       </div>
 
-      {loading ? <p>Loading...</p> : hasMore ? (
+      {loading ? <p>טוען...</p> : hasMore ? (
         <button onClick={loadPhotos} className="load-more">
-          Load More
+          טען עוד
         </button>
-      ) : <p>No more photos to load.</p>}
+      ) : <p>No More Photos</p>}
     </div>
   );
 }

@@ -1,0 +1,76 @@
+.photos-container {
+    padding: 30px;
+    color: #f0ffff; /* צבע טקסט בהיר */
+    border-top-right-radius: 20px; /* פינות מעוגלות לחלק העליון */
+    border-bottom-right-radius: 20px;
+}
+
+.photos-header h1 {
+    color: #716c85;
+    font-size: 3em;
+    font-weight: bold;
+    margin-bottom: 20px;
+    text-align: center;
+    text-shadow: 0px 4px 10px #c7c2db;
+}
+.photos-header h2{
+    color: #716c85;
+    font-size: 1.5em;
+    font-weight: bold;
+    margin-bottom: 20px;
+    text-align: center;
+    text-shadow: 0px 4px 10px #c7c2db;
+}
+
+.photos-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); /* שיפרתי את הגודל המינימלי */
+    gap: 25px;
+    padding: 10px;
+}
+
+.photo-item {
+    background: #514869;
+    padding: 15px;
+    border-radius: 12px; /* עיגול פינות יותר רך */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3); /* הצללה יותר עדינה */
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.photo-item img {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+    transition: transform 0.3s ease;
+}
+
+.photo-item img:hover {
+    transform: scale(1.1); /* הגדלה קלה בעת ריחוף */
+}
+
+.photo-item:hover {
+    transform: translateY(-5px); /* הזזה כלפי מעלה */
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.5); /* הצללה גדולה יותר בעת ריחוף */
+}
+
+.load-more {
+    margin-top: 30px;
+    padding: 12px 25px;
+    background-color: #00ff88; /* צבע ירוק כפי שביקשת */
+    color: #2b134b;
+    border: none;
+    border-radius: 10px;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    text-align: center;
+    display: inline-block;
+}
+
+.load-more:hover {
+    background-color: #77ffc0; /* צבע ירוק בהיר בעת ריחוף */
+    transform: scale(1.05); /* הגדלה קלה בעת ריחוף */
+}
+

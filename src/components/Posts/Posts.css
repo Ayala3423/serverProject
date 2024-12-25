@@ -10,15 +10,11 @@
 
 h1 {
   text-align: center;
-  /* כותרת באמצע */
   color: #716c85;
-  /* צבע טקסט */
   font-size: 3em;
   margin-bottom: 20px;
   text-shadow: 0px 4px 10px #c7c2db;
-  /* הצללה */
   margin-top: 80px;
-  /* מרווח נוסף מתחת לניווט */
 }
 
 .post {
