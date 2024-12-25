@@ -1,11 +1,11 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useMemo } from 'react';
 import './Posts.css';
 import Post from './Post/Post.jsx'
 import { useParams } from 'react-router-dom';
 import Search from '../Search/Search.jsx'
 
 function Posts() {
-    const { userId } = useParams();  // קבלת ה-userId מה-URL
+    const { userId } = useParams(); // קבלת ה-userId מה-URL
     const [posts, setPosts] = useState(null); // שימוש בקונטקסט לפוסטים
     const [showModal, setShowModal] = useState(false);
     const newPostRef = useRef({});
@@ -14,9 +14,9 @@ function Posts() {
         fetch(`http://localhost:3000/posts/?userId=${userId}`)
             .then((response) => response.json())
             .then((data) => setPosts(data.map(item => ({
-                ...item,          // שומר את כל השדות הקיימים באובייקט
-                isVisible: true    // הוספת השדה החדש
-            }))));  // עדכון הקונטקסט עם פוסטים של המשתמש הספציפי
+                ...item,
+                isVisible: true, // הוספת השדה החדש
+            }))));
     }, [userId]);
 
     const handleAddPost = () => {
@@ -30,9 +30,10 @@ function Posts() {
         if (newPostTitle && newPostBody) {
             const newPost = {
                 userId: parseInt(userId, 10),
-                id: newId, // לדוגמה, יצירת ID חדש
+                id: newId,
                 title: newPostTitle,
                 body: newPostBody,
+                isVisible: true,
             };
 
             fetch('http://localhost:3000/posts', {
@@ -40,11 +41,16 @@ function Posts() {
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(newPost),
             }).then(() => {
-                setPosts([...posts, { ...newPost, isVisible: true }]);
+                setPosts([...posts, newPost]);
                 setShowModal(false); // סגירת ה-Modal
             });
         }
     };
+
+    // משתנה מחושב לשמירת הפוסטים הנראים
+    const visiblePosts = useMemo(() => {
+        return posts?.filter((post) => post.isVisible) || [];
+    }, [posts]);
 
     return (
         <>
@@ -77,14 +83,26 @@ function Posts() {
                 <Search setComponent={setPosts} />
             </div>
 
-            <div className='posts'>
-                {posts ? (
-                    posts.map((post) => (
-                        <div key={post.id} className='post'>
-                            <Post id={post.id} title={post.title} body={post.body} setPosts={setPosts} posts={posts} />
-                        </div>
-                    ))
-                ) : <h2>loading...</h2>}
+            <div className="posts">
+                {posts && posts.length > 0 ? (
+                    visiblePosts.length > 0 ? (
+                        visiblePosts.map((post) => (
+                            <div key={post.id} className="todo">
+                                <Post
+                                    id={post.id}
+                                    title={post.title}
+                                    completed={post.body}
+                                    setPosts={setPosts}
+                                    posts={posts}
+                                />
+                            </div>
+                        ))
+                    ) : (
+                        <h2>No posts found.</h2>
+                    )
+                ) : (
+                    <h2>Loading posts...</h2>
+                )}
             </div>
         </>
     );

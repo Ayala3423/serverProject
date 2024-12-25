@@ -1,12 +1,6 @@
 {
   "posts": [
     {
-      "userId": 1,
-      "id": "10",
-      "title": "שגכקדערגעכע",
-      "body": "quo et expedita modi cum officia vel magni\ndoloribus qui repudiandae\nvero nisi sit\nquos veniam quod sed accusamus veritatis error"
-    },
-    {
       "userId": 2,
       "id": "17",
       "title": "fugit voluptas sed molestias voluptatem provident",
@@ -507,7 +501,7 @@
     {
       "id": "11",
       "userId": 1,
-      "title": "היי",
+      "title": "שלום",
       "body": "סתם פוסט"
     }
   ],
@@ -3979,21 +3973,6 @@
     }
   ],
   "albums": [
-    {
-      "userId": 1,
-      "id": "8",
-      "title": "qui fuga est a"
-    },
-    {
-      "userId": 1,
-      "id": "9",
-      "title": "saepe unde necessitatibus rem"
-    },
-    {
-      "userId": 1,
-      "id": "10",
-      "title": "distinctio laborum qui"
-    },
     {
       "userId": 2,
       "id": "11",

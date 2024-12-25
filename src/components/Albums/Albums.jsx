@@ -22,7 +22,7 @@ function Albums() {
         {albums ? (albums.map((album) => {
           return (
             <div key={album.id} className='album'>
-              <Album albumId={album.id} title={album.title} />
+              <Album albumId={album.id} title={album.title} setAlbums={setAlbums}/>
             </div>);
         })) : <h2>loading...</h2>}
       </div>

@@ -2,11 +2,10 @@ import { useState, useRef } from 'react';
 import { BrowserRouter as Router, Route, Routes, Link, useParams } from "react-router-dom";
 import './Album.css';
 
-function Album({ albumId, title }) {
+function Album({ albumId, title, setAlbums }) {
     const { userId } = useParams();
     const [idEditing, setIdEditing] = useState(null);
     const titleRef = useRef();
-    const { albums, setAlbums } = useState(null);
 
     const handleDelete = (idToDelete) => {
         fetch(`http://localhost:3000/albums/${idToDelete}`, {
@@ -47,7 +46,7 @@ function Album({ albumId, title }) {
                     ) : (
                         <button onClick={() => setIdEditing(id)}>Edit</button>
                     )}
-                    <button onClick={() => handleDelete(id)}>Delete</button>
+                    <button onClick={() => handleDelete(albumId)}>Delete</button>
                     <Link to={`/home/users/${userId}/albums/${albumId}/photos`} className='photosLink'>More Details</Link>
                 </div>
             </div>

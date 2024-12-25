@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import Post from '../Posts/Post/Post.jsx';
 import { Link, useParams, Outlet, useNavigate } from 'react-router-dom';
 import './Home.css';
@@ -26,6 +26,11 @@ function Home() {
     navigate("/login");
   };
 
+  // משתנה מחושב לשמירת הפוסטים הנראים
+  const visibleAllPosts = useMemo(() => {
+    return allPosts?.filter((post) => post.isVisible) || [];
+  }, [allPosts]);
+
   return (
     <div className='homePage'>
       <header className="header">
@@ -41,14 +46,27 @@ function Home() {
       {showAllPosts && <div className='posts'>
         <h1>All Posts</h1>
         <Search setComponent={setAllPosts} />
-        {allPosts ? (
-          allPosts.map((post) => (
-            <div key={post.id} className='post'>
-              <h3>posted by user:{post.userId}</h3>
-              <Post id={post.id} title={post.title} body={post.body} setPosts={setAllPosts} posts={allPosts} />
-            </div>
-          ))
-        ) : <h2>loading...</h2>}
+        <div className="posts">
+          {allPosts && allPosts.length > 0 ? (
+            visibleAllPosts.length > 0 ? (
+              visibleAllPosts.map((post) => (
+                <div key={post.id} className="post">
+                  <Post
+                    id={post.id}
+                    title={post.title}
+                    body={post.body}
+                    setAllPosts={setAllPosts}
+                    allPosts={allPosts}
+                  />
+                </div>
+              ))
+            ) : (
+              <h2>No posts found.</h2>
+            )
+          ) : (
+            <h2>Loading posts...</h2>
+          )}
+        </div>
       </div>}
       <nav>
         <Link to={`/home/users/${userId}/albums`} onClick={() => setShowAllPosts(false)}>albums</Link><br />

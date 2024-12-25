@@ -8,17 +8,21 @@ function Search({setComponent}) {
     const handleSearch = () => {
         const { search, id, title, completed, notCompleted } = filtersRef.current;
         setComponent((prev) =>
-            prev.map((component) => ({
-                ...component,
-                isVisible:
+            prev.map((component) => {
+                const isVisible =
                     (!search || component.title.toLowerCase().includes(search)) &&
                     (!id || component.id.toString() === id) &&
                     (!title || component.title.toLowerCase().includes(title)) &&
                     (!completed || component.completed) &&
-                    (!notCompleted || !component.completed),
-            }))
+                    (!notCompleted || !component.completed);
+                return {
+                    ...component,
+                    isVisible, 
+                };
+            })
         );
     };
+    
 
     const updateFilter = (key, value) => {
         filtersRef.current[key] = value;
