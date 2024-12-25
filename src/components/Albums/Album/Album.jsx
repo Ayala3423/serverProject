@@ -1,9 +1,10 @@
 import { useState, useRef } from 'react';
+import { BrowserRouter as Router, Route, Routes, Link, useParams } from "react-router-dom";
 import './Album.css';
 
-function Album({ id, title }) {
+function Album({ albumId, title }) {
+    const { userId } = useParams();
     const [idEditing, setIdEditing] = useState(null);
-    const [showDetails, setShowDetails] = useState(false);
     const titleRef = useRef();
     const { albums, setAlbums } = useState(null);
 
@@ -36,45 +37,28 @@ function Album({ id, title }) {
         });
     };
 
-    const handleShowDetails = () => {
-        setShowDetails(true);
-    };
-
-    const handleCloseDetails = () => {
-        setShowDetails(false);
-    };
-
     return (
         <div className="album-item">
             <div className="album-header">
-                <span className="album-id">Id: {id}</span>
+                <span className="album-id">Id: {albumId}</span>
                 <div className="album-buttons">
-                    {idEditing === id ? (
+                    {idEditing === albumId ? (
                         <button onClick={() => handleEdit(id)}>Save</button>
                     ) : (
                         <button onClick={() => setIdEditing(id)}>Edit</button>
                     )}
                     <button onClick={() => handleDelete(id)}>Delete</button>
-                    <button onClick={handleShowDetails}>More Details</button>
+                    <Link to={`/home/users/${userId}/albums/${albumId}/photos`}>More Details</Link>
                 </div>
             </div>
             <div className="album-title">
-                {idEditing === id ? (
+                {idEditing === albumId ? (
                     <input ref={titleRef} type="text" defaultValue={title} />
                 ) : (
                     <h2>{title}</h2>
                 )}
             </div>
-            {showDetails && (
-                <div className="details-modal">
-                    <div className="modal-content">
-                        <h2>Album Details</h2>
-                        <p><strong>Id:</strong> {id}</p>
-                        <p><strong>Title:</strong> {title}</p>
-                        <button onClick={handleCloseDetails}>Close</button>
-                    </div>
-                </div>
-            )}
+
         </div>
     );
 }
