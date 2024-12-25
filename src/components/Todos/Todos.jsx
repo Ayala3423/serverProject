@@ -1,10 +1,8 @@
-import { useState, useEffect, createContext, useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import './Todos.css';
 import Todo from './Todo/Todo.jsx';
 import { useParams } from 'react-router-dom';
 import Search from '../Search/Search.jsx';
-
-export const TodosContext = createContext(null);
 
 function Todos() {
   const { userId } = useParams();
@@ -51,7 +49,6 @@ function Todos() {
   };
 
   return (
-    <TodosContext.Provider value={{ todos, setTodos }}>
       <div>
         <h1>Todos</h1>
         <div class="button-group">
@@ -88,7 +85,6 @@ function Todos() {
           )}
         </div>
       </div>
-    </TodosContext.Provider>
   );
 }
 

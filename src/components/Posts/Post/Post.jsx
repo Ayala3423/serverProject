@@ -1,17 +1,14 @@
-import { useState, useRef, useContext, createContext } from 'react';
+import { useState, useRef, } from 'react';
 import './Post.css';
-import { PostsContext } from "../../PostsContext";
 import Comment from '../../Comment/Comment.jsx'
 
-export const CommentsContext = createContext();
 
-function Post({ id, title, body }) {
+function Post({ id, title, body, setPosts }) {
     const [idEditing, setIdEditing] = useState(null);
     const [showDetails, setShowDetails] = useState(false); // סטייט לפתיחת חלון
     const [showComments, setShowComments] = useState(false); // סטייט לפתיחת חלון
     const [postComments, setPostComments] = useState(null); // סטייט לפתיחת חלון
     const titleRef = useRef();
-    const { posts, setPosts } = useContext(PostsContext); // שימוש בקונטקסט
 
     const handleDelete = (idToDelete) => {
         fetch(`http://localhost:3000/posts/${idToDelete}`, {
@@ -58,7 +55,6 @@ function Post({ id, title, body }) {
 
     return (
         <>
-            <CommentsContext.Provider value={{ postComments, setPostComments }}>
                 <h2>Id: {id}</h2>
                 {idEditing === id ? (
                     <input ref={titleRef} type="text" defaultValue={title} />
@@ -84,8 +80,7 @@ function Post({ id, title, body }) {
                                 postComments ? (
                                     postComments.map((comment) => (
                                         <div key={comment.id} className="comment">
-                                            <Comment id={comment.id} email={comment.email} name={comment.name} body={comment.body} />
-
+                                            <Comment id={comment.id} email={comment.email} name={comment.name} body={comment.body} setPostComments={setPostComments} />
                                         </div>
                                     ))
                                 ) : (
@@ -97,7 +92,6 @@ function Post({ id, title, body }) {
                         </div>
                     </div>
                 )}
-            </CommentsContext.Provider>
         </>
     );
 }

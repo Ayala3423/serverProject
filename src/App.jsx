@@ -1,7 +1,6 @@
 import { useState } from 'react'
 import './App.css'
 import { BrowserRouter as Router, Route, Routes, Link } from "react-router-dom";
-import { PostsProvider } from './components/PostsContext';  // ייבוא הקונטקסט
 import Home from "./components/Home/Home";
 import Login from "./components/Login/Login";
 import SignUp from "./components/SignUp/SignUp";
@@ -13,7 +12,6 @@ import Photos from './components/Photos/Photos';
 
 function App() {
   return (
-    <PostsProvider> {/* עטיפת כל האפליקציה בקונטקסט */}
       <Router>
         <Routes>
           <Route path="/*" element={<h1>404 Page Not Found</h1>} />
@@ -29,7 +27,6 @@ function App() {
           </Route>
         </Routes>
       </Router>
-    </PostsProvider>
   )
 }
 

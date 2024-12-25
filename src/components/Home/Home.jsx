@@ -1,12 +1,12 @@
 import { useState, useEffect } from 'react';
-import { PostsProvider, usePosts } from '../PostsContext.jsx'; // ייבוא הקונטקסט
 import Post from '../Posts/Post/Post.jsx';
 import { Link, useParams, Outlet, useNavigate } from 'react-router-dom';
 import './Home.css';
+import Search from '../Search/Search.jsx'
 
 function Home() {
   const { userId } = useParams();
-  const { posts, setPosts } = usePosts();  // שימוש בקונטקסט לפוסטים
+  const [allPosts, setAllPosts ] = useState();  // שימוש בקונטקסט לפוסטים
   const [currentUser, setCurrentUser] = useState(null);
   const [showAllPosts, setShowAllPosts] = useState(true);
   const navigate = useNavigate();
@@ -15,8 +15,11 @@ function Home() {
     setCurrentUser(JSON.parse(localStorage.getItem('currentUser')));
     fetch(`http://localhost:3000/posts`)
       .then((response) => response.json())
-      .then((data) => setPosts(data));  // שמירת כל הפוסטים בקונטקסט
-  }, [setPosts]);
+      .then((data) => setAllPosts(data.map(item => ({
+        ...item,          // שומר את כל השדות הקיימים באובייקט
+        isVisible: true    // הוספת השדה החדש
+      }))));  // שמירת כל הפוסטים בקונטקסט
+  }, [allPosts]);
 
   const handleLogOut = () => {
     localStorage.removeItem('currentUser');
@@ -24,7 +27,6 @@ function Home() {
   };
 
   return (
-    <PostsProvider>
       <div className='homePage'>
         <header className="header">
           {currentUser ? (
@@ -38,10 +40,11 @@ function Home() {
         </header>
         {showAllPosts && <div className='posts'>
           <h1>All Posts</h1>
-          {posts ? (
-            posts.map((post) => (
+          <Search setComponent={setAllPosts}/>
+          {allPosts ? (
+            allPosts.map((post) => (
               <div key={post.id} className='post'>
-                <Post id={post.id} title={post.title} body={post.body} />
+                <Post id={post.id} title={post.title} body={post.body} setPosts={setAllPosts} />
               </div>
             ))
           ) : <h2>loading...</h2>}
@@ -55,7 +58,6 @@ function Home() {
         </nav>
         <Outlet />
       </div>
-    </PostsProvider>
   );
 }
 

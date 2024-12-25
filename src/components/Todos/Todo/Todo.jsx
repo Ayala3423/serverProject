@@ -1,11 +1,10 @@
-import { useState, useRef, useContext } from 'react';
+import { useState, useRef } from 'react';
 import './Todo.css';
-import { TodosContext } from '../Todos.jsx'; // ייבוא הקשר
 
 function Todo({ id, title, completed }) {
     const [idEditing, setIdEditing] = useState(null);
     const titleRef = useRef();
-    const { todos, setTodos } = useContext(TodosContext); // שימוש ב-context
+    const { todos, setTodos } = useState(null); 
 
     const handleDelete = (idToDelete) => {
         fetch(`http://localhost:3000/todos/${idToDelete}`, {

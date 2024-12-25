@@ -1,10 +1,8 @@
-import { useState, useRef, useContext } from 'react';
+import { useState, useRef } from 'react';
 import './Comment.css';
-import { CommentsContext } from '../Posts/Post/Post.jsx';
 
-function Comment({ id, email, name, body }) {
+function Comment({ id, email, name, body, setPostComments }) {
     const [idEditing, setIdEditing] = useState(null);
-    const { postComments, setPostComments } = useContext(CommentsContext); // שימוש בקונטקסט
     const titleRef = useRef();
 
     const handleDelete = () => {
@@ -47,7 +45,12 @@ function Comment({ id, email, name, body }) {
             {idEditing === id ? (
                 <input ref={titleRef} type="text" defaultValue={name} />
             ) : (
-                <h2>Name: {name}</h2>
+                <>
+                <h2>Email: {email}</h2>
+                <h2>Title: {name}</h2>
+                <h2>Body: {body}</h2>
+                </>
+
             )}
             {idEditing === id ? (
                 <button onClick={() => handleEdit(id)}>Save</button>

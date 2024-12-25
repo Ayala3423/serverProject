@@ -1,12 +1,11 @@
-import { useState, useRef, useContext } from 'react';
+import { useState, useRef } from 'react';
 import './Album.css';
-import { AlbumsContext } from '../Albums.jsx';
 
 function Album({ id, title }) {
     const [idEditing, setIdEditing] = useState(null);
     const [showDetails, setShowDetails] = useState(false);
     const titleRef = useRef();
-    const { albums, setAlbums } = useContext(AlbumsContext);
+    const { albums, setAlbums } = useState(null);
 
     const handleDelete = (idToDelete) => {
         fetch(`http://localhost:3000/albums/${idToDelete}`, {

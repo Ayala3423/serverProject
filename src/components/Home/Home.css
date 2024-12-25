@@ -28,7 +28,7 @@ nav {
   display: flex;
   flex-direction: column; /* תוכן בטור */
   align-items: flex-start; /* יישור לטור */
-  overflow-y: auto; /* גלילה אם יש תוכן מעבר לגובה */
+  /* overflow-y: auto; גלילה אם יש תוכן מעבר לגובה */
 }
 
 nav a {

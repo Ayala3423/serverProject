@@ -1,9 +1,8 @@
-import { useState, useEffect, createContext } from 'react'
+import { useState, useEffect } from 'react'
 import './Albums.css'
 import Album from './Album/Album.jsx'
 import { BrowserRouter as Router, Route, Routes, useParams } from "react-router-dom";
 
-export const AlbumsContext = createContext(null)
 
 function Albums() {
   const { userId } = useParams();
@@ -18,7 +17,6 @@ function Albums() {
 
   return (
     <>
-      <AlbumsContext.Provider value={{ albums, setAlbums }}>
         <h1>Albums</h1>
         <div className='albums'>
           {albums ? (albums.map((album) => {
@@ -29,7 +27,6 @@ function Albums() {
               </div>);
           })) : <h2>loading...</h2>}
         </div>
-      </AlbumsContext.Provider>
     </>
   )
 }

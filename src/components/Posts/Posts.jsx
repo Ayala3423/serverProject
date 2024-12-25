@@ -1,21 +1,22 @@
-import { useState, useEffect, useContext, useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import './Posts.css';
-import { PostsContext } from '../PostsContext'; // ייבוא הקונטקסט
 import Post from './Post/Post.jsx'
 import { useParams } from 'react-router-dom';
 
 function Posts() {
     const { userId } = useParams();  // קבלת ה-userId מה-URL
-    const { posts, setPosts } = useContext(PostsContext); // שימוש בקונטקסט לפוסטים
+    const [ posts, setPosts ] = useState(null); // שימוש בקונטקסט לפוסטים
     const [showModal, setShowModal] = useState(false);
     const newPostRef = useRef({});
 
     useEffect(() => {
-        // כאן אפשר להוריד את הפוסטים של המשתמש הספציפי
         fetch(`http://localhost:3000/posts/?userId=${userId}`)
             .then((response) => response.json())
-            .then((data) => setPosts(data));  // עדכון הקונטקסט עם פוסטים של המשתמש הספציפי
-    }, [userId, setPosts]);
+            .then((data) => setPosts(data.map(item => ({
+                ...item,          // שומר את כל השדות הקיימים באובייקט
+                isVisible: true    // הוספת השדה החדש
+              }))));  // עדכון הקונטקסט עם פוסטים של המשתמש הספציפי
+    }, [userId]);
 
     const handleAddPost = () => {
         setShowModal(prev => !prev);
@@ -74,7 +75,7 @@ function Posts() {
                 {posts ? (
                     posts.map((post) => (
                         <div key={post.id} className='post'>
-                            <Post id={post.id} title={post.title} body={post.body} />
+                            <Post id={post.id} title={post.title} body={post.body} setPosts={setPosts} />
                         </div>
                     ))
                 ) : <h2>loading...</h2>}
