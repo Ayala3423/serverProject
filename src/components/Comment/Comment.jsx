@@ -46,9 +46,9 @@ function Comment({ id, email, name, body, setPostComments }) {
                 <input ref={titleRef} type="text" defaultValue={name} />
             ) : (
                 <>
-                <h2>Email: {email}</h2>
-                <h2>Title: {name}</h2>
-                <h2>Body: {body}</h2>
+                    <h2>Email: {email}</h2>
+                    <h2>Title: {name}</h2>
+                    <h2>Body: {body}</h2>
                 </>
 
             )}
