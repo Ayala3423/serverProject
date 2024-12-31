@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useMemo } from 'react';
 import './Todos.css';
 import Todo from './Todo/Todo.jsx';
 import { useParams } from 'react-router-dom';
@@ -17,8 +17,8 @@ function Todos() {
       .then((response) => response.json())
       .then((data) => {
         const updatedData = data.map((todo) => ({
-          ...todo, // העתקת כל השדות הקיימים
-          isVisible: true, // שדה נוסף חדש
+          ...todo,
+          isVisible: true,
         }));
         setTodos(updatedData);
       });
@@ -54,12 +54,12 @@ const updateFilter = (key, value) => {
     if (newTodoTitle) {
       const newTodo = {
         id: newId,
+        id: newId,
         title: newTodoTitle,
         completed: false,
         userId: parseInt(userId, 10),
-        isVisible: true
+        isVisible: true,
       };
-      // שמירה לשרת
       fetch('http://localhost:3000/todos', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -67,9 +67,15 @@ const updateFilter = (key, value) => {
       }).then(() => {
         setTodos([...todos, { ...newTodo, isVisible: true }]);
         setShowModal(false);
+        setShowModal(false);
       });
     }
   };
+
+  // שמירת המשימות המסוננות במשתנה
+  const visibleTodos = useMemo(() => {
+    return todos?.filter((todo) => todo.isVisible) || [];
+  }, [todos]);
 
   return (
     <div>

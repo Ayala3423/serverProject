@@ -19,6 +19,7 @@ function Search({ setComponent }) {
             }))
         );
     };
+    
 
     const updateFilter = (key, value) => {
         filtersRef.current[key] = value;
