@@ -1,14 +1,18 @@
-import { useState, useRef, } from 'react';
+import { useState, useRef } from 'react';
 import './Post.css';
-import Comment from '../../Comment/Comment.jsx'
+import Comment from '../../Comment/Comment.jsx';
 
-
-function Post({ id, title, body, setPosts, posts }) {
-    const [idEditing, setIdEditing] = useState(null);
-    const [showDetails, setShowDetails] = useState(false); // סטייט לפתיחת חלון
-    const [showComments, setShowComments] = useState(false); // סטייט לפתיחת חלון
-    const [postComments, setPostComments] = useState(null); // סטייט לפתיחת חלון
-    const titleRef = useRef();
+function Post({ UserId, id, title, body, setPosts, posts }) {
+    const [idEditing, setIdEditing] = useState(null); // סטייט שמנהל את מצב העריכה
+    const [showDetails, setShowDetails] = useState(false);
+    const [showComments, setShowComments] = useState(false);
+    const [postComments, setPostComments] = useState(null);
+    
+    // אובייקט ref שמחזיק את ההפניות לכותרת ולגוף
+    const inputRefs = useRef({
+        title: null,
+        body: null,
+    });
 
     const handleDelete = (idToDelete) => {
         fetch(`http://localhost:3000/posts/${idToDelete}`, {
@@ -19,23 +23,26 @@ function Post({ id, title, body, setPosts, posts }) {
     };
 
     const handleEdit = (idToEdit) => {
-        const updatedTitle = titleRef.current?.value.trim();
-        if (!updatedTitle) {
-            alert('Title cannot be empty');
+        const updatedTitle = inputRefs.current.title?.value.trim();
+        const updatedBody = inputRefs.current.body?.value.trim();
+        if (!updatedTitle || !updatedBody) {
+            alert('Title and Body cannot be empty');
             return;
         }
 
         fetch(`http://localhost:3000/posts/${idToEdit}`, {
             method: 'PATCH',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ title: updatedTitle }),
+            body: JSON.stringify({ title: updatedTitle, body: updatedBody }),
         }).then(() => {
             setPosts(
                 posts.map((post) =>
-                    post.id === idToEdit ? { ...post, title: updatedTitle } : post
+                    post.id === idToEdit
+                        ? { ...post, title: updatedTitle, body: updatedBody }
+                        : post
                 )
             );
-            setIdEditing(null);
+            setIdEditing(null); // יוצא ממצב עריכה אחרי השמירה
         });
     };
 
@@ -46,52 +53,69 @@ function Post({ id, title, body, setPosts, posts }) {
     const handleCloseDetails = () => {
         setShowDetails(false);
     };
+
     const handleShowComments = (postId) => {
         fetch(`http://localhost:3000/comments/?postId=${postId}`)
             .then((response) => response.json())
             .then((data) => setPostComments(data));
         setShowComments(true);
-    }
+    };
 
     return (
         <>
-                <h2>Id: {id}</h2>
-                {idEditing === id ? (
-                    <input ref={titleRef} type="text" defaultValue={title} />
-                ) : (
-                    <h2>Title: {title}</h2>
-                )}
-                {idEditing === id ? (
-                    <button onClick={() => handleEdit(id)}>Save</button>
-                ) : (
-                    <button onClick={() => setIdEditing(id)}>Edit</button>
-                )}
-                <button onClick={() => handleDelete(id)}>Delete</button>
-                <button onClick={handleShowDetails}>More Details</button>
+            <h2>Posted By: {UserId}</h2>
 
-                {showDetails && (
-                    <div className="details-modal">
-                        <div className="modal-content">
-                            <h2>Post Details</h2>
-                            <p><strong>Id:</strong> {id}</p>
-                            <p><strong>Title:</strong> {title}</p>
-                            <p><strong>body:</strong> {body}</p>
-                            {showComments && (
-                                postComments ? (
-                                    postComments.map((comment) => (
-                                        <div key={comment.id} className="comment">
-                                            <Comment id={comment.id} email={comment.email} name={comment.name} body={comment.body} setPostComments={setPostComments} />
-                                        </div>
-                                    ))
-                                ) : (
-                                    <h2>no comments</h2>
-                                )
-                            )}
-                            <button onClick={() => handleShowComments(id)}>Comments</button>
-                            <button onClick={handleCloseDetails}>Close</button>
-                        </div>
+            <h2>Id: {id}</h2>
+            <h2>Title: {title}</h2>
+
+
+            <button onClick={handleShowDetails}>More Details</button>
+
+            {showDetails && (
+                <div className="details-modal">
+                    <div className="modal-content">
+                        <h2>Post Details</h2>
+                        
+                        <button onClick={() => handleDelete(id)}>Delete Post</button>
+                        <p><strong>Posted By:</strong> {UserId}</p>
+                        <p><strong>Id:</strong> {id}</p>
+                        
+                        {/* כותרת ו-body */}
+                        {idEditing === id ? (
+                            <>
+                                <input ref={(el) => (inputRefs.current.title = el)} type="text" defaultValue={title} />
+                                <textarea ref={(el) => (inputRefs.current.body = el)} defaultValue={body} />
+                            </>
+                        ) : (
+                            <>
+                                <h2>Title: {title}</h2>
+                                <p>Body: {body}</p>
+                            </>
+                        )}
+                        
+                        {/* כפתור שמירה/עריכה */}
+                        {idEditing === id ? (
+                            <button onClick={() => handleEdit(id)}>Save</button>
+                        ) : (
+                            <button onClick={() => setIdEditing(id)}>Edit</button>
+                        )}
+
+                        {showComments && (
+                            postComments ? (
+                                postComments.map((comment) => (
+                                    <div key={comment.id} className="comment">
+                                        <Comment id={comment.id} email={comment.email} name={comment.name} body={comment.body} setPostComments={setPostComments} />
+                                    </div>
+                                ))
+                            ) : (
+                                <h2>No comments</h2>
+                            )
+                        )}
+                        <button onClick={() => handleShowComments(id)}>Comments</button>
+                        <button onClick={handleCloseDetails}>Close</button>
                     </div>
-                )}
+                </div>
+            )}
         </>
     );
 }
