@@ -61,7 +61,6 @@ function Todos() {
     if (newTodoTitle) {
       const newTodo = {
         id: newId,
-        id: newId,
         title: newTodoTitle,
         completed: false,
         userId: parseInt(userId, 10),
@@ -80,8 +79,11 @@ function Todos() {
   };
 
   const handleChange = (event) => {
-    setSelectedOption(event.target.value);
+    const selectedValue = event.target.value; 
+    setSelectedOption(selectedValue);
+    sortPage(selectedValue); // קריאה לפונקציית המיון
   };
+  
 
   const sortPage = (sortBy) => {
     let sortedTodos;
@@ -104,8 +106,8 @@ function Todos() {
     }
     setTodos(sortedTodos); // עדכון המערך הממויין
   }
-  
-  
+
+
 
   return (
     <div>
@@ -148,15 +150,16 @@ function Todos() {
         <div className="dropdown">
           <select
             value={selectedOption}
-            onChange={handleChange}
+            onChange={handleChange} // קריאה ל-handleChange במקום onClick
             className="styled-select">
             {options.map((option, index) => (
-              <option key={index} value={option} onClick={() => sortPage(option)}>
+              <option key={index} value={option}>
                 {option}
               </option>
             ))}
           </select>
         </div>
+
       </div>
       <div className="todos">
         {todos && todos.length > 0 ? (
