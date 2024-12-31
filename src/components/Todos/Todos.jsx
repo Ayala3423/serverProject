@@ -1,8 +1,7 @@
-import { useState, useEffect, useRef, useMemo } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import './Todos.css';
 import Todo from './Todo/Todo.jsx';
 import { useParams } from 'react-router-dom';
-import Search from '../Search/Search.jsx';
 
 function Todos() {
   const { userId } = useParams();
@@ -11,6 +10,14 @@ function Todos() {
   const newTodoRef = useRef();
   const [showFilterModal, setShowFilterModal] = useState(false);
   const filtersRef = useRef({ search: '', id: '', title: '', completed: false, notCompleted: false });
+  const [selectedOption, setSelectedOption] = useState("Id");
+
+  const options = [
+    "Id",
+    "ABC",
+    "Completed",
+    "Randomaly"
+  ];
 
   useEffect(() => {
     fetch(`http://localhost:3000/todos/?userId=${userId}`)
@@ -31,22 +38,22 @@ function Todos() {
   const handleSearch = () => {
     const { search, id, title, completed, notCompleted } = filtersRef.current;
     setTodos((prev) =>
-        prev.map((comp) => ({
-            ...comp,
-            isVisible:
-                (!search || comp.title.toLowerCase().includes(search)) &&
-                (!id || comp.id.toString() === id) &&
-                (!title || comp.title.toLowerCase().includes(title)) &&
-                (!completed || comp.completed) &&
-                (!notCompleted || !comp.completed),
-        }))
+      prev.map((comp) => ({
+        ...comp,
+        isVisible:
+          (!search || comp.title.toLowerCase().includes(search)) &&
+          (!id || comp.id.toString() === id) &&
+          (!title || comp.title.toLowerCase().includes(title)) &&
+          (!completed || comp.completed) &&
+          (!notCompleted || !comp.completed),
+      }))
     );
-};
+  };
 
-const updateFilter = (key, value) => {
+  const updateFilter = (key, value) => {
     filtersRef.current[key] = value;
     handleSearch();
-};
+  };
 
   const handleSaveTodo = () => {
     const newTodoTitle = newTodoRef.current.value.trim();
@@ -72,10 +79,33 @@ const updateFilter = (key, value) => {
     }
   };
 
-  // שמירת המשימות המסוננות במשתנה
-  const visibleTodos = useMemo(() => {
-    return todos?.filter((todo) => todo.isVisible) || [];
-  }, [todos]);
+  const handleChange = (event) => {
+    setSelectedOption(event.target.value);
+  };
+
+  const sortPage = (sortBy) => {
+    let sortedTodos;
+    switch (sortBy) {
+      case "Id":
+        sortedTodos = [...todos].sort((a, b) => parseInt(a.id) - parseInt(b.id));  // מיון לפי ID
+        break;
+      case "ABC":
+        sortedTodos = [...todos].sort((a, b) => a.title.localeCompare(b.title));  // מיון אלפביתי לפי כותרת
+        break;
+      case "Completed":
+        sortedTodos = [...todos].sort((a, b) => b.completed - a.completed);  // מיון לפי מצב השלם (completed)
+        break;
+      case "Randomaly":
+        sortedTodos = [...todos].sort(() => Math.random() - 0.5);  // מיון אקראי
+        break;
+      default:
+        sortedTodos = todos;
+        break;
+    }
+    setTodos(sortedTodos); // עדכון המערך הממויין
+  }
+  
+  
 
   return (
     <div>
@@ -115,7 +145,18 @@ const updateFilter = (key, value) => {
             </div>
           )}
         </div>
-
+        <div className="dropdown">
+          <select
+            value={selectedOption}
+            onChange={handleChange}
+            className="styled-select">
+            {options.map((option, index) => (
+              <option key={index} value={option} onClick={() => sortPage(option)}>
+                {option}
+              </option>
+            ))}
+          </select>
+        </div>
       </div>
       <div className="todos">
         {todos && todos.length > 0 ? (

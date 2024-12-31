@@ -81,7 +81,6 @@ function Albums() {
                 ref={(el) => (newAlbumRef.current["title"] = el)}
                 placeholder="Enter Album title"
               />
-              
               <button onClick={handleSaveAlbum}>Save</button>
               <button onClick={() => setShowModal(false)}>Cancel</button>
             </div>

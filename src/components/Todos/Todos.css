@@ -302,3 +302,49 @@ button:hover {
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
 }
 
+/* עיצוב פס הגלילה עבור ה-select */
+.styled-select {
+  width: 100%;
+  padding: 8px 15px;
+  background-color: #514869; /* צבע רקע של ה-select */
+  color: #f0ffffde; /* צבע טקסט */
+  border: 2px solid #2f2841; /* גבול כהה */
+  border-radius: 8px; /* פינות מעוגלות */
+  font-size: 16px;
+  font-weight: 600;
+  appearance: none; /* מסיר את העיצוב המובנה של הדפדפן */
+  outline: none; /* מסיר את קו ההדגשה */
+  transition: all 0.3s ease;
+}
+
+/* עיצוב פס הגלילה של ה-select */
+.styled-select::-webkit-scrollbar {
+  width: 10px; /* רוחב פס הגלילה */
+}
+
+.styled-select::-webkit-scrollbar-track {
+  background: #2f2841; /* צבע הרקע של המסילה */
+}
+
+.styled-select::-webkit-scrollbar-thumb {
+  background: #514869; /* צבע הידית של פס הגלילה */
+  border-radius: 5px; /* עיגול הפינות */
+}
+
+.styled-select::-webkit-scrollbar-thumb:hover {
+  background: #00ff88; /* צבע הידית בעת מעבר העכבר */
+}
+
+/* עיצוב ה-option בתוך ה-select */
+.styled-select option {
+  background-color: #514869; /* צבע רקע של כל אפשרות */
+  color: #f0ffffde; /* צבע טקסט */
+  padding: 8px 15px;
+  border-radius: 8px; /* פינות מעוגלות */
+}
+
+/* שינוי צבע בעת ריחוף על אפשרות */
+.styled-select option:hover {
+  background-color: #00ff88; /* צבע רקע בעת ריחוף */
+  color: #2b134b; /* צבע טקסט בעת ריחוף */
+}

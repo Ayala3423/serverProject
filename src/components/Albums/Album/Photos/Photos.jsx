@@ -67,26 +67,36 @@ function Photos() {
   const handleSavePhoto = () => {
     const newPhotoLength = newPhotoRef.current.LengthPixel.value.trim();
     const newPhotoWidth = newPhotoRef.current.WidthPixel.value.trim();
-    const newPhotoColor = newPhotoRef.current.Photocolor.value.trim();
+    const newPhotoColor = newPhotoRef.current.Photocolor.value.trim().replace("#", ""); // מסירים את ה-# מהקוד
     const newPhotoTitle = newPhotoRef.current.PhotoTitle.value.trim();
     const newId = photos.length ? JSON.stringify(JSON.parse(photos[photos.length - 1].id) + 1) : "1";
+  
     if (newPhotoLength && newPhotoWidth && newPhotoColor) {
       const newPhoto = {
-        userId: parseInt(userId, 10),
-        id: newId, // לדוגמה, יצירת ID חדש
-        title: newPhotoTitle
+        albumId: parseInt(albumId, 10),
+        id: newId,
+        title: newPhotoTitle,
+        url: `https://via.placeholder.com/${newPhotoWidth}x${newPhotoLength}/${newPhotoColor}`,
+        thumbnailUrl: `https://via.placeholder.com/150/${newPhotoColor}`,
       };
-
+  
       fetch('http://localhost:3000/photos', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(newPhoto),
       }).then(() => {
         setPhotos([...photos, { ...newPhoto, isVisible: true }]);
-        setShowModal(false); // סגירת ה-Modal
+        setShowModal(false);
+      })
+      .catch((error)=>{
+        console.error('Error adding photo:', error);
       });
+    } else {
+      alert("All fields must be filled out!");
     }
   };
+  
+
   return (
     <div className="photos-container">
       <div className="photos-header">
@@ -95,38 +105,39 @@ function Photos() {
         <div className="button-group">
           <button onClick={handleAddAlbum}>Add</button>
           {showModal && (
-            <div>
-              <label htmlFor="Photo-Title">Photo Title</label>
-              <input
-                type="text"
-                id="Photo-Title"
-                ref={(el) => (newPhotoRef.current["PhotoTitle"] = el)}
-                placeholder="Enter Photo Title"
-              />
-              <label htmlFor="Photo-Length-Pixel">Photo Length Pixel</label>
-              <input
-                type="number"
-                id="Length-Pixel"
-                ref={(el) => (newPhotoRef.current["LengthPixel"] = el)}
-                placeholder="Enter Photo Length Pixel"
-              />
-              <label htmlFor="Photo-Width-Pixel">Photo Width Pixel</label>
-              <input
-                type="number"
-                id="Width-Pixel"
-                ref={(el) => (newPhotoRef.current["WidthPixel"] = el)}
-                placeholder="Enter Photo Width Pixel"
-              />
-              <label htmlFor="Photo-Width-Pixel">Photo Color</label>
-              <input
-                type="color"
-                id="Photo-color"
-                ref={(el) => (newPhotoRef.current["Photocolor"] = el)}
-                placeholder="Enter Photo Color"
-              />
-
-              <button onClick={handleSavePhoto}>Save</button>
-              <button onClick={() => setShowModal(false)}>Cancel</button>
+            <div className="modal">
+              <div className="modal-content">
+                <label htmlFor="Photo-Title">Photo Title</label>
+                <input
+                  type="text"
+                  id="Photo-Title"
+                  ref={(el) => (newPhotoRef.current["PhotoTitle"] = el)}
+                  placeholder="Enter Photo Title"
+                />
+                <label htmlFor="Photo-Length-Pixel">Photo Length Pixel</label>
+                <input
+                  type="number"
+                  id="Length-Pixel"
+                  ref={(el) => (newPhotoRef.current["LengthPixel"] = el)}
+                  placeholder="Enter Photo Length Pixel"
+                />
+                <label htmlFor="Photo-Width-Pixel">Photo Width Pixel</label>
+                <input
+                  type="number"
+                  id="Width-Pixel"
+                  ref={(el) => (newPhotoRef.current["WidthPixel"] = el)}
+                  placeholder="Enter Photo Width Pixel"
+                />
+                <label htmlFor="Photo-Width-Pixel">Photo Color</label>
+                <input
+                  type="color"
+                  id="Photo-color"
+                  ref={(el) => (newPhotoRef.current["Photocolor"] = el)}
+                  placeholder="Enter Photo Color"
+                />
+                <button onClick={handleSavePhoto}>Save</button>
+                <button onClick={() => setShowModal(false)}>Cancel</button>
+              </div>
             </div>
           )}
         </div>
