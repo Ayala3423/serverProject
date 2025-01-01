@@ -41,14 +41,14 @@ function Comment({ id, email, name, body, setPostComments }) {
 
     return (
         <>
-            <h2>Id: {id}</h2>
+            <h3>Id: {id}</h3>
             {idEditing === id ? (
                 <input ref={titleRef} type="text" defaultValue={name} />
             ) : (
                 <>
-                    <h2>Email: {email}</h2>
-                    <h2>Title: {name}</h2>
-                    <h2>Body: {body}</h2>
+                    <p>Email: {email}</p>
+                    <p>Title: {name}</p>
+                    <p>Body: {body}</p>
                 </>
 
             )}
