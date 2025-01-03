@@ -56,10 +56,16 @@ function Post({ userId, postId, title, body, setPosts, posts }) {
     };
 
     const handleShowComments = () => {
-        fetch(`http://localhost:3000/comments/?postId=${postId}`)
-            .then((response) => response.json())
-            .then((data) => setPostComments(data));
-        setShowComments(true);
+        const getComments = async () => {
+            try {
+                const data = await getRequest('comments', 'postId', postId);
+                setPostComments(data);
+                setShowComments(true);
+            } catch (error) {
+                console.log(error);
+            }
+        }
+        getComments();
     };
 
     const handleCloseComments = () => {
@@ -158,7 +164,7 @@ function Post({ userId, postId, title, body, setPosts, posts }) {
                                         </div>
                                     </div>
                                 )}
-                            </div>                           
+                            </div>
                             <h3>Comments:</h3>
                             <div className="comments">
                                 {postComments ? (

@@ -2,6 +2,8 @@ import { useState, useEffect, useRef } from 'react';
 import './Posts.css';
 import Post from './Post/Post.jsx'
 import { useParams } from 'react-router-dom';
+import { getRequest } from '../../serverRequests.jsx';
+
 
 function Posts() {
     const { userId } = useParams();
@@ -12,12 +14,18 @@ function Posts() {
     const filtersRef = useRef({ search: '', id: '', title: '' });
 
     useEffect(() => {
-        fetch(`http://localhost:3000/posts/?userId=${userId}`)
-            .then((response) => response.json())
-            .then((data) => setPosts(data.map(item => ({
-                ...item,
-                isVisible: true,
-            }))));
+            const getPosts = async () => {
+              try {
+                const data = await getRequest('posts','userId',userId);
+                setPosts(data.map(item => ({
+                  ...item,          // שומר את כל השדות הקיימים באובייקט
+                  isVisible: true    // הוספת השדה החדש
+                })));
+              }catch(error){
+                console.log(error); 
+              }
+            }
+            getPosts();
     }, [userId]);
 
     const handleAddPost = () => {

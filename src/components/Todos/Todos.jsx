@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import './Todos.css';
 import Todo from './Todo/Todo.jsx';
 import { useParams } from 'react-router-dom';
+import { getRequest } from '../../serverRequests.jsx';
 
 function Todos() {
   const { userId } = useParams();
@@ -20,15 +21,18 @@ function Todos() {
   ];
 
   useEffect(() => {
-    fetch(`http://localhost:3000/todos/?userId=${userId}`)
-      .then((response) => response.json())
-      .then((data) => {
-        const updatedData = data.map((todo) => ({
-          ...todo,
-          isVisible: true,
-        }));
-        setTodos(updatedData);
-      });
+    const getTodos = async () => {
+      try {
+        const data = await getRequest('todos', 'userId', userId);
+        setTodos(data.map(item => ({
+          ...item,          // שומר את כל השדות הקיימים באובייקט
+          isVisible: true    // הוספת השדה החדש
+        })));
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    getTodos();
   }, [userId]);
 
   const handleAddTodo = () => {

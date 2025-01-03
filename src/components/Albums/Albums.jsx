@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from 'react'
 import './Albums.css'
 import Album from './Album/Album.jsx'
 import { BrowserRouter as Router, Route, Routes, useParams } from "react-router-dom";
+import { getRequest } from '../../serverRequests.jsx';
 
 function Albums() {
   const { userId } = useParams();
@@ -12,12 +13,18 @@ function Albums() {
   const filtersRef = useRef({ search: '', id: '', title: '' });
 
   useEffect(() => {
-    fetch(`http://localhost:3000/albums/?userId=${userId}`)
-      .then((response) => response.json())
-      .then((data) => setAlbums(data.map(item => ({
-        ...item, 
-        isVisible: true   
-      }))));
+    const getAlbums = async () => {
+      try {
+        const data = await getRequest('albums', 'userId', userId);
+        setAlbums(data.map(item => ({
+          ...item,          // שומר את כל השדות הקיימים באובייקט
+          isVisible: true    // הוספת השדה החדש
+        })));
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    getAlbums();
   }, [])
 
   const handleSearch = () => {
