@@ -34,7 +34,6 @@ function Posts() {
                 id: newId,
                 title: newPostTitle,
                 body: newPostBody,
-                isVisible: true,
             };
 
             fetch('http://localhost:3000/posts', {
@@ -42,9 +41,10 @@ function Posts() {
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(newPost),
             }).then(() => {
-                setPosts([...posts, newPost]);
-                setShowModal(false); // סגירת ה-Modal
+                setPosts([...posts, { ...newPost, isVisible: true }]);
+
             });
+            setShowModal(false); // סגירת ה-Modal
         }
     };
 
@@ -123,7 +123,7 @@ function Posts() {
                     posts.filter((post) => post.isVisible).length > 0 ? (
                         posts.filter((post) => post.isVisible).map((post) => (
                             <div key={post.id} className="post">
-                                <Post UserId={post.userId} id={post.id} title={post.title} body={post.body} setPosts={setPosts} posts={posts} />
+                                <Post UserId={post.userId} postId={post.id} title={post.title} body={post.body} setPosts={setPosts} posts={posts} />
                             </div>
                         ))
                     ) : (

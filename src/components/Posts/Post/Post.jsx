@@ -2,11 +2,14 @@ import { useState, useRef } from 'react';
 import './Post.css';
 import Comment from '../../Comment/Comment.jsx';
 
-function Post({ UserId, id, title, body, setPosts, posts }) {
+function Post({ UserId, postId, title, body, setPosts, posts }) {
     const [idEditing, setIdEditing] = useState(null);
     const [showDetails, setShowDetails] = useState(false);
     const [showComments, setShowComments] = useState(false);
     const [postComments, setPostComments] = useState(null);
+    const [showAddCommentModal, setShowAddCommentModal] = useState(false);
+    const newCommentRef = useRef({});
+
     const inputRefs = useRef({
         title: null,
         body: null,
@@ -64,23 +67,50 @@ function Post({ UserId, id, title, body, setPosts, posts }) {
         setShowComments(false);
     };
 
+
+    const handleAddComment = () => {
+        setShowAddCommentModal(prev => !prev);
+    };
+
+    const handleSaveComment = () => {
+        const newCommentName = newCommentRef.current.title.value.trim();
+        const newCommentBody = newCommentRef.current.body.value.trim();
+        const newId = postComments.length ? JSON.stringify(JSON.parse(postComments[postComments.length - 1].id) + 1) : "1";
+        if (newCommentName && newCommentBody) {
+            const newComment = {
+                postId: parseInt(postId, 10),
+                id: newId,
+                name: newCommentName,
+                email:JSON.parse(localStorage.getItem('currentUser')).email,
+                body: newCommentBody,
+            };
+
+            fetch('http://localhost:3000/comments', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(newComment),
+            }).then(() => {
+                setPostComments([...postComments, { ...newComment, isVisible: true }]);
+                setShowAddCommentModal(false); // סגירת ה-Modal
+            });
+        }
+    };
+
     return (
         <>
             <h2>Posted By: {UserId}</h2>
-            <h2>Id: {id}</h2>
+            <h2>Id: {postId}</h2>
             <h2>Title: {title}</h2>
             <button onClick={handleShowDetails}>More Details</button>
-
             {showDetails && (
                 <div className="details-modal">
                     <div className="modal-content">
                         <h2>Post Details</h2>
-
-                        <button onClick={() => handleDelete(id)}>Delete Post</button>
+                        <button onClick={() => handleDelete(postId)}>Delete Post</button>
                         <p><strong>Posted By:</strong> {UserId}</p>
-                        <p><strong>Id:</strong> {id}</p>
+                        <p><strong>Id:</strong> {postId}</p>
 
-                        {idEditing === id ? (
+                        {idEditing === postId ? (
                             <>
                                 <input ref={(el) => (inputRefs.current.title = el)} type="text" defaultValue={title} />
                                 <textarea ref={(el) => (inputRefs.current.body = el)} defaultValue={body} />
@@ -92,39 +122,62 @@ function Post({ UserId, id, title, body, setPosts, posts }) {
                             </>
                         )}
 
-                        {idEditing === id ? (
-                            <button onClick={() => handleEdit(id)}>Save</button>
+                        {idEditing === postId ? (
+                            <button onClick={() => handleEdit(postId)}>Save</button>
                         ) : (
-                            <button onClick={() => setIdEditing(id)}>Edit</button>
+                            <button onClick={() => setIdEditing(postId)}>Edit</button>
                         )}
 
-                        <button onClick={() => handleShowComments(id)}>Comments</button>
+                        <button onClick={() => handleShowComments(postId)}>Comments</button>
                         <button onClick={handleCloseDetails}>Close</button>
                     </div>
 
                     {showComments && (
-                        <div className="comments-modal">
-                            <div className="comments-modal-content">
-                                <button onClick={handleAddComment}>Add Comment</button>
-                                <h3>Comments:</h3>
-                                <div className="comments">
-                                    {postComments ? (
-                                        postComments.map((comment) => (
-                                            <Comment
-                                                key={comment.id}
-                                                id={comment.id}
-                                                email={comment.email}
-                                                name={comment.name}
-                                                body={comment.body}
-                                                setPostComments={setPostComments}
+                        <div className="comments-modal-content">
+                            <div className="button-group">
+                                <button onClick={handleAddComment}>Add</button>
+                                {showAddCommentModal && (
+                                    <div className="modal">
+                                        <div className="modal-content">
+                                            <h2>Add New Comment</h2>
+                                            <label htmlFor="comment-name">Comment Name</label>
+                                            <input
+                                                type="text"
+                                                id="comment-title"
+                                                ref={(el) => (newCommentRef.current["title"] = el)}
+                                                placeholder="Enter comment title"
                                             />
-                                        ))
-                                    ) : (
-                                        <h2>Loading comments...</h2>
-                                    )}
-                                </div>
-                                <button onClick={handleCloseComments}>Close Comments</button>
+                                            <label htmlFor="comment-content">Comment Content</label>
+                                            <textarea
+                                                id="comment-content"
+                                                ref={(el) => (newCommentRef.current["body"] = el)}
+                                                placeholder="Enter comment content"
+                                                rows="5"
+                                            ></textarea>
+                                            <button onClick={handleSaveComment}>Save</button>
+                                            <button onClick={() => setShowAddCommentModal(false)}>Cancel</button>
+                                        </div>
+                                    </div>
+                                )}
+                            </div>                           
+                            <h3>Comments:</h3>
+                            <div className="comments">
+                                {postComments ? (
+                                    postComments.map((comment) => (
+                                        <Comment
+                                            key={comment.id}
+                                            id={comment.id}
+                                            email={comment.email}
+                                            name={comment.name}
+                                            body={comment.body}
+                                            setPostComments={setPostComments}
+                                        />
+                                    ))
+                                ) : (
+                                    <h2>Loading comments...</h2>
+                                )}
                             </div>
+                            <button onClick={handleCloseComments}>Close Comments</button>
                         </div>
                     )}
                 </div>

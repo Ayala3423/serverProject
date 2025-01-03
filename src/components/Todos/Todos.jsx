@@ -73,7 +73,6 @@ function Todos() {
       }).then(() => {
         setTodos([...todos, { ...newTodo, isVisible: true }]);
         setShowModal(false);
-        setShowModal(false);
       });
     }
   };
@@ -106,8 +105,6 @@ function Todos() {
     }
     setTodos(sortedTodos); // עדכון המערך הממויין
   }
-
-
 
   return (
     <div>
@@ -150,7 +147,7 @@ function Todos() {
         <div className="dropdown">
           <select
             value={selectedOption}
-            onChange={handleChange} // קריאה ל-handleChange במקום onClick
+            onChange={handleChange}
             className="styled-select">
             {options.map((option, index) => (
               <option key={index} value={option}>
