@@ -3,7 +3,6 @@ import './Albums.css'
 import Album from './Album/Album.jsx'
 import { BrowserRouter as Router, Route, Routes, useParams } from "react-router-dom";
 
-
 function Albums() {
   const { userId } = useParams();
   const [albums, setAlbums] = useState(null);
@@ -16,8 +15,8 @@ function Albums() {
     fetch(`http://localhost:3000/albums/?userId=${userId}`)
       .then((response) => response.json())
       .then((data) => setAlbums(data.map(item => ({
-        ...item,          // שומר את כל השדות הקיימים באובייקט
-        isVisible: true    // הוספת השדה החדש
+        ...item, 
+        isVisible: true   
       }))));
   }, [])
 
@@ -122,8 +121,6 @@ function Albums() {
           <h2>Loading tasks...</h2>
         )}
       </div>
-
-
     </>
   )
 }

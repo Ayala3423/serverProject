@@ -75,7 +75,9 @@
 }
 
 /* חלונית התגובות */
-.comments-modal {
+.comments-modal-content {
+  max-height: 300px;
+  overflow-y: auto; /* גלילה פנימית לתגובות */
   margin-top: 20px;
   background: #1e1a2b;
   color: #f0ffff;
@@ -85,11 +87,6 @@
   width: 90%;
   max-width: 350px;
   z-index: 4000;
-}
-
-.comments-modal-content {
-  max-height: 300px;
-  overflow-y: auto; /* גלילה פנימית לתגובות */
 }
 
 .comments-modal-content h3 {
