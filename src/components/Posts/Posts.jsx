@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, useMemo } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import './Posts.css';
 import Post from './Post/Post.jsx'
 import { useParams } from 'react-router-dom';
@@ -123,7 +123,7 @@ function Posts() {
                     posts.filter((post) => post.isVisible).length > 0 ? (
                         posts.filter((post) => post.isVisible).map((post) => (
                             <div key={post.id} className="post">
-                                <Post UserId={post.userId} postId={post.id} title={post.title} body={post.body} setPosts={setPosts} posts={posts} />
+                                <Post userId={post.userId} postId={post.id} title={post.title} body={post.body} setPosts={setPosts} posts={posts} />
                             </div>
                         ))
                     ) : (

@@ -2,14 +2,13 @@ import { useState, useRef } from 'react';
 import './Post.css';
 import Comment from '../../Comment/Comment.jsx';
 
-function Post({ UserId, postId, title, body, setPosts, posts }) {
+function Post({ userId, postId, title, body, setPosts, posts }) {
     const [idEditing, setIdEditing] = useState(null);
     const [showDetails, setShowDetails] = useState(false);
     const [showComments, setShowComments] = useState(false);
     const [postComments, setPostComments] = useState(null);
     const [showAddCommentModal, setShowAddCommentModal] = useState(false);
     const newCommentRef = useRef({});
-
     const inputRefs = useRef({
         title: null,
         body: null,
@@ -56,7 +55,7 @@ function Post({ UserId, postId, title, body, setPosts, posts }) {
         setShowComments(false); // סגירת התגובות כשסוגרים את החלונית
     };
 
-    const handleShowComments = (postId) => {
+    const handleShowComments = () => {
         fetch(`http://localhost:3000/comments/?postId=${postId}`)
             .then((response) => response.json())
             .then((data) => setPostComments(data));
@@ -66,7 +65,6 @@ function Post({ UserId, postId, title, body, setPosts, posts }) {
     const handleCloseComments = () => {
         setShowComments(false);
     };
-
 
     const handleAddComment = () => {
         setShowAddCommentModal(prev => !prev);
@@ -81,7 +79,7 @@ function Post({ UserId, postId, title, body, setPosts, posts }) {
                 postId: parseInt(postId, 10),
                 id: newId,
                 name: newCommentName,
-                email:JSON.parse(localStorage.getItem('currentUser')).email,
+                email: JSON.parse(localStorage.getItem('currentUser')).email,
                 body: newCommentBody,
             };
 
@@ -98,16 +96,17 @@ function Post({ UserId, postId, title, body, setPosts, posts }) {
 
     return (
         <>
-            <h2>Posted By: {UserId}</h2>
+            <h2>Posted By: {userId}</h2>
             <h2>Id: {postId}</h2>
             <h2>Title: {title}</h2>
             <button onClick={handleShowDetails}>More Details</button>
+
             {showDetails && (
                 <div className="details-modal">
                     <div className="modal-content">
                         <h2>Post Details</h2>
                         <button onClick={() => handleDelete(postId)}>Delete Post</button>
-                        <p><strong>Posted By:</strong> {UserId}</p>
+                        <p><strong>Posted By:</strong> {userId}</p>
                         <p><strong>Id:</strong> {postId}</p>
 
                         {idEditing === postId ? (
@@ -128,7 +127,7 @@ function Post({ UserId, postId, title, body, setPosts, posts }) {
                             <button onClick={() => setIdEditing(postId)}>Edit</button>
                         )}
 
-                        <button onClick={() => handleShowComments(postId)}>Comments</button>
+                        <button onClick={handleShowComments}>Comments</button>
                         <button onClick={handleCloseDetails}>Close</button>
                     </div>
 

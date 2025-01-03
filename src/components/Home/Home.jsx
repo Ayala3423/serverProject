@@ -82,7 +82,7 @@ function Home() {
             allPosts.filter((post) => post.isVisible).length > 0 ? (
               allPosts.filter((post) => post.isVisible).map((post) => (
                 <div key={post.id} className="post">
-                  <Post UserId={post.userId} id={post.id} title={post.title} body={post.body} setPosts={setAllPosts} posts={allPosts} />
+                  <Post userId={post.userId} postId={post.id} title={post.title} body={post.body} setPosts={setAllPosts} posts={allPosts} />
                 </div>
               ))
             ) : (
