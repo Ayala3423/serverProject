@@ -2,11 +2,10 @@ import { useState, useEffect, useRef, useMemo } from 'react';
 import './Posts.css';
 import Post from './Post/Post.jsx'
 import { useParams } from 'react-router-dom';
-import Search from '../Search/Search.jsx'
 
 function Posts() {
-    const { userId } = useParams(); // קבלת ה-userId מה-URL
-    const [posts, setPosts] = useState(null); // שימוש בקונטקסט לפוסטים
+    const { userId } = useParams();
+    const [posts, setPosts] = useState(null);
     const [showModal, setShowModal] = useState(false);
     const newPostRef = useRef({});
     const [showFilterModal, setShowFilterModal] = useState(false);
@@ -17,7 +16,7 @@ function Posts() {
             .then((response) => response.json())
             .then((data) => setPosts(data.map(item => ({
                 ...item,
-                isVisible: true, // הוספת השדה החדש
+                isVisible: true,
             }))));
     }, [userId]);
 
@@ -70,48 +69,53 @@ function Posts() {
     return (
         <>
             <h1>Posts</h1>
+
             <div className="button-group">
-                <button onClick={handleAddPost}>Add</button>
-                {showModal && (
-                    <div className="modal">
-                        <div className="modal-content">
-                            <h2>Add New Post</h2>
-                            <label htmlFor="post-title">Post Title</label>
-                            <input
-                                type="text"
-                                id="post-title"
-                                ref={(el) => (newPostRef.current["title"] = el)}
-                                placeholder="Enter post title"
-                            />
-                            <label htmlFor="post-content">Post Content</label>
-                            <textarea
-                                id="post-content"
-                                ref={(el) => (newPostRef.current["body"] = el)}
-                                placeholder="Enter post content"
-                                rows="5"
-                            ></textarea>
-                            <button onClick={handleSavePost}>Save</button>
-                            <button onClick={() => setShowModal(false)}>Cancel</button>
+
+                <div className='addPost'>
+                    <button onClick={handleAddPost}>Add</button>
+                    {showModal && (
+                        <div className="modal">
+                            <div className="modal-content">
+                                <h2>Add New Post</h2>
+                                <label htmlFor="post-title">Post Title</label>
+                                <input
+                                    type="text"
+                                    id="post-title"
+                                    ref={(el) => (newPostRef.current["title"] = el)}
+                                    placeholder="Enter post title"
+                                />
+                                <label htmlFor="post-content">Post Content</label>
+                                <textarea
+                                    id="post-content"
+                                    ref={(el) => (newPostRef.current["body"] = el)}
+                                    placeholder="Enter post content"
+                                    rows="5"
+                                ></textarea>
+                                <button onClick={handleSavePost}>Save</button>
+                                <button onClick={() => setShowModal(false)}>Cancel</button>
+                            </div>
                         </div>
-                    </div>
-                )}
-            </div>
-            {/* <Search setComponent={setPosts} /> */}
-            <div>
-                <div className="search-bar">
-                    <input type="text" placeholder="Search..." onChange={(e) => updateFilter('search', e.target.value.toLowerCase())} />
-                    <button onClick={() => setShowFilterModal(true)}>Filters</button>
+                    )}
                 </div>
-                {showFilterModal && (
-                    <div className="modal">
-                        <div className="modal-content">
-                            <h2>Advanced Filters</h2>
-                            <input type="text" placeholder="Filter by ID" onChange={(e) => updateFilter('id', e.target.value)} />
-                            <input type="text" placeholder="Filter by Title" onChange={(e) => updateFilter('title', e.target.value.toLowerCase())} />
-                            <button onClick={() => setShowFilterModal(false)}>Close</button>
-                        </div>
+
+                <div className='searchPost'>
+                    <div className="search-bar">
+                        <input type="text" placeholder="Search..." onChange={(e) => updateFilter('search', e.target.value.toLowerCase())} />
+                        <button onClick={() => setShowFilterModal(true)}>Filters</button>
                     </div>
-                )}
+                    {showFilterModal && (
+                        <div className="modal">
+                            <div className="modal-content">
+                                <h2>Advanced Filters</h2>
+                                <input type="text" placeholder="Filter by ID" onChange={(e) => updateFilter('id', e.target.value)} />
+                                <input type="text" placeholder="Filter by Title" onChange={(e) => updateFilter('title', e.target.value.toLowerCase())} />
+                                <button onClick={() => setShowFilterModal(false)}>Close</button>
+                            </div>
+                        </div>
+                    )}
+                </div>
+
             </div>
 
             <div className="posts">
@@ -129,6 +133,7 @@ function Posts() {
                     <h2>Loading tasks...</h2>
                 )}
             </div>
+
         </>
     );
 }

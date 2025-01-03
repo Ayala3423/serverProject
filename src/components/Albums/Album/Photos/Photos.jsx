@@ -14,6 +14,10 @@ function Photos() {
   const titleRef = useRef();
   const limit = 10;
 
+  useEffect(() => {
+    if (photos.length === 0) loadPhotos();
+  }, [photos.length]);
+
   const loadPhotos = () => {
     setLoading(true);
     const start = (page - 1) * limit;
@@ -27,10 +31,6 @@ function Photos() {
       })
       .finally(() => setLoading(false));
   };
-
-  useEffect(() => {
-    if (photos.length === 0) loadPhotos();
-  }, [photos.length]);
 
   const handleDelete = (idToDelete) => {
     fetch(`http://localhost:3000/photos/${idToDelete}`, {
@@ -60,6 +60,7 @@ function Photos() {
       setIdEditing(null);
     });
   };
+
   const handleAddAlbum = () => {
     setShowModal(prev => !prev);
   };
@@ -96,9 +97,9 @@ function Photos() {
     }
   };
   
-
   return (
     <div className="photos-container">
+
       <div className="photos-header">
         <h1 className="AlbumTitle">Album {albumId}</h1>
         <h2>Photos</h2>
@@ -142,6 +143,7 @@ function Photos() {
           )}
         </div>
       </div>
+
       <div className="photos-grid">
         {photos.map((photo) => (
           <div key={photo.id} className="photo-item">
@@ -166,6 +168,7 @@ function Photos() {
           Load More
         </button>
       ) : <p>No More Photos</p>}
+      
     </div>
   );
 }

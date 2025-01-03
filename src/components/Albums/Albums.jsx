@@ -64,32 +64,34 @@ function Albums() {
       });
     }
   };
-  
+
   return (
     <>
       <h1>Albums</h1>
+      
       <div className="button-group">
-        <button onClick={handleAddAlbum}>Add</button>
-        {showModal && (
-          <div className="modal">
-            <div className="modal-content">
-              <h2>Add NewAlbum</h2>
-              <label htmlFor="Album-title">Album Title</label>
-              <input
-                type="text"
-                id="Album-title"
-                ref={(el) => (newAlbumRef.current["title"] = el)}
-                placeholder="Enter Album title"
-              />
-              <button onClick={handleSaveAlbum}>Save</button>
-              <button onClick={() => setShowModal(false)}>Cancel</button>
-            </div>
-          </div>
-        )}
-      </div>
 
-      <div className='albums'>
-        <div>
+        <div className='addAlbum'>
+          <button onClick={handleAddAlbum}>Add</button>
+          {showModal && (
+            <div className="modal">
+              <div className="modal-content">
+                <h2>Add NewAlbum</h2>
+                <label htmlFor="Album-title">Album Title</label>
+                <input
+                  type="text"
+                  id="Album-title"
+                  ref={(el) => (newAlbumRef.current["title"] = el)}
+                  placeholder="Enter Album title"
+                />
+                <button onClick={handleSaveAlbum}>Save</button>
+                <button onClick={() => setShowModal(false)}>Cancel</button>
+              </div>
+            </div>
+          )}
+        </div>
+
+        <div className='searchAlbum'>
           <div className="search-bar">
             <input type="text" placeholder="Search..." onChange={(e) => updateFilter('search', e.target.value.toLowerCase())} />
             <button onClick={() => setShowFilterModal(true)}>Filters</button>
@@ -105,9 +107,10 @@ function Albums() {
             </div>
           )}
         </div>
+
       </div>
 
-      <div className="allAlbums">
+      <div className="albums">
         {albums && albums.length > 0 ? (
           albums.filter((album) => album.isVisible).length > 0 ? (
             albums.filter((album) => album.isVisible).map((album) => (
@@ -122,7 +125,6 @@ function Albums() {
           <h2>Loading tasks...</h2>
         )}
       </div>
-
 
     </>
   )

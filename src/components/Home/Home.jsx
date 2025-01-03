@@ -2,7 +2,6 @@ import { useState, useEffect, useRef } from 'react';
 import Post from '../Posts/Post/Post.jsx';
 import { Link, useParams, Outlet, useNavigate } from 'react-router-dom';
 import './Home.css';
-import Search from '../Search/Search.jsx'
 
 function Home() {
   const { userId } = useParams();
@@ -48,6 +47,7 @@ function Home() {
 
   return (
     <div className='homePage'>
+
       <header className="header">
         {currentUser ? (
           <div className="profile">
@@ -58,9 +58,10 @@ function Home() {
         )}
         <Link to={`/home/users/${userId}`} onClick={() => setShowAllPosts(true)} className='homeLink'>Home</Link><br />
       </header>
+
       {showAllPosts && <div className='posts'>
         <h1>All Posts</h1>
-        <div>
+        <div className='searchPost'>
           <div className="search-bar">
             <input type="text" placeholder="Search..." onChange={(e) => updateFilter('search', e.target.value.toLowerCase())} />
             <button onClick={() => setShowFilterModal(true)}>Filters</button>
@@ -92,6 +93,7 @@ function Home() {
           )}
         </div>
       </div>}
+
       <nav>
         <Link to={`/home/users/${userId}/albums`} onClick={() => setShowAllPosts(false)}>albums</Link><br />
         <Link to={`/home/users/${userId}/posts`} onClick={() => setShowAllPosts(false)}>posts</Link><br />
@@ -100,6 +102,7 @@ function Home() {
         <button id="logOutBtn" onClick={handleLogOut}>Log Out</button>
       </nav>
       <Outlet />
+      
     </div>
   );
 }
