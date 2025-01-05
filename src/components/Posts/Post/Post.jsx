@@ -1,6 +1,8 @@
 import { useState, useRef } from 'react';
 import './Post.css';
 import Comment from '../../Comment/Comment.jsx';
+import { getRequest, deleteRequest, updateRequest, createRequest } from '../../../ServerRequests.jsx'
+
 
 function Post({ userId, postId, title, body, setPosts, posts }) {
     const [idEditing, setIdEditing] = useState(null);
@@ -14,36 +16,57 @@ function Post({ userId, postId, title, body, setPosts, posts }) {
         body: null,
     });
 
-    const handleDelete = (idToDelete) => {
-        fetch(`http://localhost:3000/posts/${idToDelete}`, {
-            method: 'DELETE',
-        }).then(() => {
-            setPosts((prev) => prev.filter((item) => item.id !== idToDelete));
-        });
+    const checkAuthorization = () => {
+        const currentUserId = JSON.parse(localStorage.getItem('currentUser')).id;
+        if (userId === (JSON.parse(currentUserId))) {
+            return true;
+        } else {
+            alert('You are not authorized to perform this action!');
+            return false;
+        }
     };
 
-    const handleEdit = (idToEdit) => {
+    const handleDelete = () => {
+        if (checkAuthorization()) {
+            (async () => {
+                try {
+                    await deleteRequest('posts', postId);
+                    setPosts((prev) => prev.filter((item) => item.id !== postId));
+                } catch (error) {
+                    console.log(error);
+                }
+            })()
+        }
+    };
+
+    const handleEdit = () => {
         const updatedTitle = inputRefs.current.title?.value.trim();
         const updatedBody = inputRefs.current.body?.value.trim();
         if (!updatedTitle || !updatedBody) {
             alert('Title and Body cannot be empty');
             return;
         }
+        (async () => {
+            try {
+                await updateRequest('posts', postId, { title: updatedTitle, body: updatedBody });
+                setPosts(
+                    posts.map((post) =>
+                        post.id === postId
+                            ? { ...post, title: updatedTitle, body: updatedBody }
+                            : post
+                    )
+                );
+                setIdEditing(null);
+            } catch (error) {
+                console.log(error);
+            }
+        })();
+    };
 
-        fetch(`http://localhost:3000/posts/${idToEdit}`, {
-            method: 'PATCH',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ title: updatedTitle, body: updatedBody }),
-        }).then(() => {
-            setPosts(
-                posts.map((post) =>
-                    post.id === idToEdit
-                        ? { ...post, title: updatedTitle, body: updatedBody }
-                        : post
-                )
-            );
-            setIdEditing(null);
-        });
+    const handleEditClick = () => {
+        if (checkAuthorization()) {
+            setIdEditing(postId);
+        }
     };
 
     const handleShowDetails = () => {
@@ -88,15 +111,15 @@ function Post({ userId, postId, title, body, setPosts, posts }) {
                 email: JSON.parse(localStorage.getItem('currentUser')).email,
                 body: newCommentBody,
             };
-
-            fetch('http://localhost:3000/comments', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(newComment),
-            }).then(() => {
-                setPostComments([...postComments, { ...newComment, isVisible: true }]);
-                setShowAddCommentModal(false); // סגירת ה-Modal
-            });
+            (async () => {
+                try {
+                    const data=await createRequest('comments', newComment);
+                    setPostComments([...postComments, { ...data, isVisible: true }]);
+                    setShowAddCommentModal(false); // סגירת ה-Modal
+                } catch (error) {
+                    console.log(error);
+                }
+            })()
         }
     };
 
@@ -111,7 +134,7 @@ function Post({ userId, postId, title, body, setPosts, posts }) {
                 <div className="details-modal">
                     <div className="modal-content">
                         <h2>Post Details</h2>
-                        <button onClick={() => handleDelete(postId)}>Delete Post</button>
+                        <button onClick={handleDelete}>Delete Post</button>
                         <p><strong>Posted By:</strong> {userId}</p>
                         <p><strong>Id:</strong> {postId}</p>
 
@@ -128,9 +151,9 @@ function Post({ userId, postId, title, body, setPosts, posts }) {
                         )}
 
                         {idEditing === postId ? (
-                            <button onClick={() => handleEdit(postId)}>Save</button>
+                            <button onClick={handleEdit}>Save</button>
                         ) : (
-                            <button onClick={() => setIdEditing(postId)}>Edit</button>
+                            <button onClick={handleEditClick}>Edit</button>
                         )}
 
                         <button onClick={handleShowComments}>Comments</button>

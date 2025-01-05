@@ -1,52 +1,56 @@
 import { useState, useRef } from 'react';
 import './Todo.css';
+import { deleteRequest, updateRequest } from '../../../ServerRequests'
 
 function Todo({ id, title, completed, setTodos, todos }) {
     const [idEditing, setIdEditing] = useState(null);
     const titleRef = useRef();
 
-
-    const handleDelete = (idToDelete) => {
-        fetch(`http://localhost:3000/todos/${idToDelete}`, {
-            method: 'DELETE',
-        }).then(() => {
-            setTodos((prev) => prev.filter((item) => item.id !== idToDelete));
-        });
+    const handleDelete = () => {
+        (async () => {
+            try {
+                await deleteRequest('todos', id);
+                setTodos((prev) => prev.filter((item) => item.id !== id));
+            } catch (error) {
+                console.log(error);
+            }
+        })()
     };
 
-    const handleEdit = (idToEdit) => {
+    const handleEdit = () => {
         const updatedTitle = titleRef.current?.value.trim();
         if (!updatedTitle) {
             alert('Title cannot be empty');
             return;
         }
-        fetch(`http://localhost:3000/todos/${idToEdit}`, {
-            method: 'PATCH',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ title: updatedTitle }),
-        }).then(() => {
-            setTodos(
-                todos.map((todo) =>
-                    todo.id === idToEdit ? { ...todo, title: updatedTitle } : todo
-                )
-            );
-            setIdEditing(null);
-        });
+        (async () => {
+            try {
+                await updateRequest('todos', id, { title: updatedTitle });
+                setTodos(
+                    todos.map((todo) =>
+                        todo.id === id ? { ...todo, title: updatedTitle } : todo
+                    )
+                );
+                setIdEditing(null);
+            } catch (error) {
+                console.log(error);
+            }
+        })()
     };
 
-    const handleCheckbox = (id, currentValue) => {
-        const updatedValue = !currentValue;
-        fetch(`http://localhost:3000/todos/${id}`, {
-            method: 'PATCH',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ completed: updatedValue }),
-        }).then(() => {
-            setTodos(
-                todos.map((todo) =>
-                    todo.id === id ? { ...todo, completed: updatedValue } : todo
-                )
-            );
-        });
+    const handleCheckbox = (currentValue) => {
+        (async () => {
+            try {
+                await updateRequest('todos', id, { completed: !currentValue });
+                setTodos(
+                    todos.map((todo) =>
+                        todo.id === id ? { ...todo, completed: !currentValue } : todo
+                    )
+                );
+            } catch (error) {
+                console.log(error);
+            }
+        })()
     };
 
     return (
@@ -55,11 +59,11 @@ function Todo({ id, title, completed, setTodos, todos }) {
                 <span className="todo-id">Id: {id}</span>
                 <div className="todo-buttons">
                     {idEditing === id ? (
-                        <button onClick={() => handleEdit(id)}>Save</button>
+                        <button onClick={handleEdit}>Save</button>
                     ) : (
                         <button onClick={() => setIdEditing(id)}>Edit</button>
                     )}
-                    <button onClick={() => handleDelete(id)}>Delete</button>
+                    <button onClick={handleDelete}>Delete</button>
                 </div>
             </div>
             <div className="todo-title">
@@ -74,7 +78,7 @@ function Todo({ id, title, completed, setTodos, todos }) {
                     <input
                         type="checkbox"
                         checked={completed}
-                        onChange={() => handleCheckbox(id, completed)}
+                        onChange={() => handleCheckbox(completed)}
                         readOnly
                     />
                     Completed

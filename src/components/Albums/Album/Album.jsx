@@ -1,5 +1,6 @@
 import { useState, useRef } from 'react';
 import { BrowserRouter as Router, Route, Routes, Link, useParams } from "react-router-dom";
+import { deleteRequest, updateRequest } from '../../../ServerRequests'
 import './Album.css';
 
 function Album({ albumId, title, setAlbums, albums }) {
@@ -7,33 +8,36 @@ function Album({ albumId, title, setAlbums, albums }) {
     const [idEditing, setIdEditing] = useState(null);
     const titleRef = useRef();
 
-    const handleDelete = (idToDelete) => {
-        fetch(`http://localhost:3000/albums/${idToDelete}`, {
-            method: 'DELETE',
-        }).then(() => {
-            setAlbums((prev) => prev.filter((item) => item.id !== idToDelete));
-        });
+    const handleDelete = () => {
+        (async () => {
+            try {
+                await deleteRequest('albums', albumId);
+                setAlbums((prev) => prev.filter((item) => item.id !== albumId));
+            } catch (error) {
+                console.log(error);
+            }
+        })();
     };
 
-    const handleEdit = (idToEdit) => {
+    const handleEdit = () => {
         const updatedTitle = titleRef.current?.value.trim();
         if (!updatedTitle) {
             alert('Title cannot be empty');
             return;
         }
-
-        fetch(`http://localhost:3000/albums/${idToEdit}`, {
-            method: 'PATCH',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ title: updatedTitle }),
-        }).then(() => {
-            setAlbums(
-                albums.map((album) =>
-                    album.id === idToEdit ? { ...album, title: updatedTitle } : album
-                )
-            );
-            setIdEditing(null);
-        });
+        (async () => {
+            try {
+                await updateRequest('albums', albumId, { title: updatedTitle });
+                setAlbums(
+                    albums.map((album) =>
+                        album.id === albumId ? { ...album, title: updatedTitle } : album
+                    )
+                );
+                setIdEditing(null);
+            } catch (error) {
+                console.log(error);
+            }
+        })();
     };
 
     return (
@@ -42,11 +46,11 @@ function Album({ albumId, title, setAlbums, albums }) {
                 <span className="album-id">Id: {albumId}</span>
                 <div className="album-buttons">
                     {idEditing === albumId ? (
-                        <button onClick={() => handleEdit(albumId)}>Save</button>
+                        <button onClick={handleEdit}>Save</button>
                     ) : (
                         <button onClick={() => setIdEditing(albumId)}>Edit</button>
                     )}
-                    <button onClick={() => handleDelete(albumId)}>Delete</button>
+                    <button onClick={handleDelete}>Delete</button>
                     <Link to={`/home/users/${userId}/albums/${albumId}/photos`} className='photosLink'>More Details</Link>
                 </div>
             </div>

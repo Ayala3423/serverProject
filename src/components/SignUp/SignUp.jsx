@@ -1,14 +1,13 @@
 import { useState, useRef, useEffect } from 'react';
 import './SignUp.css';
 import { BrowserRouter as Router, Route, Routes, Link, useNavigate, useLocation } from "react-router-dom";
+import { getRequest, createRequest } from '../../ServerRequests'
 
 export default function SignUp() {
     const navigate = useNavigate();
     const [step, setStep] = useState(1); // שליטה על שלב הטופס
-    const [users, setUsers] = useState([]);
     const fieldsRef = useRef({});
     const [formData, setFormData] = useState({
-        id: '',
         name: '',
         username: '',
         email: '',
@@ -31,40 +30,37 @@ export default function SignUp() {
         },
     });
 
-    useEffect(() => {
-        fetch('http://localhost:3000/users')
-            .then((response) => response.json())
-            .then((data) => setUsers(data));
-    }, []);
+    const verifyUser = async (name, password, verifyPassword) => {
+        try {
+            const data = await getRequest('users', 'username', name);
+            if (data[0]) {
+                alert('You already have an account');
+            }
+            else if (password !== verifyPassword) {
+                alert('Passwords do not match');
+                return;
+            } 
+            else{
+                setFormData({ ...formData, username: name, website: password });
+                setStep(2);            
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    }
 
     const handleFirstStep = (e) => {
         e.preventDefault();
         const userName = fieldsRef.current.name.value;
         const password = fieldsRef.current.password.value;
         const verifyPassword = fieldsRef.current.verifyPassword.value;
-
-        const foundUser = users.find(user => user.username === userName);
-        if (foundUser) {
-            alert('You already have an account');
-            return;
-        }
-
-        if (password !== verifyPassword) {
-            alert('Passwords do not match');
-            return;
-        }
-
-        // שמירת הנתונים מהשלב הראשון והמעבר לשלב השני
-        setFormData({ ...formData, username: userName, website: password });
-        setStep(2);
+        verifyUser(userName, password, verifyPassword)
     };
 
     const handleSecondStep = (e) => {
         e.preventDefault();
-        // שליפת נתונים נוספים מהטופס השני
         const updatedFormData = {
             ...formData,
-            id: JSON.stringify(JSON.parse(users[users.length - 1].id) + 1), // לדוגמה, יצירת ID חדש
             name: fieldsRef.current.name.value,
             email: fieldsRef.current.email.value,
             address: {
@@ -84,14 +80,15 @@ export default function SignUp() {
                 bs: fieldsRef.current.bs.value,
             },
         };
-        fetch('http://localhost:3000/users', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(updatedFormData),
-        }).then(() => {
-            localStorage.setItem('currentUser', JSON.stringify(updatedFormData));
-            navigate(`/home/users/${updatedFormData.id}`);
-        });
+        (async () => {
+            try {
+                const data=await createRequest('users', updatedFormData);
+                localStorage.setItem('currentUser', JSON.stringify(data));
+                navigate(`/home/users/${data.id}`);
+            } catch (error) {
+                console.log(error);
+            }
+        })()
     };
 
     return (

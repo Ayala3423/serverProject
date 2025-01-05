@@ -1,29 +1,31 @@
 import { useState, useRef, useEffect } from 'react'
 import './Login.css'
 import { BrowserRouter as Router, Route, Routes, Link, useNavigate, useLocation } from "react-router-dom";
-
+import { getRequest } from '../../ServerRequests'
 
 export default function Login() {
     const fieldsRef = useRef({});
     const navigate = useNavigate();
-    let users;
-    useEffect(() => {
-        fetch('http://localhost:3000/users')
-            .then((response) => response.json())
-            .then((data) => { users = data })
-    }, [])
+
+    const verifyUser = async (name, password) => {
+        try {
+            const data = await getRequest('users', 'username', name);
+            if (data[0].website === password) {
+                localStorage.setItem('currentUser', JSON.stringify(data[0]));
+                navigate(`/home/users/${data[0].id}`);
+            }
+            else {
+                alert('one or more of the details is incorrect');
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    }
 
     const handleSubmit = (e) => {
         const name = fieldsRef.current.name.value;
         const password = fieldsRef.current.password.value;
-        const foundUser = users.find(user => user.username === name && user.website === password);
-        if (!foundUser) {
-            alert('one or more of the details is incorrect');
-        }
-        else {
-            localStorage.setItem('currentUser', JSON.stringify(foundUser));
-            navigate(`/home/users/${foundUser.id}`);
-        }
+        verifyUser(name, password);
     }
 
     return (

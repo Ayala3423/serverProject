@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { useParams } from "react-router-dom";
 import "./Photos.css";
+import { deleteRequest, createRequest, updateRequest } from '../../../../ServerRequests';
 
 function Photos() {
   const [idEditing, setIdEditing] = useState(null);
@@ -11,6 +12,9 @@ function Photos() {
   const newPhotoRef = useRef({});
   const [loading, setLoading] = useState(false);
   const [hasMore, setHasMore] = useState(true);
+  const [isEditing, setIsEditing] = useState(false);
+  const [photoToEdit, setPhotoToEdit] = useState(null);
+
   const titleRef = useRef();
   const limit = 10;
 
@@ -21,7 +25,6 @@ function Photos() {
   const loadPhotos = () => {
     setLoading(true);
     const start = (page - 1) * limit;
-
     fetch(`http://localhost:3000/photos?albumId=${albumId}&_start=${start}&_limit=${limit}`)
       .then((response) => response.json())
       .then((data) => {
@@ -33,33 +36,63 @@ function Photos() {
   };
 
   const handleDelete = (idToDelete) => {
-    fetch(`http://localhost:3000/photos/${idToDelete}`, {
-      method: 'DELETE',
-    }).then(() => {
-      setPhotos((prev) => prev.filter((item) => item.id !== idToDelete));
-    });
+    (async () => {
+      try {
+        await deleteRequest('photos', idToDelete);
+        setPhotos((prev) => prev.filter((item) => item.id !== idToDelete));
+      } catch (error) {
+        console.log(error);
+      }
+    })();
   };
 
-  const handleEdit = (idToEdit) => {
-    const updatedTitle = titleRef.current?.value.trim();
-    if (!updatedTitle) {
-      alert('Title cannot be empty');
-      return;
+  const handleEdit = (photoToEdit) => {
+    alert(JSON.stringify(photoToEdit));
+    setPhotoToEdit(photoToEdit);
+    
+    // newPhotoRef.current["PhotoTitle"].value = photoToEdit.title;
+    // newPhotoRef.current["LengthPixel"].value = photoToEdit.url.split("/")[4].split("x")[1]; // אורך
+    // newPhotoRef.current["WidthPixel"].value = photoToEdit.url.split("/")[4].split("x")[0];  // רוחב
+    // newPhotoRef.current["Photocolor"].value = `#${photoToEdit.url.split("/")[5]}`; // צבע
+    setIsEditing(true);
+    setIdEditing(photoToEdit.id);
+    setShowModal(true);
+  };
+  
+  const handleSaveEditPhoto = () => {
+    const updatedLength = newPhotoRef.current.LengthPixel.value.trim();
+    const updatedWidth = newPhotoRef.current.WidthPixel.value.trim();
+    const updatedColor = newPhotoRef.current.Photocolor.value.trim().replace("#", ""); // מסירים את ה-#
+    const updatedTitle = newPhotoRef.current.PhotoTitle.value.trim();
+  
+    if (updatedLength && updatedWidth && updatedColor && updatedTitle) {
+      const updatedPhoto = {
+        title: updatedTitle,
+        url: `https://via.placeholder.com/${updatedWidth}x${updatedLength}/${updatedColor}`,
+        thumbnailUrl: `https://via.placeholder.com/150/${updatedColor}`,
+      };
+  
+      (async () => {
+        try {
+          await updateRequest('photos', idEditing, updatedPhoto);
+          setPhotos(
+            photos.map((photo) =>
+              photo.id === idEditing
+                ? { ...photo, ...updatedPhoto }
+                : photo
+            )
+          );
+          setIdEditing(null);
+          setShowModal(false);
+        } catch (error) {
+          console.log(error);
+        }
+      })();
+    } else {
+      alert("All fields must be filled out!");
     }
-
-    fetch(`http://localhost:3000/photos/${idToEdit}`, {
-      method: 'PATCH',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ title: updatedTitle }),
-    }).then(() => {
-      setPhotos(
-        photos.map((photo) =>
-          photo.id === idToEdit ? { ...photo, title: updatedTitle } : photo
-        )
-      );
-      setIdEditing(null);
-    });
   };
+  
 
   const handleAddAlbum = () => {
     setShowModal(prev => !prev);
@@ -70,36 +103,30 @@ function Photos() {
     const newPhotoWidth = newPhotoRef.current.WidthPixel.value.trim();
     const newPhotoColor = newPhotoRef.current.Photocolor.value.trim().replace("#", ""); // מסירים את ה-# מהקוד
     const newPhotoTitle = newPhotoRef.current.PhotoTitle.value.trim();
-    const newId = photos.length ? JSON.stringify(JSON.parse(photos[photos.length - 1].id) + 1) : "1";
-  
+
     if (newPhotoLength && newPhotoWidth && newPhotoColor) {
       const newPhoto = {
         albumId: parseInt(albumId, 10),
-        id: newId,
         title: newPhotoTitle,
         url: `https://via.placeholder.com/${newPhotoWidth}x${newPhotoLength}/${newPhotoColor}`,
         thumbnailUrl: `https://via.placeholder.com/150/${newPhotoColor}`,
       };
-  
-      fetch('http://localhost:3000/photos', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(newPhoto),
-      }).then(() => {
-        setPhotos([...photos, { ...newPhoto, isVisible: true }]);
-        setShowModal(false);
-      })
-      .catch((error)=>{
-        console.error('Error adding photo:', error);
-      });
+      (async () => {
+        try {
+          const data = await createRequest('photos', newPhoto);
+          setPhotos([...photos, { ...data, isVisible: true }]);
+          setShowModal(false);
+        } catch (error) {
+          console.log(error);
+        }
+      })()
     } else {
       alert("All fields must be filled out!");
     }
   };
-  
+
   return (
     <div className="photos-container">
-
       <div className="photos-header">
         <h1 className="AlbumTitle">Album {albumId}</h1>
         <h2>Photos</h2>
@@ -113,30 +140,32 @@ function Photos() {
                   type="text"
                   id="Photo-Title"
                   ref={(el) => (newPhotoRef.current["PhotoTitle"] = el)}
-                  placeholder="Enter Photo Title"
+                  defaultValue={isEditing?photoToEdit.title:null}
                 />
                 <label htmlFor="Photo-Length-Pixel">Photo Length Pixel</label>
                 <input
                   type="number"
                   id="Length-Pixel"
                   ref={(el) => (newPhotoRef.current["LengthPixel"] = el)}
-                  placeholder="Enter Photo Length Pixel"
+                  defaultValue={isEditing?photoToEdit.url.split("/")[4].split("x")[1]:null}
                 />
                 <label htmlFor="Photo-Width-Pixel">Photo Width Pixel</label>
                 <input
                   type="number"
                   id="Width-Pixel"
                   ref={(el) => (newPhotoRef.current["WidthPixel"] = el)}
-                  placeholder="Enter Photo Width Pixel"
+                  defaultValue={isEditing?photoToEdit.url.split("/")[4].split("x")[0]:null}
                 />
                 <label htmlFor="Photo-Width-Pixel">Photo Color</label>
                 <input
                   type="color"
                   id="Photo-color"
                   ref={(el) => (newPhotoRef.current["Photocolor"] = el)}
-                  placeholder="Enter Photo Color"
+                  defaultValue={isEditing?photoToEdit.url.split("/")[5]:null}
                 />
-                <button onClick={handleSavePhoto}>Save</button>
+                <button onClick={idEditing ? handleSaveEditPhoto : handleSavePhoto}>
+                  {idEditing ? "Update" : "Save"}
+                </button>
                 <button onClick={() => setShowModal(false)}>Cancel</button>
               </div>
             </div>
@@ -147,16 +176,12 @@ function Photos() {
       <div className="photos-grid">
         {photos.map((photo) => (
           <div key={photo.id} className="photo-item">
-            {idEditing === photo.id ? (
-              <input ref={titleRef} type="text" defaultValue={photo.title} />
-            ) : (
               <h2>Title: {photo.title}</h2>
-            )}
             <button onClick={() => handleDelete(photo.id)}>Delete</button>
             {idEditing === photo.id ? (
-              <button onClick={() => handleEdit(photo.id)}>Save</button>
+              <button onClick={() => handleEdit(photo)}>Save</button>
             ) : (
-              <button onClick={() => setIdEditing(photo.id)}>Edit</button>
+              <button onClick={() => handleEdit(photo)}>Edit</button>
             )}
             <img src={photo.thumbnailUrl} alt={photo.title} />
           </div>
@@ -168,9 +193,9 @@ function Photos() {
           Load More
         </button>
       ) : <p>No More Photos</p>}
-      
     </div>
   );
 }
 
 export default Photos;
+

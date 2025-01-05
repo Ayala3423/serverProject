@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from 'react'
 import './Albums.css'
 import Album from './Album/Album.jsx'
 import { BrowserRouter as Router, Route, Routes, useParams } from "react-router-dom";
-import { getRequest } from '../../serverRequests.jsx';
+import { getRequest, createRequest } from '../../ServerRequests.jsx';
 
 function Albums() {
   const { userId } = useParams();
@@ -13,7 +13,7 @@ function Albums() {
   const filtersRef = useRef({ search: '', id: '', title: '' });
 
   useEffect(() => {
-    const getAlbums = async () => {
+    (async () => {
       try {
         const data = await getRequest('albums', 'userId', userId);
         setAlbums(data.map(item => ({
@@ -23,9 +23,8 @@ function Albums() {
       } catch (error) {
         console.log(error);
       }
-    }
-    getAlbums();
-  }, [])
+    })();
+  }, [userId])
 
   const handleSearch = () => {
     const { search, id, title } = filtersRef.current;
@@ -51,30 +50,27 @@ function Albums() {
 
   const handleSaveAlbum = () => {
     const newAlbumTitle = newAlbumRef.current.title.value.trim();
-    const newAlbumBody = newAlbumRef.current.body.value.trim();
-    const newId = albums.length ? JSON.stringify(JSON.parse(albums[albums.length - 1].id) + 1) : "1";
-    if (newAlbumTitle && newAlbumBody) {
+    if (newAlbumTitle) {
       const newAlbum = {
         userId: parseInt(userId, 10),
-        id: newId, // לדוגמה, יצירת ID חדש
         title: newAlbumTitle
       };
-
-      fetch('http://localhost:3000/albums', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(newAlbum),
-      }).then(() => {
-        setAlbums([...albums, { ...newAlbum, isVisible: true }]);
-        setShowModal(false); // סגירת ה-Modal
-      });
+      (async () => {
+        try {
+          const data=await createRequest('albums', newAlbum);
+          setAlbums([...albums, { ...data, isVisible: true }]);
+          setShowModal(false);
+        } catch (error) {
+          console.log(error);
+        }
+      })();
     }
   };
 
   return (
     <>
       <h1>Albums</h1>
-      
+
       <div className="button-group">
 
         <div className='addAlbum'>

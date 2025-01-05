@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import './Todos.css';
 import Todo from './Todo/Todo.jsx';
 import { useParams } from 'react-router-dom';
-import { getRequest } from '../../serverRequests.jsx';
+import { getRequest, createRequest } from '../../ServerRequests.jsx';
 
 function Todos() {
   const { userId } = useParams();
@@ -21,7 +21,7 @@ function Todos() {
   ];
 
   useEffect(() => {
-    const getTodos = async () => {
+    (async () => {
       try {
         const data = await getRequest('todos', 'userId', userId);
         setTodos(data.map(item => ({
@@ -31,8 +31,7 @@ function Todos() {
       } catch (error) {
         console.log(error);
       }
-    }
-    getTodos();
+    })()
   }, [userId]);
 
   const handleAddTodo = () => {
@@ -61,32 +60,30 @@ function Todos() {
 
   const handleSaveTodo = () => {
     const newTodoTitle = newTodoRef.current.value.trim();
-    const newId = todos.length ? JSON.stringify(JSON.parse(todos[todos.length - 1].id) + 1) : "1";
     if (newTodoTitle) {
       const newTodo = {
-        id: newId,
         title: newTodoTitle,
         completed: false,
         userId: parseInt(userId, 10),
         isVisible: true,
       };
-      fetch('http://localhost:3000/todos', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(newTodo),
-      }).then(() => {
-        setTodos([...todos, { ...newTodo, isVisible: true }]);
-        setShowModal(false);
-      });
+      (async () => {
+        try {
+          const data= await createRequest('todos', newTodo);
+          setTodos([...todos, { ...data, isVisible: true }]);
+          setShowModal(false);
+        } catch (error) {
+          console.log(error);
+        }
+      })()
     }
   };
 
   const handleChange = (event) => {
-    const selectedValue = event.target.value; 
+    const selectedValue = event.target.value;
     setSelectedOption(selectedValue);
     sortPage(selectedValue); // קריאה לפונקציית המיון
   };
-  
 
   const sortPage = (sortBy) => {
     let sortedTodos;
@@ -167,7 +164,7 @@ function Todos() {
           todos.filter((todo) => todo.isVisible).length > 0 ? (
             todos.filter((todo) => todo.isVisible).map((todo) => (
               <div key={todo.id} className="todo">
-                <Todo id={todo.id} title={todo.title} completed={todo.completed} setTodos={setTodos} todos={todos} />
+                <Todo key={post.id} id={todo.id} title={todo.title} completed={todo.completed} setTodos={setTodos} todos={todos} />
               </div>
             ))
           ) : (

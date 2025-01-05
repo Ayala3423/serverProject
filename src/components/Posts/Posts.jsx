@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import './Posts.css';
 import Post from './Post/Post.jsx'
 import { useParams } from 'react-router-dom';
-import { getRequest } from '../../serverRequests.jsx';
+import { getRequest, createRequest } from '../../ServerRequests.jsx';
 
 
 function Posts() {
@@ -14,18 +14,17 @@ function Posts() {
     const filtersRef = useRef({ search: '', id: '', title: '' });
 
     useEffect(() => {
-            const getPosts = async () => {
-              try {
-                const data = await getRequest('posts','userId',userId);
+        (async () => {
+            try {
+                const data = await getRequest('posts', 'userId', userId);
                 setPosts(data.map(item => ({
-                  ...item,          // שומר את כל השדות הקיימים באובייקט
-                  isVisible: true    // הוספת השדה החדש
+                    ...item,          // שומר את כל השדות הקיימים באובייקט
+                    isVisible: true    // הוספת השדה החדש
                 })));
-              }catch(error){
-                console.log(error); 
-              }
+            } catch (error) {
+                console.log(error);
             }
-            getPosts();
+        })()
     }, [userId]);
 
     const handleAddPost = () => {
@@ -35,24 +34,21 @@ function Posts() {
     const handleSavePost = () => {
         const newPostTitle = newPostRef.current.title.value.trim();
         const newPostBody = newPostRef.current.body.value.trim();
-        const newId = posts.length ? JSON.stringify(JSON.parse(posts[posts.length - 1].id) + 1) : "1";
         if (newPostTitle && newPostBody) {
             const newPost = {
                 userId: parseInt(userId, 10),
-                id: newId,
                 title: newPostTitle,
                 body: newPostBody,
             };
-
-            fetch('http://localhost:3000/posts', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(newPost),
-            }).then(() => {
-                setPosts([...posts, { ...newPost, isVisible: true }]);
-
-            });
-            setShowModal(false); // סגירת ה-Modal
+            (async () => {
+                try {
+                    const data= await createRequest('posts', newPost);
+                    setPosts([...posts, { ...data, isVisible: true }]);
+                    setShowModal(false);
+                } catch (error) {
+                    console.log(error);
+                }
+            })()
         }
     };
 
@@ -131,7 +127,7 @@ function Posts() {
                     posts.filter((post) => post.isVisible).length > 0 ? (
                         posts.filter((post) => post.isVisible).map((post) => (
                             <div key={post.id} className="post">
-                                <Post userId={post.userId} postId={post.id} title={post.title} body={post.body} setPosts={setPosts} posts={posts} />
+                                <Post key={post.id} userId={post.userId} postId={post.id} title={post.title} body={post.body} setPosts={setPosts} posts={posts} />
                             </div>
                         ))
                     ) : (

@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import Post from '../Posts/Post/Post.jsx';
 import { Link, useParams, Outlet, useNavigate } from 'react-router-dom';
 import './Home.css';
-import { getAllRequest } from '../../serverRequests.jsx';
+import { getAllRequest } from '../../ServerRequests.jsx';
 
 function Home() {
   const { userId } = useParams();
@@ -15,7 +15,7 @@ function Home() {
 
   useEffect(() => {
     setCurrentUser(JSON.parse(localStorage.getItem('currentUser')));
-    const getAllPosts = async () => {
+    (async () => {
       try {
         const data = await getAllRequest('posts');
         setAllPosts(data.map(item => ({
@@ -25,8 +25,7 @@ function Home() {
       }catch(error){
         console.log(error); 
       }
-    }
-    getAllPosts();
+    })()
   }, [userId]);
 
 const handleLogOut = () => {
@@ -58,7 +57,7 @@ return (
     <header className="header">
       {currentUser ? (
         <div className="profile">
-          <span className="username">Welcome, {currentUser.username}</span>
+          <span className="username">Welcome, {currentUser.name}</span>
         </div>
       ) : (
         <span className="loading">Loading user data...</span>
