@@ -103,7 +103,8 @@ nav a:hover {
 }
 
 
-#logOutBtn {
+#logOutBtn,
+#logInLink {
   margin-top: auto; /* להזיז את הכפתור לסוף הניווט */
   padding: 16px 0;
   border: none;
@@ -119,7 +120,7 @@ nav a:hover {
   transition: all 0.3s ease;
 }
 
-#logOutBtn:hover {
+#logOutBtn:hover, #logInLink:hover {
   background: #77ffc0; /* צבע רקע על ריחוף */
   color: #201b2c; /* צבע טקסט חדש על ריחוף */
 }

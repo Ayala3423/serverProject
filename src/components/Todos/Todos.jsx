@@ -164,7 +164,7 @@ function Todos() {
           todos.filter((todo) => todo.isVisible).length > 0 ? (
             todos.filter((todo) => todo.isVisible).map((todo) => (
               <div key={todo.id} className="todo">
-                <Todo key={post.id} id={todo.id} title={todo.title} completed={todo.completed} setTodos={setTodos} todos={todos} />
+                <Todo key={todo.id} id={todo.id} title={todo.title} completed={todo.completed} setTodos={setTodos} todos={todos} />
               </div>
             ))
           ) : (

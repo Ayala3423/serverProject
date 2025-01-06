@@ -1,7 +1,7 @@
 import { useState, useRef } from 'react';
 import './Post.css';
-import Comment from '../../Comment/Comment.jsx';
-import { getRequest, deleteRequest, updateRequest, createRequest } from '../../../ServerRequests.jsx'
+import Comment from '../Comment/Comment.jsx';
+import { getRequest, deleteRequest, updateRequest, createRequest } from '../../ServerRequests.jsx'
 
 
 function Post({ userId, postId, title, body, setPosts, posts }) {
@@ -113,7 +113,7 @@ function Post({ userId, postId, title, body, setPosts, posts }) {
             };
             (async () => {
                 try {
-                    const data=await createRequest('comments', newComment);
+                    const data = await createRequest('comments', newComment);
                     setPostComments([...postComments, { ...data, isVisible: true }]);
                     setShowAddCommentModal(false); // סגירת ה-Modal
                 } catch (error) {

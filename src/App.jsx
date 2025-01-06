@@ -3,6 +3,7 @@ import './App.css'
 import Home from "./components/Home/Home";
 import Login from "./components/Login/Login";
 import SignUp from "./components/SignUp/SignUp";
+import Navigate from "./components/Navigate/Navigate";
 import Albums from './components/Albums/Albums';
 import Posts from './components/Posts/Posts';
 import Todos from './components/Todos/Todos';
@@ -14,11 +15,13 @@ function App() {
     <Router>
       <Routes>
         {/* מסלולים ראשיים */}
+        <Route path="/home" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signUp" element={<SignUp />} />
 
         {/* מסלול המשתמשים */}
-        <Route path="/home/users/:userId" element={<Home />}>
+        <Route path="/users/:userId" element={<Navigate />}>
+          <Route path="home" element={<Home />} />
           <Route path="albums" element={<Albums />} />
           <Route path="albums/:albumId/photos" element={<Photos />} />
           <Route path="posts" element={<Posts />} />

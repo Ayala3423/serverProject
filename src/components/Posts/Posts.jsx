@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import './Posts.css';
-import Post from './Post/Post.jsx'
+import Post from '../Post/Post.jsx'
 import { useParams } from 'react-router-dom';
 import { getRequest, createRequest } from '../../ServerRequests.jsx';
 
@@ -42,7 +42,7 @@ function Posts() {
             };
             (async () => {
                 try {
-                    const data= await createRequest('posts', newPost);
+                    const data = await createRequest('posts', newPost);
                     setPosts([...posts, { ...data, isVisible: true }]);
                     setShowModal(false);
                 } catch (error) {

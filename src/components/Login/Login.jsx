@@ -12,7 +12,7 @@ export default function Login() {
             const data = await getRequest('users', 'username', name);
             if (data[0].website === password) {
                 localStorage.setItem('currentUser', JSON.stringify(data[0]));
-                navigate(`/home/users/${data[0].id}`);
+                navigate(`/users/${data[0].id}/home`);
             }
             else {
                 alert('one or more of the details is incorrect');
