@@ -1,10 +1,9 @@
 import { useState, useEffect, useRef } from "react";
 import { useParams } from "react-router-dom";
 import "./Photos.css";
-import { deleteRequest, createRequest, updateRequest } from '../../../../ServerRequests';
+import { deleteRequest, createRequest, updateRequest, slowLoadRequest } from '../../../../ServerRequests';
 
 function Photos() {
-  const [idEditing, setIdEditing] = useState(null);
   const { albumId } = useParams();
   const [photos, setPhotos] = useState([]);
   const [page, setPage] = useState(1);
@@ -14,8 +13,7 @@ function Photos() {
   const [hasMore, setHasMore] = useState(true);
   const [isEditing, setIsEditing] = useState(false);
   const [photoToEdit, setPhotoToEdit] = useState(null);
-
-  const titleRef = useRef();
+  
   const limit = 10;
 
   useEffect(() => {
@@ -25,14 +23,17 @@ function Photos() {
   const loadPhotos = () => {
     setLoading(true);
     const start = (page - 1) * limit;
-    fetch(`http://localhost:3000/photos?albumId=${albumId}&_start=${start}&_limit=${limit}`)
-      .then((response) => response.json())
-      .then((data) => {
+    (async () => {
+      try {
+        const data = await slowLoadRequest('photos', 'albumId', albumId, start, limit)
         setHasMore(data.length === limit);
         setPhotos((prev) => [...prev, ...data]);
         setPage((prev) => prev + 1);
-      })
-      .finally(() => setLoading(false));
+        setLoading(false);
+      } catch (error) {
+        console.log(error);
+      }
+    })();
   };
 
   const handleDelete = (idToDelete) => {
@@ -47,12 +48,8 @@ function Photos() {
   };
 
   const handleEdit = (photoToEdit) => {
-    alert(JSON.stringify(photoToEdit));
-    alert(photoToEdit.url.split("/")[3].split("x")[0])
-    alert(photoToEdit.url.split("/")[3].split("x")[1])
     setPhotoToEdit(photoToEdit);
     setIsEditing(true);
-    setIdEditing(photoToEdit.id);
     setShowModal(true);
   };
 
@@ -71,15 +68,15 @@ function Photos() {
 
       (async () => {
         try {
-          await updateRequest('photos', idEditing, updatedPhoto);
+          await updateRequest('photos', photoToEdit.id, updatedPhoto);
           setPhotos(
             photos.map((photo) =>
-              photo.id === idEditing
+              photo.id === photoToEdit.id
                 ? { ...photo, ...updatedPhoto }
                 : photo
             )
           );
-          setIdEditing(null);
+          setPhotoToEdit(null);
           setShowModal(false);
         } catch (error) {
           console.log(error);
@@ -126,6 +123,7 @@ function Photos() {
     <div className="photos-container">
       <div className="photos-header">
         <h1 className="AlbumTitle">Album {albumId}</h1>
+        
         <h2>Photos</h2>
         <div className="button-group">
           <button onClick={handleAddAlbum}>Add</button>
@@ -153,15 +151,19 @@ function Photos() {
                   ref={(el) => (newPhotoRef.current["WidthPixel"] = el)}
                   defaultValue={isEditing ? (photoToEdit.url.split("/")[3].split("x")[1] ? photoToEdit.url.split("/")[3].split("x")[1] : photoToEdit.url.split("/")[3].split("x")[0]) : null}
                 />
-                <label htmlFor="Photo-Width-Pixel">Photo Color</label>
+                <label htmlFor="Photo-Color">Photo Color</label>
                 <input
                   type="color"
                   id="Photo-color"
                   ref={(el) => (newPhotoRef.current["Photocolor"] = el)}
-                  defaultValue={isEditing ? photoToEdit.url.split("/")[4].split("x") : null}
+                  defaultValue={
+                    isEditing
+                      ? `#${photoToEdit.url.split("/")[4]}` // מוסיף את ה-#
+                      : "#000000" // צבע ברירת מחדל
+                  }
                 />
-                <button onClick={idEditing ? handleSaveEditPhoto : handleSavePhoto}>
-                  {idEditing ? "Update" : "Save"}
+                <button onClick={photoToEdit ? handleSaveEditPhoto : handleSavePhoto}>
+                  {photoToEdit ? "Update" : "Save"}
                 </button>
                 <button onClick={() => {
                   setIsEditing(false);

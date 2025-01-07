@@ -1,24 +1,24 @@
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import './App.css'
 
-export const getAllRequest = async (resorce) => {
-    const response = await fetch(`http://localhost:3000/${resorce}`);
+export const getAllRequest = async (resource) => {
+    const response = await fetch(`http://localhost:3000/${resource}`);
     if (!(response.ok)) {
         throw new Error('Failed To Load Data');
     }
     return response.json();
 }
 
-export const getRequest = async (resorce, id, value) => {
-    const response = await fetch(`http://localhost:3000/${resorce}/?${id}=${value}`);
+export const getRequest = async (resource, id, value) => {
+    const response = await fetch(`http://localhost:3000/${resource}/?${id}=${value}`);
     if (!(response.ok)) {
         throw new Error('Failed To Load Data');
     }
     return response.json();
 }
 
-export const createRequest = async (resorce, body) => {
-    const response = await fetch(`http://localhost:3000/${resorce}`, {
+export const createRequest = async (resource, body) => {
+    const response = await fetch(`http://localhost:3000/${resource}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(body),
@@ -30,8 +30,8 @@ export const createRequest = async (resorce, body) => {
 
 }
 
-export const deleteRequest = async (resorce, id) => {
-    const response = await fetch(`http://localhost:3000/${resorce}/${id}`, {
+export const deleteRequest = async (resource, id) => {
+    const response = await fetch(`http://localhost:3000/${resource}/${id}`, {
         method: 'DELETE',
     })
     if (!(response.ok)) {
@@ -39,9 +39,9 @@ export const deleteRequest = async (resorce, id) => {
     }
 }
 
-export const updateRequest = async (resorce, id, body) => {
+export const updateRequest = async (resource, id, body) => {
     console.log(id);
-    const response = await fetch(`http://localhost:3000/${resorce}/${id}`, {
+    const response = await fetch(`http://localhost:3000/${resource}/${id}`, {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(body)
@@ -49,4 +49,12 @@ export const updateRequest = async (resorce, id, body) => {
     if (!(response.ok)) {
         throw new Error('Failed To Post Data');
     }
+}
+
+export const slowLoadRequest = async (resource, key, value, start, limit) => {
+    const response = await fetch(`http://localhost:3000/${resource}/?${key}=${value}&_start=${start}&_limit=${limit}`);
+    if (!(response.ok)) {
+        throw new Error('Failed To Post Data');
+    }
+    return response.json();
 }

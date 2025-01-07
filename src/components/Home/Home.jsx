@@ -8,14 +8,12 @@ import { getAllRequest } from '../../ServerRequests.jsx';
 function Home() {
   const { userId } = useParams();
   const [allPosts, setAllPosts] = useState();  // שימוש בקונטקסט לפוסטים
-  const [currentUser, setCurrentUser] = useState(null);
   const [showAllPosts, setShowAllPosts] = useState(true);
   const navigate = useNavigate();
   const [showFilterModal, setShowFilterModal] = useState(false);
   const filtersRef = useRef({ search: '', id: '', title: '' });
 
   useEffect(() => {
-    setCurrentUser(JSON.parse(localStorage.getItem('currentUser')));
     (async () => {
       try {
         const data = await getAllRequest('posts');
@@ -50,8 +48,6 @@ function Home() {
   return (
     <div className='homePage'>
     <Navigate/>
-
-
       {showAllPosts && <div className='posts'>
         <h1>All Posts</h1>
         <div className='searchPost'>

@@ -1,24 +1,21 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useContext } from 'react';
 import { Link, useParams, Outlet, useNavigate } from 'react-router-dom';
 import './Navigate.css';
+import { UserContext } from '../../App';
 
 function Navigate() {
+    const { currentUser, setCurrentUser } = useContext(UserContext);
     const { userId } = useParams();
-    const [currentUser, setCurrentUser] = useState(null);
     const navigate = useNavigate();
-
-    useEffect(() => {
-        setCurrentUser(JSON.parse(localStorage.getItem('currentUser')));
-    }, [userId]);
 
     const handleLogOut = () => {
         localStorage.removeItem('currentUser');
+        setCurrentUser(null);
         navigate("/home");
     };
 
     return (
         <div className='homePage'>
-
             <header className="header">
                 {currentUser ? (
                     <div className="profile">
@@ -27,7 +24,7 @@ function Navigate() {
                 ) : (
                     <span className="loading">Loading user data...</span>
                 )}
-                <Link to={userId ? `/users/${userId}` : `/home`} onClick={() => setShowAllPosts(true)} className='homeLink'>Home</Link><br />
+                <Link to={userId ? `/users/${userId}/home` : `/home`} onClick={() => setShowAllPosts(true)} className='homeLink'>Home</Link><br />
             </header>
 
             <nav>

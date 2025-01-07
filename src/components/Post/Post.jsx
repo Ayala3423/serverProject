@@ -1,10 +1,11 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useContext } from 'react';
 import './Post.css';
 import Comment from '../Comment/Comment.jsx';
 import { getRequest, deleteRequest, updateRequest, createRequest } from '../../ServerRequests.jsx'
-
+import { UserContext } from '../../App';
 
 function Post({ userId, postId, title, body, setPosts, posts }) {
+    const { currentUser } = useContext(UserContext);
     const [idEditing, setIdEditing] = useState(null);
     const [showDetails, setShowDetails] = useState(false);
     const [showComments, setShowComments] = useState(false);
@@ -15,10 +16,8 @@ function Post({ userId, postId, title, body, setPosts, posts }) {
         title: null,
         body: null,
     });
-
     const checkAuthorization = () => {
-        const currentUserId = JSON.parse(localStorage.getItem('currentUser')).id;
-        if (userId === (JSON.parse(currentUserId))) {
+        if (userId === currentUser.id) {
             return true;
         } else {
             alert('You are not authorized to perform this action!');
@@ -108,7 +107,7 @@ function Post({ userId, postId, title, body, setPosts, posts }) {
                 postId: parseInt(postId, 10),
                 id: newId,
                 name: newCommentName,
-                email: JSON.parse(localStorage.getItem('currentUser')).email,
+                email: currentUser.email,
                 body: newCommentBody,
             };
             (async () => {
@@ -163,7 +162,7 @@ function Post({ userId, postId, title, body, setPosts, posts }) {
                     {showComments && (
                         <div className="comments-modal-content">
                             <div className="button-group">
-                                <button onClick={handleAddComment}>Add</button>
+                                {currentUser && <button onClick={handleAddComment}>Add</button>}
                                 {showAddCommentModal && (
                                     <div className="modal">
                                         <div className="modal-content">

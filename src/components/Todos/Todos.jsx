@@ -69,7 +69,7 @@ function Todos() {
       };
       (async () => {
         try {
-          const data= await createRequest('todos', newTodo);
+          const data = await createRequest('todos', newTodo);
           setTodos([...todos, { ...data, isVisible: true }]);
           setShowModal(false);
         } catch (error) {
@@ -168,10 +168,10 @@ function Todos() {
               </div>
             ))
           ) : (
-            <h2>No tasks found.</h2>
+            <h2>Loading tasks...</h2>
           )
         ) : (
-          <h2>Loading tasks...</h2>
+          <h2>No tasks found.</h2>
         )}
       </div>
     </div>

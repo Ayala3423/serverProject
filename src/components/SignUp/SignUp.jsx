@@ -1,9 +1,11 @@
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, useContext } from 'react';
 import './SignUp.css';
 import { BrowserRouter as Router, Route, Routes, Link, useNavigate, useLocation } from "react-router-dom";
 import { getRequest, createRequest } from '../../ServerRequests'
+import { UserContext } from '../../App';
 
 export default function SignUp() {
+    const { setCurrentUser } = useContext(UserContext);
     const navigate = useNavigate();
     const [step, setStep] = useState(1); // שליטה על שלב הטופס
     const fieldsRef = useRef({});
@@ -84,7 +86,8 @@ export default function SignUp() {
             try {
                 const data=await createRequest('users', updatedFormData);
                 localStorage.setItem('currentUser', JSON.stringify(data));
-                navigate(`/home/users/${data.id}`);
+                setCurrentUser(data);
+                navigate(`/users/${data.id}/home`);
             } catch (error) {
                 console.log(error);
             }

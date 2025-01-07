@@ -1,15 +1,18 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useContext } from 'react';
 import './Comment.css';
+import { useParams } from 'react-router-dom';
 import { deleteRequest, updateRequest } from '../../ServerRequests';
+import { UserContext } from '../../App';
+
 
 function Comment({ id, email, name, body, setPostComments }) {
+    const { currentUser } = useContext(UserContext);
     const [idEditing, setIdEditing] = useState(null);
     const inputRefs = useRef({});
 
     // פונקציה לבדיקה אם המשתמש מורשה לפעולה
     const checkAuthorization = () => {
-        const currentUserEmail = JSON.parse(localStorage.getItem('currentUser')).email;
-        if (email === currentUserEmail) {
+        if (currentUser &&email === currentUser.email) {
             return true;
         } else {
             alert('You are not authorized to perform this action!');
@@ -62,7 +65,7 @@ function Comment({ id, email, name, body, setPostComments }) {
         <>
             <h3>Id: {id}</h3>
             <p>Email: {email}</p>
-            {idEditing === id && (email === JSON.parse(localStorage.getItem('currentUser')).email) ? (
+            {idEditing === id && (email === currentUser.email) ? (
                 <>
                     <input ref={(el) => (inputRefs.current.title = el)} type="text" defaultValue={name} />
                     <textarea ref={(el) => (inputRefs.current.body = el)} defaultValue={body} />
@@ -73,7 +76,7 @@ function Comment({ id, email, name, body, setPostComments }) {
                     <p>Body: {body}</p>
                 </>
             )}
-            {idEditing === id && (email === JSON.parse(localStorage.getItem('currentUser')).email) ? (
+            {idEditing === id && (email === currentUser.email) ? (
                 <button onClick={handleEdit}>Save</button>
             ) : (
                 <button onClick={handleEditClick}>Edit</button>

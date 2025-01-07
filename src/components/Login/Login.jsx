@@ -1,17 +1,20 @@
-import { useState, useRef, useEffect } from 'react'
+import { useState, useRef, useEffect, useContext } from 'react'
 import './Login.css'
 import { BrowserRouter as Router, Route, Routes, Link, useNavigate, useLocation } from "react-router-dom";
 import { getRequest } from '../../ServerRequests'
+import { UserContext } from '../../App';
 
 export default function Login() {
     const fieldsRef = useRef({});
     const navigate = useNavigate();
+    const { setCurrentUser } = useContext(UserContext);
 
     const verifyUser = async (name, password) => {
         try {
             const data = await getRequest('users', 'username', name);
             if (data[0].website === password) {
                 localStorage.setItem('currentUser', JSON.stringify(data[0]));
+                setCurrentUser(data[0]);
                 navigate(`/users/${data[0].id}/home`);
             }
             else {
