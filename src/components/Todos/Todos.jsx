@@ -168,10 +168,10 @@ function Todos() {
               </div>
             ))
           ) : (
-            <h2>Loading tasks...</h2>
+            <h2>No tasks found.</h2>
           )
         ) : (
-          <h2>No tasks found.</h2>
+          <h2>Loading tasks...</h2>
         )}
       </div>
     </div>

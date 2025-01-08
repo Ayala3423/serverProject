@@ -1,10 +1,12 @@
 import { useState, useEffect, useRef } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useLocation } from "react-router-dom";
 import "./Photos.css";
 import { deleteRequest, createRequest, updateRequest, slowLoadRequest } from '../../../../ServerRequests';
 
 function Photos() {
   const { albumId } = useParams();
+  const location = useLocation();
+  const albumTitle = location.state?.title || "No Title"; // ברירת מחדל אם אין נתונים
   const [photos, setPhotos] = useState([]);
   const [page, setPage] = useState(1);
   const [showModal, setShowModal] = useState(false);
@@ -13,7 +15,7 @@ function Photos() {
   const [hasMore, setHasMore] = useState(true);
   const [isEditing, setIsEditing] = useState(false);
   const [photoToEdit, setPhotoToEdit] = useState(null);
-  
+
   const limit = 10;
 
   useEffect(() => {
@@ -88,7 +90,7 @@ function Photos() {
   };
 
 
-  const handleAddAlbum = () => {
+  const handleAddPhoto = () => {
     setShowModal(prev => !prev);
   };
 
@@ -122,11 +124,11 @@ function Photos() {
   return (
     <div className="photos-container">
       <div className="photos-header">
-        <h1 className="AlbumTitle">Album {albumId}</h1>
-        
+        <h2 className="AlbumNumber">Album {albumId}</h2>
+        <h2>Title: {albumTitle}</h2>
         <h2>Photos</h2>
         <div className="button-group">
-          <button onClick={handleAddAlbum}>Add</button>
+          <button onClick={handleAddPhoto}>Add</button>
           {showModal && (
             <div className="modal">
               <div className="modal-content">
@@ -196,4 +198,3 @@ function Photos() {
 }
 
 export default Photos;
-

@@ -30,17 +30,17 @@ function Navigate() {
             <nav>
                 {userId ?
                     <>
-                        <Link to={`/users/${userId}/albums`} onClick={() => setShowAllPosts(false)}>albums</Link><br />
-                        <Link to={`/users/${userId}/posts`} onClick={() => setShowAllPosts(false)}>posts</Link><br />
-                        <Link to={`/users/${userId}/todos`} onClick={() => setShowAllPosts(false)}>todos</Link><br />
-                        <Link to={`/users/${userId}/info`} onClick={() => setShowAllPosts(false)}>info</Link><br />
+                        <Link to={`/users/${userId}/albums`}>albums</Link><br />
+                        <Link to={`/users/${userId}/posts`}>posts</Link><br />
+                        <Link to={`/users/${userId}/todos`}>todos</Link><br />
+                        <Link to={`/users/${userId}/info`}>info</Link><br />
                         <button id="logOutBtn" onClick={handleLogOut}>Log Out</button>
                     </> :
-                    <><Link to={`/login`} onClick={() => setShowAllPosts(false)}>albums</Link><br />
-                        <Link to={`/login`} onClick={() => setShowAllPosts(false)}>posts</Link><br />
-                        <Link to={`/login`} onClick={() => setShowAllPosts(false)}>todos</Link><br />
-                        <Link to={`/login`} onClick={() => setShowAllPosts(false)}>info</Link><br />
-                        <Link id="logInLink" to={`/login`} onClick={() => setShowAllPosts(false)}>Login</Link><br />
+                    <><Link to={`/login`} >albums</Link><br />
+                        <Link to={`/login`}>posts</Link><br />
+                        <Link to={`/login`}>todos</Link><br />
+                        <Link to={`/login`}>info</Link><br />
+                        <Link id="logInLink" to={`/login`}>Login</Link><br />
                     </>
                 }
             </nav>

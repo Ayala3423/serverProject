@@ -4,7 +4,6 @@ import { useParams } from 'react-router-dom';
 import { deleteRequest, updateRequest } from '../../ServerRequests';
 import { UserContext } from '../../App';
 
-
 function Comment({ id, email, name, body, setPostComments }) {
     const { currentUser } = useContext(UserContext);
     const [idEditing, setIdEditing] = useState(null);

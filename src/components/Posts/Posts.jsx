@@ -4,7 +4,6 @@ import Post from '../Post/Post.jsx'
 import { useParams } from 'react-router-dom';
 import { getRequest, createRequest } from '../../ServerRequests.jsx';
 
-
 function Posts() {
     const { userId } = useParams();
     const [posts, setPosts] = useState(null);
@@ -58,8 +57,8 @@ function Posts() {
             prev.map((comp) => ({
                 ...comp,
                 isVisible:
-                    (!search || comp.title.toLowerCase().includes(search)) &&
-                    (!id || comp.id.toString() === id) &&
+                    (!search || ((comp.title.toLowerCase().includes(search))||comp.body.toLowerCase().includes(search))) &&
+                    (!id || comp.id.toString().includes(id)) && // תיקון התנאי
                     (!title || comp.title.toLowerCase().includes(title))
             }))
         );
@@ -73,9 +72,7 @@ function Posts() {
     return (
         <>
             <h1>Posts</h1>
-
             <div className="button-group">
-
                 <div className='addPost'>
                     <button onClick={handleAddPost}>Add</button>
                     {showModal && (
@@ -131,10 +128,10 @@ function Posts() {
                             </div>
                         ))
                     ) : (
-                        <h2>Loading tasks...</h2>
+                        <h2>No Posts found.</h2>
                     )
                 ) : (
-                    <h2>No tasks found.</h2>
+                    <h2>Loading Posts...</h2>
                 )}
             </div>
 

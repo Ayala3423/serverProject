@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import Post from '../Post/Post.jsx';
-import { Link, useParams, Outlet, useNavigate } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import './Home.css';
 import Navigate from '../Navigate/Navigate.jsx'
 import { getAllRequest } from '../../ServerRequests.jsx';
@@ -8,8 +8,6 @@ import { getAllRequest } from '../../ServerRequests.jsx';
 function Home() {
   const { userId } = useParams();
   const [allPosts, setAllPosts] = useState();  // שימוש בקונטקסט לפוסטים
-  const [showAllPosts, setShowAllPosts] = useState(true);
-  const navigate = useNavigate();
   const [showFilterModal, setShowFilterModal] = useState(false);
   const filtersRef = useRef({ search: '', id: '', title: '' });
 
@@ -17,7 +15,8 @@ function Home() {
     (async () => {
       try {
         const data = await getAllRequest('posts');
-        setAllPosts(data.map(item => ({
+        const sortedPosts = [...data].sort((a, b) => parseInt(a.userId) - parseInt(b.userId));
+        setAllPosts(sortedPosts.map(item => ({
           ...item,          // שומר את כל השדות הקיימים באובייקט
           isVisible: true    // הוספת השדה החדש
         })));
@@ -30,13 +29,15 @@ function Home() {
   const handleSearch = () => {
     const { search, id, title } = filtersRef.current;
     setAllPosts((prev) =>
-      prev.map((comp) => ({
-        ...comp,
-        isVisible:
-          (!search || comp.title.toLowerCase().includes(search)) &&
-          (!id || comp.id.toString() === id) &&
-          (!title || comp.title.toLowerCase().includes(title))
-      }))
+      [...prev
+        .map((comp) => ({
+          ...comp,
+          isVisible:
+            (!search || comp.title.toLowerCase().includes(search)) &&
+            (!id || comp.id.toString().includes(id)) && // תיקון התנאי
+            (!title || comp.title.toLowerCase().includes(title)),
+        }))]
+        .sort((a, b) => parseInt(a.userId) - parseInt(b.userId))
     );
   };
 
@@ -47,8 +48,8 @@ function Home() {
 
   return (
     <div className='homePage'>
-    <Navigate/>
-      {showAllPosts && <div className='posts'>
+      <Navigate />
+      <div className='posts'>
         <h1>All Posts</h1>
         <div className='searchPost'>
           <div className="search-bar">
@@ -81,9 +82,9 @@ function Home() {
             <h2>Loading tasks...</h2>
           )}
         </div>
-      </div>}
+      </div>
 
-      
+
     </div>
 
   );

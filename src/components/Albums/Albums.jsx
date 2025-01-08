@@ -70,9 +70,7 @@ function Albums() {
   return (
     <>
       <h1>Albums</h1>
-
       <div className="button-group">
-
         <div className='addAlbum'>
           <button onClick={handleAddAlbum}>Add</button>
           {showModal && (

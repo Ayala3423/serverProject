@@ -17,7 +17,7 @@ function Post({ userId, postId, title, body, setPosts, posts }) {
         body: null,
     });
     const checkAuthorization = () => {
-        if (userId === currentUser.id) {
+        if (userId === JSON.parse(currentUser.id)) {
             return true;
         } else {
             alert('You are not authorized to perform this action!');

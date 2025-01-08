@@ -10,6 +10,7 @@ import Posts from './components/Posts/Posts';
 import Todos from './components/Todos/Todos';
 import Info from './components/Info/Info';
 import Photos from './components/Albums/Album/Photos/Photos';
+import Authorization from "./components/Authorization/Authorization";
 
 // יצירת ה-Context
 export const UserContext = createContext();
@@ -26,6 +27,7 @@ function App() {
 
   return (
     <UserContext.Provider value={{ currentUser, setCurrentUser }}>
+      <Authorization/>
       <Router>
         <Routes>
           {/* מסלולים ראשיים */}
@@ -50,5 +52,4 @@ function App() {
     </UserContext.Provider>
   );
 }
-
 export default App;
