@@ -16,6 +16,11 @@ form {
     gap: 20px; /* רווח בין השדות */
 }
 
+.login{
+    color: white;
+    grid-column: span 3; /* ברירת מחדל: תופס עמודה אחת */
+}
+
 .textfield {
     display: flex;
     flex-direction: column;
@@ -117,3 +122,5 @@ form {
         grid-template-columns: repeat(3, 1fr); /* שמירה על 3 טורים גם במסכים קטנים */
     }
 }
+
+

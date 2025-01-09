@@ -5,7 +5,7 @@ import { UserContext } from '../../App';
 function Info() {
     const { currentUser } = useContext(UserContext);
     return (
-        <>
+        <div id='myInfo'>
             {currentUser && (
                 <div className="user-card">
                     <h2>{currentUser.name}</h2>
@@ -28,7 +28,7 @@ function Info() {
                     </div>
                 </div>
             )}
-        </>
+        </div>
     );
 }
 

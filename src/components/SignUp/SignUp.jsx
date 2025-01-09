@@ -134,7 +134,6 @@ export default function SignUp() {
                             </div>
                             <button className="btn-login" type="submit">Next</button>
                             <Link to="/login" className='login'>Already Have An Account Yet?</Link>
-
                         </form>
                     )}
                     {step === 2 && (

@@ -68,7 +68,7 @@ function Albums() {
   };
 
   return (
-    <>
+    <div className='allAlbums'>
       <h1>Albums</h1>
       <div className="button-group">
         <div className='addAlbum'>
@@ -124,7 +124,7 @@ function Albums() {
         )}
       </div>
 
-    </>
+    </div>
   )
 }
 

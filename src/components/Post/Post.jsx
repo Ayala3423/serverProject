@@ -124,17 +124,18 @@ function Post({ userId, postId, title, body, setPosts, posts }) {
     };
 
     return (
-        <>
-            <h2>Posted By: {userId}</h2>
-            <h2>Id: {postId}</h2>
-            <h2>Title: {title}</h2>
-            <button onClick={handleShowDetails}>More Details</button>
+        <div id='post'>
+            <div className="post-ids">
+                <span>Posted By: {userId}</span>
+                <span>Id: {postId}</span>
+            </div>
+            <h3>Title: {title}</h3>
+            <button id="moreDetailsBtn" onClick={handleShowDetails}>More Details</button>
 
             {showDetails && (
                 <div className="details-modal">
                     <div className="modal-content">
                         <h2>Post Details</h2>
-                        <button onClick={handleDelete}>Delete Post</button>
                         <p><strong>Posted By:</strong> {userId}</p>
                         <p><strong>Id:</strong> {postId}</p>
 
@@ -145,8 +146,8 @@ function Post({ userId, postId, title, body, setPosts, posts }) {
                             </>
                         ) : (
                             <>
-                                <h2>Title: {title}</h2>
-                                <p>Body: {body}</p>
+                                <h3>Title: {title}</h3>
+                                <h3>Body: {body}</h3>
                             </>
                         )}
 
@@ -155,7 +156,7 @@ function Post({ userId, postId, title, body, setPosts, posts }) {
                         ) : (
                             <button onClick={handleEditClick}>Edit</button>
                         )}
-
+                        <button onClick={handleDelete}>Delete Post</button>
                         <button onClick={handleShowComments}>Comments</button>
                         <button onClick={handleCloseDetails}>Close</button>
                     </div>
@@ -211,7 +212,7 @@ function Post({ userId, postId, title, body, setPosts, posts }) {
                 </div>
             )}
 
-        </>
+        </div>
     );
 }
 

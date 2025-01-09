@@ -75,7 +75,7 @@ function Posts() {
     };
 
     return (
-        <>
+        <div id='myAllPosts'>
             <h1>Posts</h1>
             <div className="button-group">
                 <div className='addPost'>
@@ -138,7 +138,7 @@ function Posts() {
                     )}
             </div>
 
-        </>
+        </div>
     );
 }
 

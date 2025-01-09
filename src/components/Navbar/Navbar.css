@@ -28,6 +28,11 @@ nav {
     box-sizing: border-box;
     text-align: left; /* יישור הטקסט לשמאל */
   }
+
+  #navItem:hover{
+    background: #00ff88; /* צבע רקע על ריחוף */
+    color: #2b134b; 
+  }
   
   nav a:hover {
     background: #00ff88; /* צבע רקע על ריחוף */

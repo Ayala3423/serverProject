@@ -35,8 +35,8 @@ function Authorization({ children }) {
                 <div className="modal-overlay">
                     <div className="modal-content">
                         <h2>You are not authorized to access this page</h2>
-                        <Link to="/login" className="modal-link" onClick={() => setAuthorized(true)}>Click here to login</Link>
-                        <button onClick={handleGoBack} className="modal-link">
+                        <Link to="/login" id="modal-link" onClick={() => setAuthorized(true)}>Click here to login</Link>
+                        <button onClick={handleGoBack} id="modal-link">
                             Go Back
                         </button>
                     </div>

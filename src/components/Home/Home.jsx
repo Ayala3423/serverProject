@@ -67,7 +67,7 @@ function Home() {
             </div>
           )}
         </div>
-        <div className="allPosts">
+        <div id="allPosts">
           {allPosts && allPosts.length > 0 ? (
             allPosts.filter((post) => post.isVisible).length > 0 ? (
               allPosts.filter((post) => post.isVisible).map((post) => (

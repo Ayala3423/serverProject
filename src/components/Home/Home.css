@@ -19,8 +19,27 @@
 .homePage {
   display: flex;
   flex-direction: column;
-  margin-left: 450px; /* מניח שהרוחב של הניווט הוא 200px */
+  margin-left: 300px; /* מניח שהרוחב של הניווט הוא 200px */
   width: calc(100% - 200px); /* מניעת גלילה ימינה */
   padding: 0;
   box-sizing: border-box;
+}
+
+.posts {
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* מרכז את התוכן אופקית */
+  justify-content: center; /* מרכז את התוכן אנכית */
+  min-height: 100vh; /* מבטיח שהחלק ייקח את כל גובה העמוד */
+  padding: 20px; /* מרווח פנימי */
+  box-sizing: border-box;
+}
+
+#allPosts {
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* מרכז את הפוסטים בתוך הקונטיינר */
+  width: 100%;
+  max-width: 800px; /* קובע רוחב מקסימלי לפוסטים */
+  margin: auto; /* מבטיח שהפוסטים יישארו במרכז */
 }

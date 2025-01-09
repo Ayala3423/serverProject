@@ -1,11 +1,12 @@
+#myAllPosts{
+  margin-left: 300px;
+}
+
 .posts {
   display: flex;
   flex-direction: column;
-  /* סידור הפוסטים בטור */
   align-items: center;
-  /* יישור תוכן לאמצע */
-  margin-top: 80px;
-  /* מרווח כדי להתרחק מהתפריט */
+  /* margin-top: 80px; */
 }
 
 h1 {
@@ -19,26 +20,15 @@ h1 {
 
 .post {
   width: 100%;
-  /* גודל מסגרת הפוסט */
   max-width: 100%;
-  /* גודל מקסימלי */
   margin: 20px 0;
-  /* רווח בין פוסטים */
   padding: 15px 20px;
-  /* רווח פנימי */
-  /* background-color: #514869; */
   border-radius: 12px;
-  /* פינות מעוגלות */
   color: #716c85;
-  /* צבע טקסט בהיר */
   font-size: 1.2em;
-  /* גודל טקסט */
   text-align: center;
-  /* יישור טקסט במרכז */
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
-  /* הצללה */
   transition: background-color 0.3s ease, transform 0.2s ease;
-  /* אפקט מעבר */
 }
 
 .post:hover {
@@ -56,4 +46,3 @@ h1 {
   color: #716c85;
   /* צבע כותרות */
 }
-

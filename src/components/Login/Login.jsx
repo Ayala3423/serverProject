@@ -1,6 +1,6 @@
-import { useState, useRef, useEffect, useContext } from 'react'
+import { useRef, useContext } from 'react'
 import './Login.css'
-import { BrowserRouter as Router, Route, Routes, Link, useNavigate, useLocation } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { getRequest } from '../../ServerRequests'
 import { UserContext } from '../../App';
 import { triggerError } from "../DisplayError/DisplayError";

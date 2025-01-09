@@ -1,3 +1,7 @@
+#myTodos{
+  margin-left: 270px;
+}
+
 /* סידור המשימות בטור */
 .todos {
   display: flex;
@@ -167,8 +171,8 @@
   top: 50%; /* מיקום באמצע המסך אנכית */
   left: 50%; /* מיקום באמצע המסך אופקית */
   transform: translate(-50%, -50%); /* מרכז את החלונית */
-  background: white; /* רקע לבן */
-  padding: 20px; /* רווח פנימי */
+  /* background: white; רקע לבן */
+  /* padding: 20px; רווח פנימי */
   border-radius: 8px; /* פינות מעוגלות */
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* הצללה */
   z-index: 1000; /* מבטיח שהחלונית מעל שאר התוכן */
@@ -184,9 +188,6 @@
   z-index: 999; /* מתחת לחלונית */
 }
 
-
-
-
 .modal-content label {
     display: flex;
     align-items: center;
@@ -197,10 +198,9 @@
 }
 
 .modal-content button {
-    width: 100px;
+    /* width: 100px; */
     margin: 5px;
 }
-
 
 .search-input {
   width: 100%;

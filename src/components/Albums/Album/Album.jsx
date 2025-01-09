@@ -56,8 +56,7 @@ function Album({ albumId, title, setAlbums, albums }) {
                     <Link
                         to={`/users/${userId}/albums/${albumId}/photos`}
                         className='photosLink'
-                        state={{ title }}
-                    >
+                        state={{ title }}>
                         More Details
                     </Link>
                 </div>

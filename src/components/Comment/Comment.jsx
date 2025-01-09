@@ -1,6 +1,5 @@
 import { useState, useRef, useContext } from 'react';
 import './Comment.css';
-import { useParams } from 'react-router-dom';
 import { deleteRequest, updateRequest } from '../../ServerRequests';
 import { UserContext } from '../../App';
 import { triggerError } from "../DisplayError/DisplayError";
@@ -10,7 +9,6 @@ function Comment({ id, email, name, body, setPostComments }) {
     const [idEditing, setIdEditing] = useState(null);
     const inputRefs = useRef({});
 
-    // פונקציה לבדיקה אם המשתמש מורשה לפעולה
     const checkAuthorization = () => {
         if (currentUser && email === currentUser.email) {
             return true;

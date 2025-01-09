@@ -124,7 +124,7 @@ function Photos() {
   return (
     <div className="photos-container">
       <div className="photos-header">
-        <h2 className="AlbumNumber">Album {albumId}</h2>
+        <h1 className="AlbumNumber">Album {albumId}</h1>
         <h2>Title: {albumTitle}</h2>
         <h2>Photos</h2>
         <div className="button-group">
