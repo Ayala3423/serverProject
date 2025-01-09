@@ -180,7 +180,7 @@ function Photos() {
       <div className="photos-grid">
         {photos.map((photo) => (
           <div key={photo.id} className="photo-item">
-            <h2>Title: {photo.title}</h2>
+            <h3>Title: {photo.title}</h3>
             <button onClick={() => handleDelete(photo.id)}>Delete</button>
             <button onClick={() => handleEdit(photo)}>Edit</button>
             <img src={photo.thumbnailUrl} alt={photo.title} />
