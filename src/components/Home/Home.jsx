@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import Post from '../Post/Post.jsx';
 import { useParams } from 'react-router-dom';
 import './Home.css';
-import Navigate from '../Navigate/Navigate.jsx'
+import Navigate from '../Navbar/Navbar.jsx'
 import { getAllRequest } from '../../ServerRequests.jsx';
 
 function Home() {

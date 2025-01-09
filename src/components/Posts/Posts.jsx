@@ -128,10 +128,10 @@ function Posts() {
                             </div>
                         ))
                     ) : (
-                        <h2>No Posts found.</h2>
+                        <h2>Loading Posts...</h2>
                     )
                 ) : (
-                    <h2>Loading Posts...</h2>
+                    <h2>No Posts found.</h2>
                 )}
             </div>
 

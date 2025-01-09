@@ -1,10 +1,10 @@
 import { useState, useEffect, useRef, useContext } from 'react';
 import { Link, useParams, Outlet, useNavigate } from 'react-router-dom';
-import './Navigate.css';
+import './Navbar.css';
 import { UserContext } from '../../App';
 
-function Navigate() {
-    const { currentUser, setCurrentUser } = useContext(UserContext);
+function Navbar() {
+    const { currentUser, setCurrentUser, setAuthorized } = useContext(UserContext);
     const { userId } = useParams();
     const navigate = useNavigate();
 
@@ -12,6 +12,10 @@ function Navigate() {
         localStorage.removeItem('currentUser');
         setCurrentUser(null);
         navigate("/home");
+    };
+
+    const handleGuestRequests = () => {
+        setAuthorized(false);
     };
 
     return (
@@ -28,7 +32,15 @@ function Navigate() {
             </header>
 
             <nav>
-                {userId ?
+                <>
+                    {/* <button onClick={handleGuestRequests}>albums</button>
+                    <button onClick={handleGuestRequests}>posts</button>
+                    <button onClick={handleGuestRequests}>todos</button>
+                    <button onClick={handleGuestRequests}>info</button>
+                    {userId ? <button id="logOutBtn" onClick={handleLogOut}>Log Out</button> : 
+                    } */}
+                </>
+                {userId?
                     <>
                         <Link to={`/users/${userId}/albums`}>albums</Link><br />
                         <Link to={`/users/${userId}/posts`}>posts</Link><br />
@@ -36,10 +48,11 @@ function Navigate() {
                         <Link to={`/users/${userId}/info`}>info</Link><br />
                         <button id="logOutBtn" onClick={handleLogOut}>Log Out</button>
                     </> :
-                    <><Link to={`/login`} >albums</Link><br />
-                        <Link to={`/login`}>posts</Link><br />
-                        <Link to={`/login`}>todos</Link><br />
-                        <Link to={`/login`}>info</Link><br />
+                    <>
+                        <button onClick={handleGuestRequests}>albums</button>
+                        <button onClick={handleGuestRequests}>posts</button>
+                        <button onClick={handleGuestRequests}>todos</button>
+                        <button onClick={handleGuestRequests}>info</button>
                         <Link id="logInLink" to={`/login`}>Login</Link><br />
                     </>
                 }
@@ -50,4 +63,4 @@ function Navigate() {
     );
 }
 
-export default Navigate;
+export default Navbar;
