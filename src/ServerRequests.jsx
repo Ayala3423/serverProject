@@ -27,7 +27,6 @@ export const createRequest = async (resource, body) => {
         throw new Error('Failed To Post Data');
     }
     return response.json();
-
 }
 
 export const deleteRequest = async (resource, id) => {

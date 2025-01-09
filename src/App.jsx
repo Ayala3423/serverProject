@@ -11,6 +11,7 @@ import Todos from './components/Todos/Todos';
 import Info from './components/Info/Info';
 import Photos from './components/Albums/Album/Photos/Photos';
 import Authorization from "./components/Authorization/Authorization";
+import DisplayError from "./components/DisplayError/DisplayError";
 
 // יצירת ה-Context
 export const UserContext = createContext();
@@ -28,19 +29,19 @@ function App() {
   }, []);
 
   return (
-    <UserContext.Provider value={{ currentUser, setCurrentUser, authorized, setAuthorized}}>
+    <UserContext.Provider value={{ currentUser, setCurrentUser, authorized, setAuthorized }}>
       <Router>
         <Authorization>
+        <DisplayError />
           <Routes>
             {/* מסלולים ראשיים */}
             <Route path="/" element={<Navigate to="/home" replace />} />
-
             <Route path="/home" element={<Home />} />
             <Route path="/login" element={<Login />} />
             <Route path="/signUp" element={<SignUp />} />
 
             {/* מסלול המשתמשים */}
-            <Route path="/users/:userId" element={<Navbar/>}>
+            <Route path="/users/:userId" element={<Navbar />}>
               <Route path="home" element={<Home />} />
               <Route path="albums" element={<Albums />} />
               <Route path="albums/:albumId/photos" element={<Photos />} />

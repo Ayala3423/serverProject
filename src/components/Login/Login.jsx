@@ -3,6 +3,7 @@ import './Login.css'
 import { BrowserRouter as Router, Route, Routes, Link, useNavigate, useLocation } from "react-router-dom";
 import { getRequest } from '../../ServerRequests'
 import { UserContext } from '../../App';
+import { triggerError } from "../DisplayError/DisplayError";
 
 export default function Login() {
     const fieldsRef = useRef({});
@@ -18,7 +19,7 @@ export default function Login() {
                 navigate(`/users/${data[0].id}/home`);
             }
             else {
-                alert('one or more of the details is incorrect');
+                triggerError('one or more of the details is incorrect');
             }
         } catch (error) {
             console.log(error);

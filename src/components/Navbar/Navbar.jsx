@@ -33,26 +33,20 @@ function Navbar() {
 
             <nav>
                 <>
-                    {/* <button onClick={handleGuestRequests}>albums</button>
-                    <button onClick={handleGuestRequests}>posts</button>
-                    <button onClick={handleGuestRequests}>todos</button>
-                    <button onClick={handleGuestRequests}>info</button>
-                    {userId ? <button id="logOutBtn" onClick={handleLogOut}>Log Out</button> : 
-                    } */}
                 </>
-                {userId?
+                {userId ?
                     <>
-                        <Link to={`/users/${userId}/albums`}>albums</Link><br />
-                        <Link to={`/users/${userId}/posts`}>posts</Link><br />
-                        <Link to={`/users/${userId}/todos`}>todos</Link><br />
-                        <Link to={`/users/${userId}/info`}>info</Link><br />
+                        <Link id="navItem" to={`/users/${userId}/albums`}>albums</Link><br />
+                        <Link id="navItem" to={`/users/${userId}/posts`}>posts</Link><br />
+                        <Link id="navItem" to={`/users/${userId}/todos`}>todos</Link><br />
+                        <Link id="navItem" to={`/users/${userId}/info`}>info</Link><br />
                         <button id="logOutBtn" onClick={handleLogOut}>Log Out</button>
                     </> :
                     <>
-                        <button onClick={handleGuestRequests}>albums</button>
-                        <button onClick={handleGuestRequests}>posts</button>
-                        <button onClick={handleGuestRequests}>todos</button>
-                        <button onClick={handleGuestRequests}>info</button>
+                        <button id="navItem" onClick={handleGuestRequests}>albums</button>
+                        <button id="navItem" onClick={handleGuestRequests}>posts</button>
+                        <button id="navItem" onClick={handleGuestRequests}>todos</button>
+                        <button id="navItem" onClick={handleGuestRequests}>info</button>
                         <Link id="logInLink" to={`/login`}>Login</Link><br />
                     </>
                 }

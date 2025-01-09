@@ -3,6 +3,7 @@ import './Todos.css';
 import Todo from './Todo/Todo.jsx';
 import { useParams } from 'react-router-dom';
 import { getRequest, createRequest } from '../../ServerRequests.jsx';
+import { triggerError } from "../DisplayError/DisplayError.jsx";
 
 function Todos() {
   const { userId } = useParams();
@@ -77,7 +78,12 @@ function Todos() {
         }
       })()
     }
+    else {
+      triggerError("All fields must be filled out!")
+    }
+
   };
+
 
   const handleChange = (event) => {
     const selectedValue = event.target.value;
@@ -160,16 +166,14 @@ function Todos() {
 
       </div>
       <div className="todos">
-        {todos && todos.length > 0 ? (
+        {todos && todos.length > 0 &&
           todos.filter((todo) => todo.isVisible).length > 0 ? (
-            todos.filter((todo) => todo.isVisible).map((todo) => (
-              <div key={todo.id} className="todo">
-                <Todo key={todo.id} id={todo.id} title={todo.title} completed={todo.completed} setTodos={setTodos} todos={todos} />
-              </div>
-            ))
-          ) : (
-            <h2>Loading tasks...</h2>
-          )
+          todos.filter((todo) => todo.isVisible).map((todo) => (
+            <div key={todo.id} className="todo">
+              <Todo key={todo.id} id={todo.id} title={todo.title} completed={todo.completed} setTodos={setTodos} todos={todos} />
+            </div>
+          ))
+
         ) : (
           <h2>No tasks found.</h2>
         )}

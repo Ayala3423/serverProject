@@ -57,7 +57,7 @@ function Albums() {
       };
       (async () => {
         try {
-          const data=await createRequest('albums', newAlbum);
+          const data = await createRequest('albums', newAlbum);
           setAlbums([...albums, { ...data, isVisible: true }]);
           setShowModal(false);
         } catch (error) {
@@ -111,7 +111,7 @@ function Albums() {
       </div>
 
       <div className="albums">
-        {albums && albums.length > 0 ? (
+        {albums && albums.length > 0 && (
           albums.filter((album) => album.isVisible).length > 0 ? (
             albums.filter((album) => album.isVisible).map((album) => (
               <div key={album.id} className="album">
@@ -119,10 +119,8 @@ function Albums() {
               </div>
             ))
           ) : (
-            <h2>No tasks found.</h2>
+            <h2>No albums found.</h2>
           )
-        ) : (
-          <h2>Loading tasks...</h2>
         )}
       </div>
 

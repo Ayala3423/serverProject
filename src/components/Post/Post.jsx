@@ -3,9 +3,10 @@ import './Post.css';
 import Comment from '../Comment/Comment.jsx';
 import { getRequest, deleteRequest, updateRequest, createRequest } from '../../ServerRequests.jsx'
 import { UserContext } from '../../App';
+import { triggerError } from "../DisplayError/DisplayError";
 
 function Post({ userId, postId, title, body, setPosts, posts }) {
-    const { currentUser } = useContext(UserContext);
+    const { currentUser, setAuthorized } = useContext(UserContext);
     const [idEditing, setIdEditing] = useState(null);
     const [showDetails, setShowDetails] = useState(false);
     const [showComments, setShowComments] = useState(false);
@@ -20,7 +21,7 @@ function Post({ userId, postId, title, body, setPosts, posts }) {
         if (userId === JSON.parse(currentUser.id)) {
             return true;
         } else {
-            alert('You are not authorized to perform this action!');
+            setAuthorized(false)
             return false;
         }
     };
@@ -42,7 +43,7 @@ function Post({ userId, postId, title, body, setPosts, posts }) {
         const updatedTitle = inputRefs.current.title?.value.trim();
         const updatedBody = inputRefs.current.body?.value.trim();
         if (!updatedTitle || !updatedBody) {
-            alert('Title and Body cannot be empty');
+            triggerError('Title and Body cannot be empty');
             return;
         }
         (async () => {

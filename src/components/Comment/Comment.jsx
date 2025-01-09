@@ -3,18 +3,19 @@ import './Comment.css';
 import { useParams } from 'react-router-dom';
 import { deleteRequest, updateRequest } from '../../ServerRequests';
 import { UserContext } from '../../App';
+import { triggerError } from "../DisplayError/DisplayError";
 
 function Comment({ id, email, name, body, setPostComments }) {
-    const { currentUser } = useContext(UserContext);
+    const { currentUser, setAuthorized } = useContext(UserContext);
     const [idEditing, setIdEditing] = useState(null);
     const inputRefs = useRef({});
 
     // פונקציה לבדיקה אם המשתמש מורשה לפעולה
     const checkAuthorization = () => {
-        if (currentUser &&email === currentUser.email) {
+        if (currentUser && email === currentUser.email) {
             return true;
         } else {
-            alert('You are not authorized to perform this action!');
+            setAuthorized(false)
             return false;
         }
     };
@@ -36,7 +37,7 @@ function Comment({ id, email, name, body, setPostComments }) {
         const updatedTitle = inputRefs.current.title?.value.trim();
         const updatedBody = inputRefs.current.body?.value.trim();
         if (!updatedTitle || !updatedBody) {
-            alert('Title and Body cannot be empty');
+            triggerError('Title and Body cannot be empty');
             return;
         }
         (async () => {

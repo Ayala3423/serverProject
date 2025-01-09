@@ -1,0 +1,44 @@
+.error-modal {
+    position: fixed;
+    top: -100px; /* מתחילה מחוץ למסך */
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80%;
+    max-width: 400px;
+    background-color: #514869; /* צבע רקע של ההודעה */
+    color: #fff; /* צבע הטקסט */
+    padding: 15px;
+    border-radius: 5px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    font-size: 16px;
+    z-index: 1000; /* כדי להיות מעל כל אלמנט אחר */
+    transition: top 0.5s ease-in-out; /* אנימציה חלקה */
+  }
+  
+  .error-modal.show {
+    top: 80px; /* מופיעה במרחק 20px מלמעלה */
+  }
+  
+  .error-modal p {
+    margin: 0;
+  }
+  
+  /* דוגמה לעיצוב תואם לפס הגלילה */
+  ::-webkit-scrollbar {
+    width: 10px; /* רוחב פס הגלילה */
+  }
+  
+  ::-webkit-scrollbar-track {
+    background: #2f2841; /* צבע הרקע של המסילה */
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    background: #514869; /* צבע הידית של פס הגלילה */
+    border-radius: 5px; /* עיגול הפינות */
+  }
+  
+  ::-webkit-scrollbar-thumb:hover {
+    background: #00ff88; /* צבע הידית בעת מעבר העכבר */
+  }
+  

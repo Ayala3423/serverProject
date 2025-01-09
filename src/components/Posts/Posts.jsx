@@ -1,8 +1,9 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useContext } from 'react';
 import './Posts.css';
 import Post from '../Post/Post.jsx'
 import { useParams } from 'react-router-dom';
 import { getRequest, createRequest } from '../../ServerRequests.jsx';
+import { triggerError } from "../DisplayError/DisplayError.jsx";
 
 function Posts() {
     const { userId } = useParams();
@@ -49,6 +50,10 @@ function Posts() {
                 }
             })()
         }
+        else {
+            triggerError("All fields must be filled out!")
+
+        }
     };
 
     const handleSearch = () => {
@@ -57,7 +62,7 @@ function Posts() {
             prev.map((comp) => ({
                 ...comp,
                 isVisible:
-                    (!search || ((comp.title.toLowerCase().includes(search))||comp.body.toLowerCase().includes(search))) &&
+                    (!search || ((comp.title.toLowerCase().includes(search)) || comp.body.toLowerCase().includes(search))) &&
                     (!id || comp.id.toString().includes(id)) && // תיקון התנאי
                     (!title || comp.title.toLowerCase().includes(title))
             }))
@@ -120,19 +125,17 @@ function Posts() {
             </div>
 
             <div className="posts">
-                {posts && posts.length > 0 ? (
+                {posts && posts.length > 0 &&
                     posts.filter((post) => post.isVisible).length > 0 ? (
-                        posts.filter((post) => post.isVisible).map((post) => (
-                            <div key={post.id} className="post">
-                                <Post key={post.id} userId={post.userId} postId={post.id} title={post.title} body={post.body} setPosts={setPosts} posts={posts} />
-                            </div>
-                        ))
-                    ) : (
-                        <h2>Loading Posts...</h2>
-                    )
-                ) : (
-                    <h2>No Posts found.</h2>
-                )}
+                    posts.filter((post) => post.isVisible).map((post) => (
+                        <div key={post.id} className="post">
+                            <Post key={post.id} userId={post.userId} postId={post.id} title={post.title} body={post.body} setPosts={setPosts} posts={posts} />
+                        </div>
+                    ))
+                )
+                    : (
+                        <h2>No Posts found.</h2>
+                    )}
             </div>
 
         </>

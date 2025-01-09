@@ -2,6 +2,8 @@ import { useState, useRef } from 'react';
 import { BrowserRouter as Router, Route, Routes, Link, useParams } from "react-router-dom";
 import { deleteRequest, updateRequest } from '../../../ServerRequests'
 import './Album.css';
+import { triggerError } from "../../DisplayError/DisplayError";
+
 
 function Album({ albumId, title, setAlbums, albums }) {
     const { userId } = useParams();
@@ -22,7 +24,7 @@ function Album({ albumId, title, setAlbums, albums }) {
     const handleEdit = () => {
         const updatedTitle = titleRef.current?.value.trim();
         if (!updatedTitle) {
-            alert('Title cannot be empty');
+            triggerError("This is an error message");
             return;
         }
         (async () => {

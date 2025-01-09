@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import { useParams, useLocation } from "react-router-dom";
 import "./Photos.css";
 import { deleteRequest, createRequest, updateRequest, slowLoadRequest } from '../../../../ServerRequests';
+import { triggerError } from "../../../DisplayError/DisplayError";
 
 function Photos() {
   const { albumId } = useParams();
@@ -85,10 +86,9 @@ function Photos() {
         }
       })();
     } else {
-      alert("All fields must be filled out!");
+      triggerError("All fields must be filled out!");
     }
   };
-
 
   const handleAddPhoto = () => {
     setShowModal(prev => !prev);
@@ -117,7 +117,7 @@ function Photos() {
         }
       })()
     } else {
-      alert("All fields must be filled out!");
+      triggerError("All fields must be filled out!");
     }
   };
 

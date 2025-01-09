@@ -1,6 +1,7 @@
 import { useState, useRef } from 'react';
 import './Todo.css';
 import { deleteRequest, updateRequest } from '../../../ServerRequests'
+import { triggerError } from "../../DisplayError/DisplayError";
 
 function Todo({ id, title, completed, setTodos, todos }) {
     const [idEditing, setIdEditing] = useState(null);
@@ -20,7 +21,7 @@ function Todo({ id, title, completed, setTodos, todos }) {
     const handleEdit = () => {
         const updatedTitle = titleRef.current?.value.trim();
         if (!updatedTitle) {
-            alert('Title cannot be empty');
+            triggerError('Title cannot be empty');
             return;
         }
         (async () => {

@@ -3,6 +3,7 @@ import './SignUp.css';
 import { BrowserRouter as Router, Route, Routes, Link, useNavigate, useLocation } from "react-router-dom";
 import { getRequest, createRequest } from '../../ServerRequests'
 import { UserContext } from '../../App';
+import { triggerError } from "../DisplayError/DisplayError";
 
 export default function SignUp() {
     const { setCurrentUser } = useContext(UserContext);
@@ -36,10 +37,10 @@ export default function SignUp() {
         try {
             const data = await getRequest('users', 'username', name);
             if (data[0]) {
-                alert('You already have an account');
+                triggerError('You already have an account');
             }
             else if (password !== verifyPassword) {
-                alert('Passwords do not match');
+                triggerError('Passwords do not match');
                 return;
             } 
             else{
