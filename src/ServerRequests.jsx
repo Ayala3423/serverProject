@@ -38,6 +38,15 @@ export const deleteRequest = async (resource, id) => {
     }
 }
 
+export const deleteAllRequest = async (resource, array) => {
+    const deletePromises = array?.map((comment) =>
+        fetch(`http://localhost:3000/${resource}/${comment.id}`, {
+            method: 'DELETE',
+        })
+    );
+    await Promise.all(deletePromises);
+}
+
 export const updateRequest = async (resource, id, body) => {
     console.log(id);
     const response = await fetch(`http://localhost:3000/${resource}/${id}`, {

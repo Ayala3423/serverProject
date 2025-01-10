@@ -1,7 +1,7 @@
 import { useState, useRef, useContext } from 'react';
 import './Post.css';
 import Comment from '../Comment/Comment.jsx';
-import { getRequest, deleteRequest, updateRequest, createRequest } from '../../ServerRequests.jsx'
+import { getRequest, deleteRequest, updateRequest, deleteAllRequest, createRequest } from '../../ServerRequests.jsx'
 import { UserContext } from '../../App';
 import { triggerError } from "../DisplayError/DisplayError";
 
@@ -32,6 +32,8 @@ function Post({ userId, postId, title, body, setPosts, posts }) {
                 try {
                     await deleteRequest('posts', postId);
                     setPosts((prev) => prev.filter((item) => item.id !== postId));
+                    await deleteAllRequest('comments', postComments);
+                    setPostComments(null)
                 } catch (error) {
                     console.log(error);
                 }

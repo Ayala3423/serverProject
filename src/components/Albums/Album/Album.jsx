@@ -14,6 +14,7 @@ function Album({ albumId, title, setAlbums, albums }) {
         (async () => {
             try {
                 await deleteRequest('albums', albumId);
+                // await deleteRequest('photos', albumId);
                 setAlbums((prev) => prev.filter((item) => item.id !== albumId));
             } catch (error) {
                 console.log(error);
