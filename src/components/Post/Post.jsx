@@ -196,6 +196,7 @@ function Post({ userId, postId, title, body, setPosts, posts }) {
                                         <Comment
                                             key={comment.id}
                                             id={comment.id}
+                                            postUserId={userId}
                                             email={comment.email}
                                             name={comment.name}
                                             body={comment.body}
