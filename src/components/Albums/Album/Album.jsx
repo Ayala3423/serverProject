@@ -1,6 +1,6 @@
 import { useState, useRef } from 'react';
 import { BrowserRouter as Router, Route, Routes, Link, useParams } from "react-router-dom";
-import { deleteRequest, updateRequest } from '../../../ServerRequests'
+import { deleteRequest, getRequest, updateRequest, deleteAllRequest } from '../../../ServerRequests'
 import './Album.css';
 import { triggerError } from "../../DisplayError/DisplayError";
 
@@ -14,8 +14,9 @@ function Album({ albumId, title, setAlbums, albums }) {
         (async () => {
             try {
                 await deleteRequest('albums', albumId);
-                // await deleteRequest('photos', albumId);
                 setAlbums((prev) => prev.filter((item) => item.id !== albumId));
+                const data = await getRequest('photos', 'albumId', albumId);
+                await deleteAllRequest('photos', data);
             } catch (error) {
                 console.log(error);
             }

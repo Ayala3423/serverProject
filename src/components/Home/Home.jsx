@@ -76,10 +76,10 @@ function Home() {
                 </div>
               ))
             ) : (
-              <h2>No tasks found.</h2>
+              <h2>No Posts found.</h2>
             )
           ) : (
-            <h2>Loading tasks...</h2>
+            <h2>Loading Posts...</h2>
           )}
         </div>
       </div>

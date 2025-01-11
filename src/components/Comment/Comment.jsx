@@ -61,7 +61,7 @@ function Comment({ id,postUserId, email, name, body, setPostComments }) {
 
     return (
         <>
-            <h3>Id: {id}</h3>
+            <p>Id: {id}</p>
             <p>Email: {email}</p>
             {idEditing === id && (email === currentUser.email) ? (
                 <>
