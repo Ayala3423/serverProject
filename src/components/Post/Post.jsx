@@ -132,7 +132,7 @@ function Post({ userId, postId, title, body, setPosts, posts }) {
                 <span>Posted By: {userId}</span>
                 <span>Id: {postId}</span>
             </div>
-            <h3>{title}</h3>
+            <h3 id='postTitle'>{title}</h3>
             <button id="moreDetailsBtn" onClick={handleShowDetails}>More Details</button>
 
             {showDetails && (

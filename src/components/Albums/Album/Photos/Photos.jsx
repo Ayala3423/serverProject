@@ -97,7 +97,7 @@ function Photos() {
   const handleSavePhoto = () => {
     const newPhotoLength = newPhotoRef.current.LengthPixel.value.trim();
     const newPhotoWidth = newPhotoRef.current.WidthPixel.value.trim();
-    const newPhotoColor = newPhotoRef.current.Photocolor.value.trim().replace("#", ""); // מסירים את ה-# מהקוד
+    const newPhotoColor = newPhotoRef.current.Photocolor.value.trim().replace("#", "");
     const newPhotoTitle = newPhotoRef.current.PhotoTitle.value.trim();
 
     if (newPhotoLength && newPhotoWidth && newPhotoColor) {
@@ -127,8 +127,8 @@ function Photos() {
         <h1 className="AlbumNumber">Album {albumId}</h1>
         <h2>Title: {albumTitle}</h2>
         <h2>Photos</h2>
+        <button onClick={handleAddPhoto}>Add</button>
         <div className="button-group">
-          <button onClick={handleAddPhoto}>Add</button>
           {showModal && (
             <div className="modal">
               <div className="modal-content">
@@ -160,8 +160,8 @@ function Photos() {
                   ref={(el) => (newPhotoRef.current["Photocolor"] = el)}
                   defaultValue={
                     isEditing
-                      ? `#${photoToEdit.url.split("/")[4]}` // מוסיף את ה-#
-                      : "#000000" // צבע ברירת מחדל
+                      ? `#${photoToEdit.url.split("/")[4]}`
+                      : "#000000"
                   }
                 />
                 <button onClick={photoToEdit ? handleSaveEditPhoto : handleSavePhoto}>
