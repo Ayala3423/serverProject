@@ -32,8 +32,9 @@ function Post({ userId, postId, title, body, setPosts, posts }) {
                 try {
                     await deleteRequest('posts', postId);
                     setPosts((prev) => prev.filter((item) => item.id !== postId));
-                    await deleteAllRequest('comments', postComments);
-                    setPostComments(null)
+                    const data = await getRequest('comments', 'postId', postId);
+                    await deleteAllRequest('comments', data);
+                    setPostComments(data)
                 } catch (error) {
                     console.log(error);
                 }
@@ -131,7 +132,7 @@ function Post({ userId, postId, title, body, setPosts, posts }) {
                 <span>Posted By: {userId}</span>
                 <span>Id: {postId}</span>
             </div>
-            <h3>Title: {title}</h3>
+            <h3>{title}</h3>
             <button id="moreDetailsBtn" onClick={handleShowDetails}>More Details</button>
 
             {showDetails && (
@@ -148,8 +149,8 @@ function Post({ userId, postId, title, body, setPosts, posts }) {
                             </>
                         ) : (
                             <>
-                                <h3>Title: {title}</h3>
-                                <h3>Body: {body}</h3>
+                                <h3>{title}</h3>
+                                <p>{body}</p>
                             </>
                         )}
 
@@ -166,6 +167,7 @@ function Post({ userId, postId, title, body, setPosts, posts }) {
                     {showComments && (
                         <div className="comments-modal-content">
                             <div className="button-group">
+                                <button onClick={handleCloseComments}>Close Comments</button>
                                 {currentUser && <button onClick={handleAddComment}>Add</button>}
                                 {showAddCommentModal && (
                                     <div className="modal">
@@ -191,8 +193,8 @@ function Post({ userId, postId, title, body, setPosts, posts }) {
                                     </div>
                                 )}
                             </div>
-                            <h3>Comments:</h3>
                             <div className="comments">
+                                <h3>Comments:</h3>
                                 {postComments ? (
                                     postComments.map((comment) => (
                                         <Comment
@@ -209,7 +211,6 @@ function Post({ userId, postId, title, body, setPosts, posts }) {
                                     <h2>Loading comments...</h2>
                                 )}
                             </div>
-                            <button onClick={handleCloseComments}>Close Comments</button>
                         </div>
                     )}
                 </div>

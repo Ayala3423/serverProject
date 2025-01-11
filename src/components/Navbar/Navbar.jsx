@@ -43,10 +43,10 @@ function Navbar() {
                         <button id="logOutBtn" onClick={handleLogOut}>Log Out</button>
                     </> :
                     <>
-                        <button id="navItem" onClick={handleGuestRequests}>albums</button>
-                        <button id="navItem" onClick={handleGuestRequests}>posts</button>
-                        <button id="navItem" onClick={handleGuestRequests}>todos</button>
-                        <button id="navItem" onClick={handleGuestRequests}>info</button>
+                        <button id="navItem" onClick={handleGuestRequests}>albums</button><br />
+                        <button id="navItem" onClick={handleGuestRequests}>posts</button><br />
+                        <button id="navItem" onClick={handleGuestRequests}>todos</button><br />
+                        <button id="navItem" onClick={handleGuestRequests}>info</button><br />
                         <Link id="logInLink" to={`/login`}>Login</Link><br />
                     </>
                 }
