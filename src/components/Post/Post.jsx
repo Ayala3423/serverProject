@@ -143,8 +143,8 @@ function Post({ userId, postId, title, body, setPosts, posts }) {
 
                         {idEditing === postId ? (
                             <>
-                                <input ref={(el) => (inputRefs.current.title = el)} type="text" defaultValue={title} />
-                                <textarea ref={(el) => (inputRefs.current.body = el)} defaultValue={body} />
+                                <input ref={(el) => (inputRefs.current.title = el)} type="text" defaultValue={title} id='titleInputPost'/>
+                                <textarea ref={(el) => (inputRefs.current.body = el)} defaultValue={body} id='bodyInputPost'/>
                             </>
                         ) : (
                             <>

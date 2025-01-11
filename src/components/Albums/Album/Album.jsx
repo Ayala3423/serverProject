@@ -64,7 +64,7 @@ function Album({ albumId, title, setAlbums, albums }) {
             </div>
             <div className="album-title">
                 {idEditing === albumId ? (
-                    <input ref={titleRef} type="text" defaultValue={title} />
+                    <input ref={titleRef} type="text" defaultValue={title} id='titleInputAlbum' />
                 ) : (
                     <h2>{title}</h2>
                 )}

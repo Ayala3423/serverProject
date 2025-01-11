@@ -69,7 +69,7 @@ function Todo({ id, title, completed, setTodos, todos }) {
             </div>
             <div className="todo-title">
                 {idEditing === id ? (
-                    <input ref={titleRef} type="text" defaultValue={title} />
+                    <input ref={titleRef} type="text" defaultValue={title} id='titleInputTodo'/>
                 ) : (
                     <h2>{title}</h2>
                 )}

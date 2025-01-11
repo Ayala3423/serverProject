@@ -132,3 +132,14 @@
     background: #00ff88; /* צבע רקע על ריחוף */
     color: #2b134b; /* צבע טקסט חדש על ריחוף */
   }
+
+  #titleInputAlbum{
+    padding: 7px 15px;
+    border: 2px solid #716c85;
+    border-radius: 8px;
+    width: 300px;
+    font-size: 1em;
+    color: #514869;
+    background-color: #f8f7fb;
+    transition: border-color 0.3s ease;
+}
