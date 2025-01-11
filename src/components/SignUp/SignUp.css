@@ -1,39 +1,38 @@
-/* תואם לעיצוב של ה-login */
 .main-login {
     display: flex;
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    max-height: 100vh; /* למנוע גלילה אנכית */
-    overflow: hidden; /* למנוע גלילה פנימית */
+    max-height: 100vh; 
+    overflow: hidden; 
     background-color: #201b2c;
     margin: 0;
 }
 
 form {
     display: grid;
-    grid-template-columns: repeat(3, 1fr); /* 3 עמודות */
-    gap: 20px; /* רווח בין השדות */
+    grid-template-columns: repeat(3, 1fr); 
+    gap: 20px; 
 }
 
 .login{
     color: white;
-    grid-column: span 3; /* ברירת מחדל: תופס עמודה אחת */
+    grid-column: span 3; 
 }
 
 .textfield {
     display: flex;
     flex-direction: column;
     gap: 5px;
-    grid-column: span 1; /* ברירת מחדל: תופס עמודה אחת */
+    grid-column: span 1; 
 }
 
 .textfield.full-width {
-    grid-column: span 3; /* שדות שצריכים לתפוס את כל העמודות */
+    grid-column: span 3;
 }
 
 .btn-login {
-    grid-column: span 3; /* הכפתור יתפוס את כל הרוחב */
+    grid-column: span 3;
 }
 
 
@@ -44,21 +43,20 @@ form {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 15px;
-    overflow: hidden; /* למנוע גלילה פנימית */
+    overflow: hidden;
 }
 
 .card-login {
     display: flex;
     flex-direction: column;
     gap: 10px;
-    /* height: 100%; */
-    grid-column: span 3; /* כדי שהכותרת תתפוס את כל הרוחב */
+    grid-column: span 3; 
     overflow: hidden;
 }
 .card-login h1 {
     text-align: center;
     margin-bottom: 20px;
-    color: #f0ffffde; /* צבע כותרת זהה ל-login */
+    color: #f0ffffde;
 }
 
 .textfield {
@@ -79,11 +77,11 @@ form {
 }
 
 .textfield input::placeholder {
-    color: #f0ffff94; /* צבע פלייסהולדר זהה ל-login */
+    color: #f0ffff94; 
 }
 
 .textfield input:focus {
-    border-color: #00ff88; /* צבע focus דומה ל-login */
+    border-color: #00ff88; 
     outline: none;
 }
 
@@ -103,14 +101,14 @@ form {
     font-weight: 800;
     letter-spacing: 3px;
     color: #2b134b;
-    background: #00ff88; /* צבע כפתור דומה ל-login */
+    background: #00ff88; 
     cursor: pointer;
     box-shadow: 0px 10px 40px -12px #00ff8052;
 }
 
 @media only screen and (max-width: 950px) {
     .right-login {
-        grid-template-columns: 1fr 1fr; /* בגרסאות קטנות יותר, 2 טורים */
+        grid-template-columns: 1fr 1fr;
     }
 }
 
@@ -119,7 +117,7 @@ form {
         flex-direction: column; 
     }
     .right-login {
-        grid-template-columns: repeat(3, 1fr); /* שמירה על 3 טורים גם במסכים קטנים */
+        grid-template-columns: repeat(3, 1fr); 
     }
 }
 

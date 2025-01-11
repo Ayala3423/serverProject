@@ -1,26 +1,25 @@
-/* עיצוב פס הגלילה */
 ::-webkit-scrollbar {
-  width: 10px; /* רוחב פס הגלילה */
+  width: 10px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #2f2841; /* צבע הרקע של המסילה */
+  background: #2f2841;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #514869; /* צבע הידית של פס הגלילה */
-  border-radius: 5px; /* עיגול הפינות */
+  background: #514869;
+  border-radius: 5px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #00ff88; /* צבע הידית בעת מעבר העכבר */
+  background: #00ff88;
 }
 
 .homePage {
   display: flex;
   flex-direction: column;
-  margin-left: 300px; /* מניח שהרוחב של הניווט הוא 200px */
-  width: calc(100% - 200px); /* מניעת גלילה ימינה */
+  margin-left: 300px;
+  width: calc(100% - 200px);
   padding: 0;
   box-sizing: border-box;
 }
@@ -28,18 +27,18 @@
 .posts {
   display: flex;
   flex-direction: column;
-  align-items: center; /* מרכז את התוכן אופקית */
-  justify-content: center; /* מרכז את התוכן אנכית */
-  min-height: 100vh; /* מבטיח שהחלק ייקח את כל גובה העמוד */
-  padding: 20px; /* מרווח פנימי */
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 20px;
   box-sizing: border-box;
 }
 
 #allPosts {
   display: flex;
   flex-direction: column;
-  align-items: center; /* מרכז את הפוסטים בתוך הקונטיינר */
+  align-items: center;
   width: 100%;
-  max-width: 800px; /* קובע רוחב מקסימלי לפוסטים */
-  margin: auto; /* מבטיח שהפוסטים יישארו במרכז */
+  max-width: 800px;
+  margin: auto;
 }

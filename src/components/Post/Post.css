@@ -24,17 +24,14 @@
 
 .id {
   margin-bottom: 5px;
-  /* הפחתת רווח בין ה-ID לכותרת */
 }
 
 h2 {
   margin-top: 5px;
-  /* הפחתת רווח עליון לכותרת הפוסט */
 }
 
 #post {
   position: relative;
-  /* מאפשר מיקום יחסי עבור אלמנטים פנימיים */
   width: 100%;
   max-width: 100%;
   margin: 20px 0;
@@ -56,10 +53,7 @@ h2 {
 .post-ids {
   position: absolute;
   top: 10px;
-  /* מרחק מהחלק העליון של הפוסט */
   left: 10px;
-  /* מרחק מהצד השמאלי של הפוסט */
-  /* background: #514869; */
   color: #555;
   padding: 5px 10px;
   border-radius: 8px;
@@ -70,13 +64,9 @@ h2 {
   gap: 5px;
 }
 
-
-
-/* חלונית התגובות */
 .comments-modal-content {
   max-height: 500px;
   overflow-y: auto;
-  /* גלילה פנימית לתגובות */
   margin-top: 20px;
   background: #1e1a2b;
   color: #f0ffff;
@@ -87,6 +77,7 @@ h2 {
   max-width: 400px;
   z-index: 4000;
 }
+
 .comments-modal-content button {
   font-size: 18px;
 
@@ -155,4 +146,3 @@ h2 {
   line-height: 1.5;
   font-weight: 400;
 }
-

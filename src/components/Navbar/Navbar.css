@@ -1,98 +1,97 @@
 nav {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 200px; /* רוחב הסרגל */
-    height: 100%; /* גובה מלא */
-    background: #2f2841; /* רקע כהה */
-    padding: 20px;
-    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.5); /* הצללה */
-    display: flex;
-    flex-direction: column; /* תוכן בטור */
-    align-items: flex-start; /* יישור לטור */
-    /* overflow-y: auto; גלילה אם יש תוכן מעבר לגובה */
-  }
-  
-  #navItem {
-    margin-bottom: 30px;
-    text-decoration: none; /* ללא קו תחתון */
-    color: #f0ffffde; /* צבע טקסט */
-    font-size: 14px;
-    font-weight: 600;
-    margin: 10px 0; /* רווח בין הלינקים */
-    padding: 10px 15px;
-    background: #514869; /* צבע רקע */
-    border-radius: 8px; /* פינות מעוגלות */
-    transition: all 0.3s ease; /* אפקט מעבר */
-    width: 100%; /* טופס פריסה מלאה */
-    box-sizing: border-box;
-    text-align: left; /* יישור הטקסט לשמאל */
-  }
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 200px;
+  height: 100%;
+  background: #2f2841;
+  padding: 20px;
+  box-shadow: 2px 0 10px rgba(0, 0, 0, 0.5);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
 
-  #navItem:hover{
-    background: #00ff88; /* צבע רקע על ריחוף */
-    color: #2b134b; 
-  }
-  
-  nav a:hover {
-    background: #00ff88; /* צבע רקע על ריחוף */
-    color: #2b134b; /* צבע טקסט חדש על ריחוף */
-  }
-  
-  .header {
-    position: fixed;
-    top: 0;
-    right: 0;
-    width: calc(100% - 200px); /* לוקח בחשבון את סרגל הניווט */
-    height: 60px; /* גובה הכותרת */
-    background-color: #2f2841; /* צבע רקע כהה */
-    display: flex;
-    justify-content: space-between; /* שם המשתמש לשמאל והלינק לימין */
-    align-items: center; /* יישור אנכי */
-    padding: 0 20px; /* ריווח פנימי */
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5); /* הצללה */
-    z-index: 1000; /* כדי שהכותרת תהיה מעל כל שאר התוכן */
-  }
-  
-  .profile {
-    display: flex;
-    align-items: center;
-    gap: 15px; /* רווח בין האלמנטים */
-    color: #f0ffff; /* צבע טקסט */
-    font-size: 16px;
-    font-weight: 600;
-  }
-  
-  .username {
-    font-size: 130%;
-    font-weight: 500;
-    color: #00ff88; /* צבע ירוק */
-  }
-  
-  .homeLink {
-    display: flex;
-    align-items: center; /* יישור אנכי בין האייקון לטקסט */
-    gap: 8px; /* רווח בין הסמל לטקסט */
-    text-decoration: none; /* ביטול קו תחתון */
-    color: #f0ffff; /* צבע טקסט */
-    font-size: 16px;
-    font-weight: 600;
-    padding: 10px 15px;
-    border-radius: 8px; /* פינות מעוגלות */
-    background: #514869; /* צבע רקע ללינק */
-    transition: all 0.3s ease; /* אפקט מעבר */
-    margin-left: auto; /* דוחף את הלינק לקצה הימני */
-  
-  }
-  
-  .homeLink:hover {
-    background: #00ff88; /* צבע רקע על ריחוף */
-    color: #2b134b; /* צבע טקסט חדש על ריחוף */
-  }
-  
+#navItem {
+  margin-bottom: 30px;
+  text-decoration: none;
+  color: #f0ffffde;
+  font-size: 14px;
+  font-weight: 600;
+  margin: 10px 0;
+  padding: 10px 15px;
+  background: #514869;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  width: 100%;
+  box-sizing: border-box;
+  text-align: left;
+}
+
+#navItem:hover {
+  background: #00ff88;
+  color: #2b134b;
+}
+
+nav a:hover {
+  background: #00ff88;
+  color: #2b134b;
+}
+
+.header {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: calc(100% - 200px);
+  height: 60px;
+  background-color: #2f2841;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 20px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+}
+
+.profile {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  color: #f0ffff;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.username {
+  font-size: 130%;
+  font-weight: 500;
+  color: #00ff88;
+}
+
+.homeLink {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  text-decoration: none;
+  color: #f0ffff;
+  font-size: 16px;
+  font-weight: 600;
+  padding: 10px 15px;
+  border-radius: 8px;
+  background: #514869;
+  transition: all 0.3s ease;
+  margin-left: auto;
+
+}
+
+.homeLink:hover {
+  background: #00ff88;
+  color: #2b134b;
+}
+
 #logOutBtn,
 #logInLink {
-  margin-top: auto; /* להזיז את הכפתור לסוף הניווט */
+  margin-top: auto;
   padding: 16px 0;
   border: none;
   border-radius: 8px;
@@ -108,7 +107,8 @@ nav {
   transition: all 0.3s ease;
 }
 
-#logOutBtn:hover, #logInLink:hover {
-  background: #77ffc0; /* צבע רקע על ריחוף */
-  color: #201b2c; /* צבע טקסט חדש על ריחוף */
+#logOutBtn:hover,
+#logInLink:hover {
+  background: #77ffc0;
+  color: #201b2c;
 }
