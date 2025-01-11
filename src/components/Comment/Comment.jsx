@@ -4,13 +4,13 @@ import { deleteRequest, updateRequest } from '../../ServerRequests';
 import { UserContext } from '../../App';
 import { triggerError } from "../DisplayError/DisplayError";
 
-function Comment({ id, email, name, body, setPostComments }) {
+function Comment({ id,postUserId, email, name, body, setPostComments }) {
     const { currentUser, setAuthorized } = useContext(UserContext);
     const [idEditing, setIdEditing] = useState(null);
     const inputRefs = useRef({});
 
     const checkAuthorization = () => {
-        if (currentUser && email === currentUser.email) {
+        if ((currentUser && email === currentUser.email)||postUserId==currentUser.id) {
             return true;
         } else {
             setAuthorized(false)
