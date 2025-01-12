@@ -8,7 +8,7 @@ import { getAllRequest } from '../../ServerRequests.jsx';
 function Home() {
   const { userId } = useParams();
   const [allPosts, setAllPosts] = useState();  // שימוש בקונטקסט לפוסטים
-  const [showFilterModal, setShowFilterModal] = useState(false);
+  const [showFilterBar, setShowFilterBar] = useState(false);
   const filtersRef = useRef({ search: '', id: '', title: '' });
 
   useEffect(() => {
@@ -53,17 +53,23 @@ function Home() {
         <h1>All Posts</h1>
         <div className='searchPost'>
           <div className="search-bar">
-            <input type="text" placeholder="Search..." onChange={(e) => updateFilter('search', e.target.value.toLowerCase())} />
-            <button onClick={() => setShowFilterModal(true)}>Filters</button>
+            <input
+              type="text"
+              placeholder="Search..."
+              onChange={(e) => updateFilter('search', e.target.value.toLowerCase())}
+            />
+            <button onClick={() => setShowFilterBar(!showFilterBar)}>
+              Filters
+            </button>
           </div>
-          {showFilterModal && (
-            <div className="modal">
-              <div className="modal-content">
-                <h2>Advanced Filters</h2>
-                <input type="text" placeholder="Filter by ID" onChange={(e) => updateFilter('id', e.target.value)} />
-                <input type="text" placeholder="Filter by Title" onChange={(e) => updateFilter('title', e.target.value.toLowerCase())} />
-                <button onClick={() => setShowFilterModal(false)}>Close</button>
-              </div>
+          {showFilterBar && (
+            <div className="search-bar">
+              <input
+                type="text"
+                placeholder="Filter by ID"
+                onChange={(e) => updateFilter('id', e.target.value)}
+              />
+              <button onClick={() => setShowFilterBar(false)}>Close</button>
             </div>
           )}
         </div>

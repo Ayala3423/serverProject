@@ -75,3 +75,11 @@ h1 {
 .filter-bar button:hover {
   background-color: #5e5770;
 }
+.button-group {
+  display: flex;
+  flex-direction: row;
+  position: absolute;
+  font-size: 18px;
+  z-index: 5;
+  position: fixed;
+}

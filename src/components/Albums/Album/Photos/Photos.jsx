@@ -17,7 +17,7 @@ function Photos() {
   const [isEditing, setIsEditing] = useState(false);
   const [photoToEdit, setPhotoToEdit] = useState(null);
 
-  const limit = 10;
+  const limit = 9;
 
   useEffect(() => {
     if (photos.length === 0) loadPhotos();

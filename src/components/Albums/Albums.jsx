@@ -66,14 +66,14 @@ function Albums() {
         }
       })();
     }
-    else{
+    else {
       triggerError("All fields must be filled out!")
     }
   };
 
   return (
     <div className='allAlbums'>
-      <h1>Albums</h1>
+      <h1 id='albumsTitle'>Albums</h1>
       <div className="button-group">
         <div className='addAlbum'>
           <button onClick={handleAddAlbum}>Add</button>
@@ -101,17 +101,16 @@ function Albums() {
             <button onClick={() => setShowFilterBar(true)}>Filters</button>
           </div>
           {showFilterBar && (
-              <div className="search-bar">
-                <input type="text" placeholder="Filter by ID" onChange={(e) => updateFilter('id', e.target.value)} />
-                <button onClick={() => setShowFilterBar(false)}>Close</button>
-              </div>
+            <div className="search-bar">
+              <input type="text" placeholder="Filter by ID" onChange={(e) => updateFilter('id', e.target.value)} />
+              <button onClick={() => setShowFilterBar(false)}>Close</button>
+            </div>
           )}
         </div>
-
       </div>
 
       <div className="albums">
-        {albums && albums.length > 0 && (
+        {albums && albums.length > 0 && 
           albums.filter((album) => album.isVisible).length > 0 ? (
             albums.filter((album) => album.isVisible).map((album) => (
               <div key={album.id} className="album">
@@ -120,10 +119,8 @@ function Albums() {
             ))
           ) : (
             <h2>No albums found.</h2>
-          )
-        )}
+          )}
       </div>
-
     </div>
   )
 }
