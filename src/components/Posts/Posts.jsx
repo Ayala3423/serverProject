@@ -121,7 +121,19 @@ function Posts() {
                                 placeholder="Filter by ID"
                                 onChange={(e) => updateFilter('id', e.target.value)}
                             />
-                            <button onClick={() => setShowFilterBar(false)}>Close</button>
+                            <button
+                                onClick={() => {
+                                    setShowFilterBar(false); // סגור את שורת הפילטרים
+                                    setPosts((prev) =>
+                                        prev.map((comp) => ({
+                                            ...comp,
+                                            isVisible: true, // הפוך את כל ה-isVisible ל-true
+                                        }))
+                                    );
+                                }}
+                            >
+                                Close
+                            </button>
                         </div>
                     )}
                 </div>

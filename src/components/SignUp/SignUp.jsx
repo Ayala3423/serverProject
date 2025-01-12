@@ -1,265 +1,236 @@
-import { useState, useRef, useEffect, useContext } from 'react';
-import './SignUp.css';
-import { BrowserRouter as Router, Route, Routes, Link, useNavigate, useLocation } from "react-router-dom";
-import { getRequest, createRequest } from '../../ServerRequests'
-import { UserContext } from '../../App';
+import { useState, useContext } from "react";
+import { useForm } from "react-hook-form";
+import { Link, useNavigate } from "react-router-dom";
+import { getRequest, createRequest } from "../../ServerRequests";
+import { UserContext } from "../../App";
 import { triggerError } from "../DisplayError/DisplayError";
+import "./SignUp.css";
 
 export default function SignUp() {
     const { setCurrentUser } = useContext(UserContext);
     const navigate = useNavigate();
-    const [step, setStep] = useState(1); // שליטה על שלב הטופס
-    const fieldsRef = useRef({});
-    const [formData, setFormData] = useState({
-        name: '',
-        username: '',
-        email: '',
-        address: {
-            street: '',
-            suite: '',
-            city: '',
-            zipcode: '',
-            geo: {
-                lat: '',
-                lng: ''
-            },
-        },
-        phone: '',
-        website: '',
-        company: {
-            name: '',
-            catchPhrase: '',
-            bs: ''
-        },
-    });
+    const [step, setStep] = useState(1);
 
-    const verifyUser = async (name, password, verifyPassword) => {
+    const {
+        register,
+        handleSubmit,
+        setError,
+        reset,
+        formState: { errors },
+    } = useForm();
+
+    // פונקציה לבדיקה בשלב הראשון
+    const verifyUser = async (data) => {
         try {
-            const data = await getRequest('users', 'username', name);
-            if (data[0]) {
-                triggerError('You already have an account');
-            }
-            else if (password !== verifyPassword) {
-                triggerError('Passwords do not match');
+            const user = await getRequest("users", "username", data.username);
+            if (user[0]) {
+                triggerError("You already have an account");
                 return;
-            } 
-            else{
-                setFormData({ ...formData, username: name, website: password });
-                setStep(2);            
+            } else if (data.password !== data.verifyPassword) {
+                setError("verifyPassword", { message: "Passwords do not match." });
+                return;
             }
+            setStep(2);
         } catch (error) {
             console.log(error);
         }
-    }
-
-    const handleFirstStep = (e) => {
-        e.preventDefault();
-        const userName = fieldsRef.current.name.value;
-        const password = fieldsRef.current.password.value;
-        const verifyPassword = fieldsRef.current.verifyPassword.value;
-        verifyUser(userName, password, verifyPassword)
     };
 
-    const handleSecondStep = (e) => {
-        e.preventDefault();
-        const updatedFormData = {
-            ...formData,
-            name: fieldsRef.current.name.value,
-            email: fieldsRef.current.email.value,
-            address: {
-                street: fieldsRef.current.street.value,
-                suite: fieldsRef.current.suite.value,
-                city: fieldsRef.current.city.value,
-                zipcode: fieldsRef.current.zipcode.value,
-                geo: {
-                    lat: fieldsRef.current.lat.value,
-                    lng: fieldsRef.current.lng.value,
+    // שליחת השלב הראשון
+    const onFirstStepSubmit = (data) => {
+        verifyUser(data);
+    };
+
+    // שליחת השלב השני
+    const onSecondStepSubmit = async (data) => {
+        try {
+            const updatedFormData = {
+                ...data,
+                address: {
+                    street: data.street,
+                    suite: data.suite,
+                    city: data.city,
+                    zipcode: data.zipcode,
+                    geo: {
+                        lat: data.lat,
+                        lng: data.lng,
+                    },
                 },
-            },
-            phone: fieldsRef.current.phone.value,
-            company: {
-                name: fieldsRef.current.companyName.value,
-                catchPhrase: fieldsRef.current.catchPhrase.value,
-                bs: fieldsRef.current.bs.value,
-            },
-        };
-        (async () => {
-            try {
-                const data=await createRequest('users', updatedFormData);
-                localStorage.setItem('currentUser', JSON.stringify(data));
-                setCurrentUser(data);
-                navigate(`/users/${data.id}/home`);
-            } catch (error) {
-                console.log(error);
-            }
-        })()
+                company: {
+                    name: data.companyName,
+                    catchPhrase: data.catchPhrase,
+                    bs: data.bs,
+                },
+            };
+
+            const userData = await createRequest("users", updatedFormData);
+            localStorage.setItem("currentUser", JSON.stringify(userData));
+            setCurrentUser(userData);
+            navigate(`/users/${userData.id}/home`);
+        } catch (error) {
+            console.log(error);
+        }
     };
 
     return (
-        <main className='main-login'>
+        <main className="main-login">
             <div className="right-login">
                 <div className="card-login">
                     <h1>Sign Up</h1>
                     {step === 1 && (
-                        <form onSubmit={handleFirstStep}>
+                        <form onSubmit={handleSubmit(onFirstStepSubmit)}>
                             <div className="textfield">
-                                <label htmlFor="user">User</label>
+                                <label htmlFor="username">User</label>
                                 <input
                                     type="text"
-                                    name="user"
+                                    {...register("username", { required: "Username is required." })}
                                     placeholder="User"
-                                    required
-                                    ref={(el) => (fieldsRef.current["name"] = el)}
                                 />
+                                {errors.username && <span className="error">{errors.username.message}</span>}
                             </div>
                             <div className="textfield">
                                 <label htmlFor="password">Password</label>
                                 <input
                                     type="password"
-                                    name="password"
+                                    {...register("password", { required: "Password is required." })}
                                     placeholder="Password"
-                                    required
-                                    ref={(el) => (fieldsRef.current["password"] = el)}
                                 />
+                                {errors.password && <span className="error">{errors.password.message}</span>}
                             </div>
                             <div className="textfield">
                                 <label htmlFor="verifyPassword">Verify Password</label>
                                 <input
                                     type="password"
-                                    name="verifyPassword"
+                                    {...register("verifyPassword", { required: "Please verify your password." })}
                                     placeholder="Verify Password"
-                                    required
-                                    ref={(el) => (fieldsRef.current["verifyPassword"] = el)}
                                 />
+                                {errors.verifyPassword && <span className="error">{errors.verifyPassword.message}</span>}
                             </div>
-                            <button className="btn-login" type="submit">Next</button>
-                            <Link to="/login" className='login'>Already Have An Account Yet?</Link>
+                            <button className="btn-login" type="submit">
+                                Next
+                            </button>
                         </form>
                     )}
                     {step === 2 && (
-                        <form onSubmit={handleSecondStep}>
+                        <form onSubmit={handleSubmit(onSecondStepSubmit)}>
                             <div className="textfield">
                                 <label htmlFor="name">Name</label>
                                 <input
                                     type="text"
-                                    name="name"
-                                    placeholder="name"
-                                    ref={(el) => (fieldsRef.current["name"] = el)}
+                                    {...register("name", { required: "Name is required." })}
+                                    placeholder="Name"
                                 />
+                                {errors.name && <span className="error">{errors.name.message}</span>}
                             </div>
                             <div className="textfield">
                                 <label htmlFor="email">Email</label>
                                 <input
                                     type="email"
-                                    name="email"
+                                    {...register("email", {
+                                        required: "Email is required.",
+                                        pattern: {
+                                            value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+                                            message: "Invalid email format.",
+                                        },
+                                    })}
                                     placeholder="Email"
-                                    required
-                                    ref={(el) => (fieldsRef.current["email"] = el)}
                                 />
+                                {errors.email && <span className="error">{errors.email.message}</span>}
                             </div>
                             <div className="textfield">
                                 <label htmlFor="phone">Phone</label>
                                 <input
                                     type="text"
-                                    name="phone"
+                                    {...register("phone", {
+                                        required: "Phone is required.",
+                                        pattern: {
+                                            value: /^[0-9]+$/,
+                                            message: "Only numbers are allowed.",
+                                        },
+                                    })}
                                     placeholder="Phone"
-                                    required
-                                    ref={(el) => (fieldsRef.current["phone"] = el)}
                                 />
+                                {errors.phone && <span className="error">{errors.phone.message}</span>}
                             </div>
+                            {/* כתובת */}
                             <div className="textfield">
                                 <label htmlFor="street">Street</label>
-                                <input
-                                    type="text"
-                                    name="street"
-                                    placeholder="Street"
-                                    ref={(el) => (fieldsRef.current["street"] = el)}
-                                />
+                                <input type="text" {...register("street")} placeholder="Street" />
                             </div>
                             <div className="textfield">
                                 <label htmlFor="suite">Suite</label>
-                                <input
-                                    type="text"
-                                    name="suite"
-                                    placeholder="Suite"
-                                    ref={(el) => (fieldsRef.current["suite"] = el)}
-                                />
+                                <input type="text" {...register("suite")} placeholder="Suite" />
                             </div>
                             <div className="textfield">
                                 <label htmlFor="city">City</label>
-                                <input
-                                    type="text"
-                                    name="city"
-                                    placeholder="City"
-                                    ref={(el) => (fieldsRef.current["city"] = el)}
-                                />
+                                <input type="text" {...register("city")} placeholder="City" />
                             </div>
                             <div className="textfield">
                                 <label htmlFor="zipcode">Zipcode</label>
                                 <input
                                     type="text"
-                                    name="zipcode"
-                                    placeholder="Zipcode"
-                                    ref={(el) => (fieldsRef.current["zipcode"] = el)}
+                                    {...register("zipcode", {
+                                        required: "zipcode is required.",
+                                        pattern: {
+                                            value: /^[0-9]+$/,
+                                            message: "Only numbers are allowed.",
+                                        },
+                                    })}
+                                    placeholder="zip code"
                                 />
+                                {errors.zipcode && <span className="error">{errors.zipcode.message}</span>}
+
                             </div>
                             <div className="textfield">
-                                <label htmlFor="lat">lat</label>
+                                <label htmlFor="lat">Latitude</label>
                                 <input
                                     type="text"
-                                    name="lat"
+                                    {...register("lat", {
+                                        required: "lat is required.",
+                                        pattern: {
+                                            value: /^[0-9]+$/,
+                                            message: "Only numbers are allowed.",
+                                        },
+                                    })}
                                     placeholder="lat"
-                                    ref={(el) => (fieldsRef.current["lat"] = el)}
                                 />
+                                {errors.lat && <span className="error">{errors.lat.message}</span>}
                             </div>
                             <div className="textfield">
-                                <label htmlFor="lng">lng</label>
+                                <label htmlFor="lng">Longitude</label>
                                 <input
                                     type="text"
-                                    name="lng"
+                                    {...register("lng", {
+                                        required: "lng is required.",
+                                        pattern: {
+                                            value: /^[0-9]+$/,
+                                            message: "Only numbers are allowed.",
+                                        },
+                                    })}
                                     placeholder="lng"
-                                    ref={(el) => (fieldsRef.current["lng"] = el)}
                                 />
+                                {errors.lng && <span className="error">{errors.lng.message}</span>}
                             </div>
-                            <div className="textfield">
-                                <label htmlFor="website">Website</label>
-                                <input
-                                    type="text"
-                                    name="website"
-                                    placeholder="Website"
-                                    ref={(el) => (fieldsRef.current["website"] = el)}
-                                />
-                            </div>
+                            {/* חברה */}
                             <div className="textfield">
                                 <label htmlFor="companyName">Company Name</label>
-                                <input
-                                    type="text"
-                                    name="companyName"
-                                    placeholder="Company Name"
-                                    ref={(el) => (fieldsRef.current["companyName"] = el)}
-                                />
+                                <input type="text" {...register("companyName")} placeholder="Company Name" />
                             </div>
                             <div className="textfield">
                                 <label htmlFor="catchPhrase">Catch Phrase</label>
-                                <input
-                                    type="text"
-                                    name="catchPhrase"
-                                    placeholder="Catch Phrase"
-                                    ref={(el) => (fieldsRef.current["catchPhrase"] = el)}
-                                />
+                                <input type="text" {...register("catchPhrase")} placeholder="Catch Phrase" />
                             </div>
                             <div className="textfield">
                                 <label htmlFor="bs">BS</label>
-                                <input
-                                    type="text"
-                                    name="bs"
-                                    placeholder="BS"
-                                    ref={(el) => (fieldsRef.current["bs"] = el)}
-                                />
+                                <input type="text" {...register("bs")} placeholder="BS" />
                             </div>
-                            <button className="btn-login" type="submit">Submit</button>
+                            <button className="btn-login" type="submit">
+                                Submit
+                            </button>
                         </form>
                     )}
+                    <Link to="/login" className='login'>Allready Have An Account Yet?</Link>
+
                 </div>
             </div>
         </main>

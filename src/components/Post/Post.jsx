@@ -197,6 +197,7 @@ function Post({ userId, postId, title, body, setPosts, posts }) {
                                 )}
                             </div>
                             <div className="comments">
+                                <br/>
                                 <h3>Comments:</h3>
                                 {postComments ? (
                                     postComments.map((comment) => (
