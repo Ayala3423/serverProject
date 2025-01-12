@@ -87,7 +87,6 @@ h2 {
 }
 
 .comments {
-  background: #2f2841;
   padding: 10px;
   border-radius: 10px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
@@ -114,8 +113,9 @@ h2 {
 .button-group {
   display: flex;
   flex-direction: row;
-  /* position: absolute; */
+  position: absolute;
   font-size: 18px;
+  z-index: 5;
 }
 
 .comments p {
@@ -149,4 +149,12 @@ h2 {
 
 #postTitle{
   font-size: 3vh;
+}
+
+#comment{
+  /* border: 1px solid white; */
+  margin-bottom: 5px;
+  background-color: #2f2841;
+  opacity: 80%;
+  border-radius: 10px;
 }

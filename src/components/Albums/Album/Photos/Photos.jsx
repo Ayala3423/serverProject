@@ -7,7 +7,7 @@ import { triggerError } from "../../../DisplayError/DisplayError";
 function Photos() {
   const { albumId } = useParams();
   const location = useLocation();
-  const albumTitle = location.state?.title || "No Title"; // ברירת מחדל אם אין נתונים
+  const albumTitle = location.state?.title || "No Title";
   const [photos, setPhotos] = useState([]);
   const [page, setPage] = useState(1);
   const [showModal, setShowModal] = useState(false);

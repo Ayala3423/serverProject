@@ -3,13 +3,14 @@ import './Albums.css'
 import Album from './Album/Album.jsx'
 import { BrowserRouter as Router, Route, Routes, useParams } from "react-router-dom";
 import { getRequest, createRequest } from '../../ServerRequests.jsx';
+import { triggerError } from "../DisplayError/DisplayError";
 
 function Albums() {
   const { userId } = useParams();
   const [albums, setAlbums] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const newAlbumRef = useRef({});
-  const [showFilterModal, setShowFilterModal] = useState(false);
+  const [showFilterBar, setShowFilterBar] = useState(false);
   const filtersRef = useRef({ search: '', id: '', title: '' });
 
   useEffect(() => {
@@ -33,7 +34,7 @@ function Albums() {
         ...comp,
         isVisible:
           (!search || comp.title.toLowerCase().includes(search)) &&
-          (!id || comp.id.toString() === id) &&
+          (!id || comp.id.toString().includes(id)) &&
           (!title || comp.title.toLowerCase().includes(title))
       }))
     );
@@ -65,6 +66,9 @@ function Albums() {
         }
       })();
     }
+    else{
+      triggerError("All fields must be filled out!")
+    }
   };
 
   return (
@@ -94,17 +98,13 @@ function Albums() {
         <div className='searchAlbum'>
           <div className="search-bar">
             <input type="text" placeholder="Search..." onChange={(e) => updateFilter('search', e.target.value.toLowerCase())} />
-            <button onClick={() => setShowFilterModal(true)}>Filters</button>
+            <button onClick={() => setShowFilterBar(true)}>Filters</button>
           </div>
-          {showFilterModal && (
-            <div className="modal">
-              <div className="modal-content">
-                <h2>Advanced Filters</h2>
+          {showFilterBar && (
+              <div className="search-bar">
                 <input type="text" placeholder="Filter by ID" onChange={(e) => updateFilter('id', e.target.value)} />
-                <input type="text" placeholder="Filter by Title" onChange={(e) => updateFilter('title', e.target.value.toLowerCase())} />
-                <button onClick={() => setShowFilterModal(false)}>Close</button>
+                <button onClick={() => setShowFilterBar(false)}>Close</button>
               </div>
-            </div>
           )}
         </div>
 
