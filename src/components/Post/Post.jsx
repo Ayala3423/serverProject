@@ -124,6 +124,9 @@ function Post({ userId, postId, title, body, setPosts, posts }) {
                 }
             })()
         }
+        else {
+            triggerError("All fields must be filled out!")
+        }
     };
 
     return (
@@ -144,8 +147,8 @@ function Post({ userId, postId, title, body, setPosts, posts }) {
 
                         {idEditing === postId ? (
                             <>
-                                <input ref={(el) => (inputRefs.current.title = el)} type="text" defaultValue={title} id='titleInputPost'/>
-                                <textarea ref={(el) => (inputRefs.current.body = el)} defaultValue={body} id='bodyInputPost'/>
+                                <input ref={(el) => (inputRefs.current.title = el)} type="text" defaultValue={title} id='titleInputPost' />
+                                <textarea ref={(el) => (inputRefs.current.body = el)} defaultValue={body} id='bodyInputPost' />
                             </>
                         ) : (
                             <>
@@ -197,15 +200,17 @@ function Post({ userId, postId, title, body, setPosts, posts }) {
                                 <h3>Comments:</h3>
                                 {postComments ? (
                                     postComments.map((comment) => (
-                                        <Comment
-                                            key={comment.id}
-                                            id={comment.id}
-                                            postUserId={userId}
-                                            email={comment.email}
-                                            name={comment.name}
-                                            body={comment.body}
-                                            setPostComments={setPostComments}
-                                        />
+                                        <div id="comment">
+                                            <Comment
+                                                key={comment.id}
+                                                id={comment.id}
+                                                postUserId={userId}
+                                                email={comment.email}
+                                                name={comment.name}
+                                                body={comment.body}
+                                                setPostComments={setPostComments}
+                                            />
+                                        </div>
                                     ))
                                 ) : (
                                     <h2>Loading comments...</h2>

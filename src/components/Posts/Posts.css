@@ -1,15 +1,16 @@
-#myAllPosts {
-  margin-left: 300px;
+#myPosts {
+  margin-left: 250px;
 }
 
 .posts {
   display: flex;
   flex-direction: column;
   align-items: center;
+  margin-top: 80px;
 }
 
 h1 {
-  text-align: center;
+  /* text-align: center; */
   color: #716c85;
   font-size: 3em;
   margin-bottom: 20px;
@@ -25,7 +26,7 @@ h1 {
   border-radius: 12px;
   color: #716c85;
   font-size: 1.2em;
-  text-align: center;
+  /* text-align: center; */
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
   transition: background-color 0.3s ease, transform 0.2s ease;
 }
@@ -41,4 +42,36 @@ h1 {
   margin: 10px 0;
   font-weight: 600;
   color: #716c85;
+}
+
+.filter-bar {
+  margin-top: 10px;
+  display: flex;
+  gap: 10px;
+  /* align-items: center; */
+  justify-content: space-between;
+  padding: 10px;
+  background-color: #f8f7fb;
+  border-radius: 8px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.filter-bar input {
+  flex: 1;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.filter-bar button {
+  padding: 8px 12px;
+  background-color: #716c85;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.filter-bar button:hover {
+  background-color: #5e5770;
 }

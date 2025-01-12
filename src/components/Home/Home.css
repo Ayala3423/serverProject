@@ -18,7 +18,7 @@
 .homePage {
   display: flex;
   flex-direction: column;
-  margin-left: 300px;
+  margin-left: 250px;
   width: calc(100% - 200px);
   padding: 0;
   box-sizing: border-box;

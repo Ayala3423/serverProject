@@ -10,7 +10,7 @@ function Posts() {
     const [posts, setPosts] = useState(null);
     const [showModal, setShowModal] = useState(false);
     const newPostRef = useRef({});
-    const [showFilterModal, setShowFilterModal] = useState(false);
+    const [showFilterBar, setShowFilterBar] = useState(false);
     const filtersRef = useRef({ search: '', id: '', title: '' });
 
     useEffect(() => {
@@ -52,19 +52,17 @@ function Posts() {
         }
         else {
             triggerError("All fields must be filled out!")
-
         }
     };
 
     const handleSearch = () => {
-        const { search, id, title } = filtersRef.current;
+        const { search, id } = filtersRef.current;
         setPosts((prev) =>
             prev.map((comp) => ({
                 ...comp,
                 isVisible:
-                    (!search || ((comp.title.toLowerCase().includes(search)) || comp.body.toLowerCase().includes(search))) &&
-                    (!id || comp.id.toString().includes(id)) && // תיקון התנאי
-                    (!title || comp.title.toLowerCase().includes(title))
+                    (!search || comp.title.toLowerCase().includes(search)) &&
+                    (!id || comp.id.toString().includes(id))
             }))
         );
     };
@@ -75,7 +73,7 @@ function Posts() {
     };
 
     return (
-        <div id='myAllPosts'>
+        <div id='myPosts'>
             <h1>Posts</h1>
             <div className="button-group">
                 <div className='addPost'>
@@ -107,21 +105,26 @@ function Posts() {
 
                 <div className='searchPost'>
                     <div className="search-bar">
-                        <input type="text" placeholder="Search..." onChange={(e) => updateFilter('search', e.target.value.toLowerCase())} />
-                        <button onClick={() => setShowFilterModal(true)}>Filters</button>
+                        <input
+                            type="text"
+                            placeholder="Search..."
+                            onChange={(e) => updateFilter('search', e.target.value.toLowerCase())}
+                        />
+                        <button onClick={() => setShowFilterBar(!showFilterBar)}>
+                            Filters
+                        </button>
                     </div>
-                    {showFilterModal && (
-                        <div className="modal">
-                            <div className="modal-content">
-                                <h2>Advanced Filters</h2>
-                                <input type="text" placeholder="Filter by ID" onChange={(e) => updateFilter('id', e.target.value)} />
-                                <input type="text" placeholder="Filter by Title" onChange={(e) => updateFilter('title', e.target.value.toLowerCase())} />
-                                <button onClick={() => setShowFilterModal(false)}>Close</button>
-                            </div>
+                    {showFilterBar && (
+                        <div className="search-bar">
+                            <input
+                                type="text"
+                                placeholder="Filter by ID"
+                                onChange={(e) => updateFilter('id', e.target.value)}
+                            />
+                            <button onClick={() => setShowFilterBar(false)}>Close</button>
                         </div>
                     )}
                 </div>
-
             </div>
 
             <div className="posts">

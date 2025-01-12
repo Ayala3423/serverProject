@@ -76,16 +76,6 @@
   margin: 20px auto;
 }
 
-.search-box {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background: #514869;
-  padding: 10px 15px;
-  border-radius: 8px;
-  cursor: text;
-  transition: all 0.3s ease;
-}
 
 .search-bar input[type="text"] {
   padding: 12px 15px;
@@ -114,10 +104,10 @@
 
 .button-group {
   display: flex;
-  justify-content: center;
-  align-items: center;  
-  gap: 10px;             
-  margin-bottom: 20px; 
+  justify-content: center; /* מרכז את הכפתורים */
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 20px;
 }
 
 .modal {

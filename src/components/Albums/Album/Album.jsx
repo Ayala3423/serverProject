@@ -4,7 +4,6 @@ import { deleteRequest, getRequest, updateRequest, deleteAllRequest } from '../.
 import './Album.css';
 import { triggerError } from "../../DisplayError/DisplayError";
 
-
 function Album({ albumId, title, setAlbums, albums }) {
     const { userId } = useParams();
     const [idEditing, setIdEditing] = useState(null);
