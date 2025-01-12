@@ -10,7 +10,7 @@ function Comment({ id,postUserId, email, name, body, setPostComments }) {
     const inputRefs = useRef({});
 
     const checkAuthorization = () => {
-        if ((currentUser && email === currentUser.email)||postUserId==currentUser.id) {
+        if (currentUser &&( email === currentUser.email||postUserId==currentUser.id)) {
             return true;
         } else {
             setAuthorized(false)
@@ -54,8 +54,11 @@ function Comment({ id,postUserId, email, name, body, setPostComments }) {
     };
 
     const handleEditClick = () => {
-        if (checkAuthorization()) {
+        if (checkAuthorization()&&email === currentUser.email) {
             setIdEditing(id);
+        }
+        else{
+            setAuthorized(false)
         }
     };
 

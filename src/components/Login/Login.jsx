@@ -59,7 +59,7 @@ export default function Login() {
                             />
                         </div>
                         <button className="btn-login" type="submit" onClick={handleSubmit}>Login</button>
-                        <Link to="/signUp" className='signUp'>Dont Have An Account Yet?</Link>
+                        <Link to="/register" className='signUp'>Dont Have An Account Yet?</Link>
                     </div>
                 </div>
             </main>

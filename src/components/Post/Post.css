@@ -110,14 +110,6 @@ h2 {
   background: #77ffc0;
 }
 
-.button-group {
-  display: flex;
-  flex-direction: row;
-  position: absolute;
-  font-size: 18px;
-  z-index: 5;
-}
-
 .comments p {
   font-size: 20px;
 }

@@ -38,7 +38,7 @@ function App() {
             <Route path="/" element={<Navigate to="/home" replace />} />
             <Route path="/home" element={<Home />} />
             <Route path="/login" element={<Login />} />
-            <Route path="/signUp" element={<SignUp />} />
+            <Route path="/register" element={<SignUp />} />
 
             {/* מסלול המשתמשים */}
             <Route path="/users/:userId" element={<Navbar />}>

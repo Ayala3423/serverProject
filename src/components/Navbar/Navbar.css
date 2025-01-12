@@ -112,3 +112,28 @@ nav a:hover {
   background: #77ffc0;
   color: #201b2c;
 }
+.navItem {
+  margin-bottom: 30px;
+  text-decoration: none;
+  color: #f0ffffde;
+  font-size: 14px;
+  font-weight: 600;
+  margin: 10px 0;
+  padding: 10px 15px;
+  background: #514869;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  width: 100%;
+  box-sizing: border-box;
+  text-align: left;
+}
+
+.navItem:hover {
+  background: #00ff88;
+  color: #2b134b;
+}
+
+.navItem.active {
+  background: #00ff88;
+  color: #2b134b;
+}
