@@ -4,13 +4,13 @@ import { deleteRequest, updateRequest } from '../../ServerRequests';
 import { UserContext } from '../../App';
 import { triggerError } from "../DisplayError/DisplayError";
 
-function Comment({ id,postUserId, email, name, body, setPostComments }) {
+function Comment({ id, postUserId, email, name, body, setPostComments }) {
     const { currentUser, setAuthorized } = useContext(UserContext);
     const [idEditing, setIdEditing] = useState(null);
     const inputRefs = useRef({});
 
     const checkAuthorization = () => {
-        if (currentUser &&( email === currentUser.email||postUserId==currentUser.id)) {
+        if (currentUser && (email === currentUser.email || postUserId == currentUser.id)) {
             return true;
         } else {
             setAuthorized(false)
@@ -25,7 +25,7 @@ function Comment({ id,postUserId, email, name, body, setPostComments }) {
                     await deleteRequest('comments', id);
                     setPostComments((prev) => prev.filter((item) => item.id !== id));
                 } catch (error) {
-                    console.log(error);
+                    triggerError(error);
                 }
             })()
         }
@@ -48,16 +48,16 @@ function Comment({ id,postUserId, email, name, body, setPostComments }) {
                 );
                 setIdEditing(null);
             } catch (error) {
-                console.log(error);
+                triggerError(error);
             }
         })()
     };
 
     const handleEditClick = () => {
-        if (checkAuthorization()&&email === currentUser.email) {
+        if (checkAuthorization() && email === currentUser.email) {
             setIdEditing(id);
         }
-        else{
+        else {
             setAuthorized(false)
         }
     };

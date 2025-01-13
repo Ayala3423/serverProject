@@ -13,7 +13,6 @@ import Photos from './components/Albums/Album/Photos/Photos';
 import Authorization from "./components/Authorization/Authorization";
 import DisplayError from "./components/DisplayError/DisplayError";
 
-// יצירת ה-Context
 export const UserContext = createContext();
 
 function App() {

@@ -18,7 +18,7 @@ function Post({ userId, postId, title, body, setPosts, posts }) {
         body: null,
     });
     const checkAuthorization = () => {
-        if (currentUser &&userId === JSON.parse(currentUser.id)) {
+        if (currentUser && userId === JSON.parse(currentUser.id)) {
             return true;
         } else {
             setAuthorized(false)
@@ -36,7 +36,7 @@ function Post({ userId, postId, title, body, setPosts, posts }) {
                     await deleteAllRequest('comments', data);
                     setPostComments(data)
                 } catch (error) {
-                    console.log(error);
+                    triggerError(error);
                 }
             })()
         }
@@ -61,7 +61,7 @@ function Post({ userId, postId, title, body, setPosts, posts }) {
                 );
                 setIdEditing(null);
             } catch (error) {
-                console.log(error);
+                triggerError(error);
             }
         })();
     };
@@ -88,7 +88,7 @@ function Post({ userId, postId, title, body, setPosts, posts }) {
                 setPostComments(data);
                 setShowComments(true);
             } catch (error) {
-                console.log(error);
+                triggerError(error);
             }
         }
         getComments();
@@ -120,7 +120,7 @@ function Post({ userId, postId, title, body, setPosts, posts }) {
                     setPostComments([...postComments, { ...data, isVisible: true }]);
                     setShowAddCommentModal(false); // סגירת ה-Modal
                 } catch (error) {
-                    console.log(error);
+                    triggerError(error);
                 }
             })()
         }
@@ -197,7 +197,7 @@ function Post({ userId, postId, title, body, setPosts, posts }) {
                                 )}
                             </div>
                             <div className="comments">
-                                <br/>
+                                <br />
                                 <h3>Comments:</h3>
                                 {postComments ? (
                                     postComments.map((comment) => (

@@ -1,4 +1,3 @@
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import './App.css'
 const baseUrl = 'http://localhost:3000';
 
@@ -40,7 +39,6 @@ export const deleteRequest = async (resource, id) => {
 }
 
 export const deleteAllRequest = async (resource, array) => {
-    alert(array)
     const deletePromises = array.map((obj) =>
         fetch(`${baseUrl}/${resource}/${obj.id}`, {
             method: 'DELETE',
@@ -50,7 +48,6 @@ export const deleteAllRequest = async (resource, array) => {
 }
 
 export const updateRequest = async (resource, id, body) => {
-    console.log(id);
     const response = await fetch(`${baseUrl}/${resource}/${id}`, {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },

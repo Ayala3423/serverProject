@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, useContext } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import './Posts.css';
 import Post from '../Post/Post.jsx'
 import { useParams } from 'react-router-dom';
@@ -18,14 +18,14 @@ function Posts() {
             try {
                 const data = await getRequest('posts', 'userId', userId);
                 setPosts(data.map(item => ({
-                    ...item,          // שומר את כל השדות הקיימים באובייקט
-                    isVisible: true    // הוספת השדה החדש
+                    ...item,       
+                    isVisible: true   
                 })));
             } catch (error) {
-                console.log(error);
+                triggerError(error);
             }
         })()
-    }, [userId]);
+    }, []);
 
     const handleAddPost = () => {
         setShowModal(prev => !prev);
@@ -46,7 +46,7 @@ function Posts() {
                     setPosts([...posts, { ...data, isVisible: true }]);
                     setShowModal(false);
                 } catch (error) {
-                    console.log(error);
+                    triggerError(error);
                 }
             })()
         }
@@ -122,16 +122,7 @@ function Posts() {
                                 onChange={(e) => updateFilter('id', e.target.value)}
                             />
                             <button
-                                onClick={() => {
-                                    setShowFilterBar(false); // סגור את שורת הפילטרים
-                                    setPosts((prev) =>
-                                        prev.map((comp) => ({
-                                            ...comp,
-                                            isVisible: true, // הפוך את כל ה-isVisible ל-true
-                                        }))
-                                    );
-                                }}
-                            >
+                                onClick={() => { setShowFilterBar(false); }}>
                                 Close
                             </button>
                         </div>
@@ -155,6 +146,7 @@ function Posts() {
 
         </div>
     );
+    
 }
 
 export default Posts;

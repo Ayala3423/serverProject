@@ -13,8 +13,7 @@ function Todos() {
   const [showFilters, setShowFilters] = useState(false);
   const filtersRef = useRef({ search: '', id: '', title: '', completed: false, notCompleted: false });
   const [selectedOption, setSelectedOption] = useState("Id");
-
-  const options = ["Id", "ABC", "Completed", "Randomaly"];
+  const options = ["Sort by Id", "Sort by ABC", "Sort by Completed", "Sort Randomly"];
 
   useEffect(() => {
     (async () => {
@@ -22,10 +21,10 @@ function Todos() {
         const data = await getRequest('todos', 'userId', userId);
         setTodos(data.map(item => ({ ...item, isVisible: true })));
       } catch (error) {
-        console.log(error);
+        triggerError(error);
       }
     })();
-  }, [userId]);
+  }, []);
 
   const handleAddTodo = () => {
     setShowModal(prev => !prev);
@@ -66,7 +65,7 @@ function Todos() {
           setTodos([...todos, { ...data, isVisible: true }]);
           setShowModal(false);
         } catch (error) {
-          console.log(error);
+          triggerError(error);
         }
       })();
     } else {
@@ -83,16 +82,16 @@ function Todos() {
   const sortPage = (sortBy) => {
     let sortedTodos;
     switch (sortBy) {
-      case "Id":
+      case "Sort by Id":
         sortedTodos = [...todos].sort((a, b) => a.id - b.id);
         break;
-      case "ABC":
+      case "Sort by ABC":
         sortedTodos = [...todos].sort((a, b) => a.title.localeCompare(b.title));
         break;
-      case "Completed":
+      case "Sort by Completed":
         sortedTodos = [...todos].sort((a, b) => b.completed - a.completed);
         break;
-      case "Randomaly":
+      case "Sort Randomaly":
         sortedTodos = [...todos].sort(() => Math.random() - 0.5);
         break;
       default:
@@ -121,7 +120,6 @@ function Todos() {
             </div>
           </div>
         )}
-
         <div>
           <div className="search-bar">
             <input
@@ -133,7 +131,6 @@ function Todos() {
           </div>
           {showFilters && (
             <div className="search-bar filters-container">
-              {/* שורת הפילטר לפי ID */}
               <div className="filters-row">
                 <input
                   type="text"
@@ -141,7 +138,6 @@ function Todos() {
                   onChange={(e) => updateFilter('id', e.target.value)}
                 />
               </div>
-              {/* שורת הפילטר לפי בוצע / לא בוצע */}
               <div className="filters-buttons">
                 <label>
                   <input
@@ -161,7 +157,6 @@ function Todos() {
               <button onClick={() => setShowFilters(false)}>Close</button>
             </div>
           )}
-
         </div>
         <div className="dropdown">
           <select
@@ -191,6 +186,7 @@ function Todos() {
       </div>
     </div>
   );
+
 }
 
 export default Todos;

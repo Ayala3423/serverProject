@@ -16,7 +16,6 @@ function Photos() {
   const [hasMore, setHasMore] = useState(true);
   const [isEditing, setIsEditing] = useState(false);
   const [photoToEdit, setPhotoToEdit] = useState(null);
-
   const limit = 9;
 
   useEffect(() => {
@@ -34,7 +33,7 @@ function Photos() {
         setPage((prev) => prev + 1);
         setLoading(false);
       } catch (error) {
-        console.log(error);
+        triggerError(error);
       }
     })();
   };
@@ -45,7 +44,7 @@ function Photos() {
         await deleteRequest('photos', idToDelete);
         setPhotos((prev) => prev.filter((item) => item.id !== idToDelete));
       } catch (error) {
-        console.log(error);
+        triggerError(error);
       }
     })();
   };
@@ -61,14 +60,12 @@ function Photos() {
     const updatedWidth = newPhotoRef.current.WidthPixel.value.trim();
     const updatedColor = newPhotoRef.current.Photocolor.value.trim().replace("#", ""); // מסירים את ה-#
     const updatedTitle = newPhotoRef.current.PhotoTitle.value.trim();
-
     if (updatedLength && updatedWidth && updatedColor && updatedTitle) {
       const updatedPhoto = {
         title: updatedTitle,
         url: `https://via.placeholder.com/${updatedWidth}x${updatedLength}/${updatedColor}`,
         thumbnailUrl: `https://via.placeholder.com/150/${updatedColor}`,
       };
-
       (async () => {
         try {
           await updateRequest('photos', photoToEdit.id, updatedPhoto);
@@ -82,7 +79,7 @@ function Photos() {
           setPhotoToEdit(null);
           setShowModal(false);
         } catch (error) {
-          console.log(error);
+          triggerError(error);
         }
       })();
     } else {
@@ -99,7 +96,7 @@ function Photos() {
     const newPhotoWidth = newPhotoRef.current.WidthPixel.value.trim();
     const newPhotoColor = newPhotoRef.current.Photocolor.value.trim().replace("#", "");
     const newPhotoTitle = newPhotoRef.current.PhotoTitle.value.trim();
-
+    
     if (newPhotoLength && newPhotoWidth && newPhotoColor) {
       const newPhoto = {
         albumId: parseInt(albumId, 10),
@@ -113,7 +110,7 @@ function Photos() {
           setPhotos([...photos, { ...data, isVisible: true }]);
           setShowModal(false);
         } catch (error) {
-          console.log(error);
+          triggerError(error);
         }
       })()
     } else {

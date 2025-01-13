@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from 'react'
 import './Albums.css'
 import Album from './Album/Album.jsx'
-import { BrowserRouter as Router, Route, Routes, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { getRequest, createRequest } from '../../ServerRequests.jsx';
 import { triggerError } from "../DisplayError/DisplayError";
 
@@ -18,14 +18,14 @@ function Albums() {
       try {
         const data = await getRequest('albums', 'userId', userId);
         setAlbums(data.map(item => ({
-          ...item,          // שומר את כל השדות הקיימים באובייקט
-          isVisible: true    // הוספת השדה החדש
+          ...item,        
+          isVisible: true   
         })));
       } catch (error) {
-        console.log(error);
+        triggerError(error);
       }
     })();
-  }, [userId])
+  }, [])
 
   const handleSearch = () => {
     const { search, id, title } = filtersRef.current;
@@ -62,7 +62,7 @@ function Albums() {
           setAlbums([...albums, { ...data, isVisible: true }]);
           setShowModal(false);
         } catch (error) {
-          console.log(error);
+          triggerError(error);
         }
       })();
     }

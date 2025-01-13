@@ -17,7 +17,7 @@ function Album({ albumId, title, setAlbums, albums }) {
                 const data = await getRequest('photos', 'albumId', albumId);
                 await deleteAllRequest('photos', data);
             } catch (error) {
-                console.log(error);
+                triggerError(error);
             }
         })();
     };
@@ -38,7 +38,7 @@ function Album({ albumId, title, setAlbums, albums }) {
                 );
                 setIdEditing(null);
             } catch (error) {
-                console.log(error);
+                triggerError(error);
             }
         })();
     };

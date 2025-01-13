@@ -1,13 +1,12 @@
 import { useState, useEffect, useRef } from 'react';
 import Post from '../Post/Post.jsx';
-import { useParams } from 'react-router-dom';
 import './Home.css';
 import Navigate from '../Navbar/Navbar.jsx'
 import { getAllRequest } from '../../ServerRequests.jsx';
+import { triggerError } from "../DisplayError/DisplayError";
 
 function Home() {
-  const { userId } = useParams();
-  const [allPosts, setAllPosts] = useState();  // שימוש בקונטקסט לפוסטים
+  const [allPosts, setAllPosts] = useState();
   const [showFilterBar, setShowFilterBar] = useState(false);
   const filtersRef = useRef({ search: '', id: '', title: '' });
 
@@ -17,14 +16,14 @@ function Home() {
         const data = await getAllRequest('posts');
         const sortedPosts = [...data].sort((a, b) => parseInt(a.userId) - parseInt(b.userId));
         setAllPosts(sortedPosts.map(item => ({
-          ...item,          // שומר את כל השדות הקיימים באובייקט
-          isVisible: true    // הוספת השדה החדש
+          ...item,
+          isVisible: true
         })));
       } catch (error) {
-        console.log(error);
+        triggerError(error);
       }
     })()
-  }, [userId]);
+  }, []);
 
   const handleSearch = () => {
     const { search, id, title } = filtersRef.current;
@@ -34,7 +33,7 @@ function Home() {
           ...comp,
           isVisible:
             (!search || comp.title.toLowerCase().includes(search)) &&
-            (!id || comp.id.toString().includes(id)) && // תיקון התנאי
+            (!id || comp.id.toString().includes(id)) &&
             (!title || comp.title.toLowerCase().includes(title)),
         }))]
         .sort((a, b) => parseInt(a.userId) - parseInt(b.userId))
@@ -89,7 +88,6 @@ function Home() {
           )}
         </div>
       </div>
-
 
     </div>
 

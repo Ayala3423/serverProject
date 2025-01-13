@@ -13,7 +13,7 @@ function Todo({ id, title, completed, setTodos, todos }) {
                 await deleteRequest('todos', id);
                 setTodos((prev) => prev.filter((item) => item.id !== id));
             } catch (error) {
-                console.log(error);
+                triggerError(error);
             }
         })()
     };
@@ -34,7 +34,7 @@ function Todo({ id, title, completed, setTodos, todos }) {
                 );
                 setIdEditing(null);
             } catch (error) {
-                console.log(error);
+                triggerError(error);
             }
         })()
     };
@@ -49,7 +49,7 @@ function Todo({ id, title, completed, setTodos, todos }) {
                     )
                 );
             } catch (error) {
-                console.log(error);
+                triggerError(error);
             }
         })()
     };
@@ -69,7 +69,7 @@ function Todo({ id, title, completed, setTodos, todos }) {
             </div>
             <div className="todo-title">
                 {idEditing === id ? (
-                    <input ref={titleRef} type="text" defaultValue={title} id='titleInputTodo'/>
+                    <input ref={titleRef} type="text" defaultValue={title} id='titleInputTodo' />
                 ) : (
                     <h2>{title}</h2>
                 )}

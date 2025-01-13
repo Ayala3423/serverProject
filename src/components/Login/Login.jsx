@@ -22,7 +22,7 @@ export default function Login() {
                 triggerError('one or more of the details is incorrect');
             }
         } catch (error) {
-            console.log(error);
+            triggerError(error);
         }
     }
 
@@ -65,4 +65,5 @@ export default function Login() {
             </main>
         </>
     )
+    
 }

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import "./DisplayError.css"; // הוסיפי עיצוב מתאים לחלון השגיאות
+import "./DisplayError.css";
 
-let showErrorCallback = null; // משתנה גלובלי להפעלת פונקציית הצגת שגיאות
+let showErrorCallback = null;
 
 export const triggerError = (message) => {
     if (showErrorCallback) {
@@ -15,14 +15,13 @@ const DisplayError = () => {
     const [error, setError] = useState(null);
     const [show, setShow] = useState(false);
 
-    // שמירת פונקציית ה-setError כקולבק גלובלי
     showErrorCallback = (message) => {
         setError(message);
         setShow(true);
         setTimeout(() => {
             setShow(false);
-            setTimeout(() => setError(null), 500); // להעלים את הטקסט לאחר האנימציה
-        }, 3000); // ההודעה תוצג למשך 3 שניות
+            setTimeout(() => setError(null), 500);
+        }, 3000);
     };
 
     if (!error) return null;

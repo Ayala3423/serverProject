@@ -30,29 +30,23 @@ function Navbar() {
             Welcome, {currentUser ? currentUser.name : "Guest"}
           </span>
         </div>
-
-        <Link
-          to={userId ? `/users/${userId}/home` : `/home`}
-          className="homeLink"
-        >
-          Home
-        </Link>
+        <Link to={userId ? `/users/${userId}/home` : `/home`} className="homeLink">Home</Link>
       </header>
 
       <nav>
         {userId ? (
           <>
-            <Link to={`/users/${userId}/albums`} className={getNavItemClass(`/users/${userId}/albums`)}>Albums</Link><br/>
-            <Link to={`/users/${userId}/posts`} className={getNavItemClass(`/users/${userId}/posts`)}>Posts</Link><br/>
-            <Link to={`/users/${userId}/todos`} className={getNavItemClass(`/users/${userId}/todos`)}>Todos</Link><br/>
+            <Link to={`/users/${userId}/albums`} className={getNavItemClass(`/users/${userId}/albums`)}>Albums</Link><br />
+            <Link to={`/users/${userId}/posts`} className={getNavItemClass(`/users/${userId}/posts`)}>Posts</Link><br />
+            <Link to={`/users/${userId}/todos`} className={getNavItemClass(`/users/${userId}/todos`)}>Todos</Link><br />
             <Link to={`/users/${userId}/info`} className={getNavItemClass(`/users/${userId}/info`)}>Info</Link>
             <button id="logOutBtn" onClick={handleLogOut}>Log Out</button>
           </>
         ) : (
           <>
-            <button id="navItem" onClick={handleGuestRequests}>Albums</button><br/>
-            <button id="navItem" onClick={handleGuestRequests}>Posts</button><br/>
-            <button id="navItem" onClick={handleGuestRequests}>Todos</button><br/>
+            <button id="navItem" onClick={handleGuestRequests}>Albums</button><br />
+            <button id="navItem" onClick={handleGuestRequests}>Posts</button><br />
+            <button id="navItem" onClick={handleGuestRequests}>Todos</button><br />
             <button id="navItem" onClick={handleGuestRequests}>Info</button>
             <Link id="logInLink" to={`/login`}>Login</Link>
           </>
@@ -61,6 +55,7 @@ function Navbar() {
       <Outlet />
     </div>
   );
+
 }
 
 export default Navbar;

@@ -10,7 +10,6 @@ export default function SignUp() {
     const { setCurrentUser } = useContext(UserContext);
     const navigate = useNavigate();
     const [step, setStep] = useState(1);
-
     const {
         register,
         handleSubmit,
@@ -19,7 +18,6 @@ export default function SignUp() {
         formState: { errors },
     } = useForm();
 
-    // פונקציה לבדיקה בשלב הראשון
     const verifyUser = async (data) => {
         try {
             const user = await getRequest("users", "username", data.username);
@@ -32,16 +30,14 @@ export default function SignUp() {
             }
             setStep(2);
         } catch (error) {
-            console.log(error);
+            triggerError(error);
         }
     };
 
-    // שליחת השלב הראשון
     const onFirstStepSubmit = (data) => {
         verifyUser(data);
     };
 
-    // שליחת השלב השני
     const onSecondStepSubmit = async (data) => {
         try {
             const updatedFormData = {
@@ -68,7 +64,7 @@ export default function SignUp() {
             setCurrentUser(userData);
             navigate(`/users/${userData.id}/home`);
         } catch (error) {
-            console.log(error);
+            triggerError(error);
         }
     };
 
@@ -152,18 +148,17 @@ export default function SignUp() {
                                 />
                                 {errors.phone && <span className="error">{errors.phone.message}</span>}
                             </div>
-                            {/* כתובת */}
                             <div className="textfield">
                                 <label htmlFor="street">Street</label>
-                                <input type="text" {...register("street")} placeholder="Street" />
+                                <input type="text" {...register("street")} placeholder="Street" required/>
                             </div>
                             <div className="textfield">
                                 <label htmlFor="suite">Suite</label>
-                                <input type="text" {...register("suite")} placeholder="Suite" />
+                                <input type="text" {...register("suite")} placeholder="Suite" required/>
                             </div>
                             <div className="textfield">
                                 <label htmlFor="city">City</label>
-                                <input type="text" {...register("city")} placeholder="City" />
+                                <input type="text" {...register("city")} placeholder="City" required/>
                             </div>
                             <div className="textfield">
                                 <label htmlFor="zipcode">Zipcode</label>
@@ -211,18 +206,17 @@ export default function SignUp() {
                                 />
                                 {errors.lng && <span className="error">{errors.lng.message}</span>}
                             </div>
-                            {/* חברה */}
                             <div className="textfield">
                                 <label htmlFor="companyName">Company Name</label>
-                                <input type="text" {...register("companyName")} placeholder="Company Name" />
+                                <input type="text" {...register("companyName")} placeholder="Company Name" required/>
                             </div>
                             <div className="textfield">
                                 <label htmlFor="catchPhrase">Catch Phrase</label>
-                                <input type="text" {...register("catchPhrase")} placeholder="Catch Phrase" />
+                                <input type="text" {...register("catchPhrase")} placeholder="Catch Phrase" required/>
                             </div>
                             <div className="textfield">
                                 <label htmlFor="bs">BS</label>
-                                <input type="text" {...register("bs")} placeholder="BS" />
+                                <input type="text" {...register("bs")} placeholder="BS" required/>
                             </div>
                             <button className="btn-login" type="submit">
                                 Submit
@@ -230,7 +224,6 @@ export default function SignUp() {
                         </form>
                     )}
                     <Link to="/login" className='login'>Allready Have An Account Yet?</Link>
-
                 </div>
             </div>
         </main>
